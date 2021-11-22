@@ -189,7 +189,23 @@ public class UserDAOJdbcImpl implements UserDAO {
 	 */
 	@Override
 	public void delete(User obj) throws DALException {
-		throw new DALException("Not implemented function, you can do it !-)");
+		PreparedStatement ps = null;
+		try (Connection cnx = ConnectionProvider.getConnection()) {
+			ps = cnx.prepareStatement(SQL_QUERY.USER_DELETE);
+			ps.setInt(1, u.getId());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DALException(e.getMessage());
+		} finally {
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }
