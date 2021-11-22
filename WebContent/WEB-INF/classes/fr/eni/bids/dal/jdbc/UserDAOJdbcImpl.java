@@ -188,7 +188,7 @@ public class UserDAOJdbcImpl implements UserDAO {
 	 * @see fr.eni.bids.dal.UserDAO#delete(fr.eni.bids.bo.User)
 	 */
 	@Override
-	public void delete(User obj) throws DALException {
+	public void delete(User u) throws DALException {
 		PreparedStatement ps = null;
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			ps = cnx.prepareStatement(SQL_QUERY.USER_DELETE);

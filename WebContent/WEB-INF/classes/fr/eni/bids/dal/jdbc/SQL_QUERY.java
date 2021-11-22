@@ -24,7 +24,7 @@ public class SQL_QUERY {
 			+ "      ,[town] = ?\r\n" + "      ,[pwd] = ?\r\n" + "      ,[credit] = ?\r\n" + "      ,[isAdmin] = ?\r\n"
 			+ " WHERE [id] = ?;";
 	
-	public static final String USER_DELETE = "DELETE FROM [dbo].[USERS] WHERE [id] = ?;\";
+	public static final String USER_DELETE = "DELETE FROM [dbo].[USERS] WHERE [id] = ?;";
 			
 			
 }
