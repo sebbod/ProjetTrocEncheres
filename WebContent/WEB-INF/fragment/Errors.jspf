@@ -1,0 +1,10 @@
+<c:if test="${!empty lstErrorCode}">
+		<div class="displayLine" role="alert">
+		  <br>
+		  <ul>
+		  	<c:forEach var="code" items="${lstErrorCode}">
+		  		<li class="messageError">${UserMessageReader.getById(code)}</li>
+		  	</c:forEach>
+		  </ul>
+		</div>
+</c:if>

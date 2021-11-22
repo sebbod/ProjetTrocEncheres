@@ -14,6 +14,17 @@ public class UserManager {
 		userDao = DAOFactory.getUserDAO();
 	}
 
+	public User getById(int id) throws BLLException {
+		User u = null;
+		try {
+			u = userDao.getById(id);
+		} catch (DALException e) {
+			throw new BLLException("getById()", e);
+		}
+
+		return u;
+	}
+
 	public List<User> getAll() throws BLLException {
 		List<User> lst = null;
 		try {
