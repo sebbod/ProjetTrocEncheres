@@ -1,1 +1,12 @@
+### Eclipse ###
 /build/
+bin/
+tmp/
+.project
+.classpath
+.settings/
+.metadata
+local.properties
+
+### Java ###
+.class
