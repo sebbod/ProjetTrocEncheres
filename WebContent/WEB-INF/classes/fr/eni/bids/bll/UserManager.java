@@ -19,7 +19,7 @@ public class UserManager {
 		try {
 			lst = userDao.getAll();
 		} catch (DALException e) {
-			throw new BLLException("Erreur getAll()", e);
+			throw new BLLException("getAll()", e);
 		}
 
 		return lst;
@@ -33,7 +33,7 @@ public class UserManager {
 			this.validate4Insert(u);
 			userDao.insert(u);
 		} catch (DALException e) {
-			throw new BLLException("Echec insert:" + u, e);
+			throw new BLLException("insert(...)" + u, e);
 		}
 	}
 
@@ -45,7 +45,7 @@ public class UserManager {
 			this.validate4Update(u);
 			userDao.update(u);
 		} catch (DALException e) {
-			throw new BLLException("Echec insert:" + u, e);
+			throw new BLLException("update(...)" + u, e);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class UserManager {
 	// Common validation for insert and update
 	private void validateCommon(User u, BLLException be) throws BLLException {
 		if (u == null) {
-			throw new BLLException("User null");
+			throw new BLLException("validateCommon() : User is null");
 		}
 
 		if (u.getPseudo() == null || u.getPseudo().equals("") || u.getPseudo().length() > 30) {

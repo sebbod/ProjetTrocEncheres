@@ -1,10 +1,10 @@
 package fr.eni.bids.bll;
 
 /**
- * Les codes disponibles sont entre 20000 et 29999
+ * Free codes between 20000 and 29999
  */
 public abstract class UserErrorCode {
-	
+
 	public static final int NAME_ERROR = 20000;
 	public static final int PSEUDO_ERROR = 20001;
 	public static final int FIRSTNAME_ERROR = 20002;
@@ -22,5 +22,5 @@ public abstract class UserErrorCode {
 	public static final int MY_OFFER_SUP_CURRENT_OFFER = 20012;
 	public static final int MY_OFFER_SUP_STARTING_BID = 20013;
 	public static final int MY_OFFER_INF_MY_POINTS = 20014;
-	
+
 }
