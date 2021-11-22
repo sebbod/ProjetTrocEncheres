@@ -26,4 +26,5 @@ public class SQL_QUERY {
 	
 	public static final String USER_DELETE = "DELETE FROM [dbo].[USERS] WHERE [id] = ?;\";
 			
+			
 }
