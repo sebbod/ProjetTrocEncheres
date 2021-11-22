@@ -18,6 +18,35 @@ public class User {
 	}
 
 	/**
+	 * @param pseudo
+	 * @param name
+	 * @param firstName
+	 * @param email
+	 * @param telephone
+	 * @param street
+	 * @param zipCode
+	 * @param town
+	 * @param pwd
+	 * @param credit
+	 * @param isAdmin
+	 */
+	public User(String pseudo, String name, String firstName, String email, String telephone, String street,
+			String zipCode, String town, String pwd, int credit, Boolean isAdmin) {
+		super();
+		this.pseudo = pseudo;
+		this.name = name;
+		this.firstName = firstName;
+		this.email = email;
+		this.telephone = telephone;
+		this.street = street;
+		this.zipCode = zipCode;
+		this.town = town;
+		this.pwd = pwd;
+		this.credit = credit;
+		this.isAdmin = isAdmin;
+	}
+
+	/**
 	 * @param id
 	 * @param pseudo
 	 * @param name

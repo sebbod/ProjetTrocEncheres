@@ -2,10 +2,10 @@ package fr.eni.bids.dal;
 
 public class DAOFactory {
 
-	public static UserDAO getArticleDAO() {
+	public static UserDAO getUserDAO() {
 		UserDAO userDAO = null;
 		try {
-			userDAO = (UserDAO) Class.forName("fr.eni.dal.jdbc.ArticleDAOJdbcImpl").newInstance();
+			userDAO = (UserDAO) Class.forName("fr.eni.bids.dal.jdbc.UserDAOJdbcImpl").newInstance();
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

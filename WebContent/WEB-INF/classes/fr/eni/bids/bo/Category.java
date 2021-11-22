@@ -1,8 +1,6 @@
 package fr.eni.bids.bo;
 
 public class Category {
-	private static final long serialVersionUID = -4813349171372997273L;
-
 	private Integer id;
 	private String libelle;
 
