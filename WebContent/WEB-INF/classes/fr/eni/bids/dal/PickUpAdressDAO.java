@@ -44,6 +44,6 @@ public interface PickUpAdressDAO extends DAO<PickUpAdress> {
 	 * @see fr.eni.PickUpAdresss.dal.DAO#delete(java.lang.Object)
 	 */
 	@Override
-	public void delete(PickUpAdress obj) throws DALException;
+	public void delete(Integer id) throws DALException;
 
 }

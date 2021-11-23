@@ -44,6 +44,6 @@ public interface ItemDAO extends DAO<Item> {
 	 * @see fr.eni.Items.dal.DAO#delete(java.lang.Object)
 	 */
 	@Override
-	public void delete(Item obj) throws DALException;
+	public void delete(Integer id) throws DALException;
 
 }

@@ -17,6 +17,6 @@ public interface DAO<T> {
 	public void update(T data) throws DALException;
 
 	// Supprimer un business object
-	public void delete(T obj) throws DALException;
+	public void delete(Integer id) throws DALException;
 
 }

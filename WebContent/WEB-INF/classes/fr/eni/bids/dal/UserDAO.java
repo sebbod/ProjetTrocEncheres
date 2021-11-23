@@ -44,6 +44,6 @@ public interface UserDAO extends DAO<User> {
 	 * @see fr.eni.bids.dal.DAO#delete(java.lang.Object)
 	 */
 	@Override
-	public void delete(User obj) throws DALException;
+	public void delete(Integer id) throws DALException;
 
 }

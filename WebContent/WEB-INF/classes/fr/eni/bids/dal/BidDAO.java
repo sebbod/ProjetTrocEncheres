@@ -44,6 +44,6 @@ public interface BidDAO extends DAO<Bid> {
 	 * @see fr.eni.bids.dal.DAO#delete(java.lang.Object)
 	 */
 	@Override
-	public void delete(Bid obj) throws DALException;
+	public void delete(Integer id) throws DALException;
 
 }

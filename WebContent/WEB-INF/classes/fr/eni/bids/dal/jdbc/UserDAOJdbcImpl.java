@@ -188,11 +188,11 @@ public class UserDAOJdbcImpl implements UserDAO {
 	 * @see fr.eni.bids.dal.UserDAO#delete(fr.eni.bids.bo.User)
 	 */
 	@Override
-	public void delete(User u) throws DALException {
+	public void delete(Integer id) throws DALException {
 		PreparedStatement ps = null;
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			ps = cnx.prepareStatement(SQL_QUERY.USER_DELETE);
-			ps.setInt(1, u.getId());
+			ps.setInt(1, id);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

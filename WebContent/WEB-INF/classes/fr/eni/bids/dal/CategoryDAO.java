@@ -44,6 +44,6 @@ public interface CategoryDAO extends DAO<Category> {
 	 * @see fr.eni.Categorys.dal.DAO#delete(java.lang.Object)
 	 */
 	@Override
-	public void delete(Category obj) throws DALException;
+	public void delete(Integer id) throws DALException;
 
 }

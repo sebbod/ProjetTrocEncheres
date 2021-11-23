@@ -90,17 +90,13 @@ public class UserRST {
 	@DELETE
 	@Path("/{id : \\d+}")
 	public boolean delete(@PathParam("id") int id) {
-		// UserManager uMngr;
-		// User u = null;
-		// try {
-
-		// uMngr = new UserManager();
-		// TODO
-		// uMngr.delete(id);
-		// } catch (BLLException e) {
-		// System.out.println("UserRST::delete(...) - e.getMessage()=" +
-		// e.getMessage());
-		// }
+		UserManager uMngr;
+		try {
+			uMngr = new UserManager();
+			uMngr.delete(id);
+		} catch (BLLException e) {
+			System.out.println("UserRST::delete(" + id + ") - e.getMessage()=" + e.getMessage());
+		}
 		return false;
 	}
 }

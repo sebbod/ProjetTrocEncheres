@@ -120,4 +120,12 @@ public class UserManager {
 		}
 	}
 
+	public void delete(int id) throws BLLException {
+		try {
+			userDao.delete(id);
+		} catch (DALException e) {
+			throw new BLLException("delete(" + id + ")", e);
+		}
+	}
+
 }
