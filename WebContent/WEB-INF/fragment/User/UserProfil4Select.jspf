@@ -1,0 +1,65 @@
+<span>	
+	<label>Pseudo : ${user.getPseudo()}</label>		
+</span>
+<br>
+<span>
+	<label>Nom: ${user.getFirstName()}</label>
+</span>
+<br>
+<span>
+	<label>Prénom : ${user.getFirstName()}</label>
+</span>
+<br>
+<span>	
+	<label>Email : ${user.getEmail()}</label>
+</span>
+<br>
+<span>	
+	<label">Téléphone : ${user.getTelephone()}</label>
+</span>
+<br>
+<span>	
+	<label>Rue : ${user.getStreet()}</label>
+</span>
+<br>
+<span>
+	<label>Code Postal : ${user.getZipCode()}</label>
+</span>
+<br>
+<span>
+	<label>Ville : ${user.getTown()}</label>		
+</span>
+<br>
+<c:if test="${user.getId().equals(connectedUser.getId())}">
+<span>
+	<label >Crédit : ${user.getCredit()}</label>		
+</span>
+<div>
+	<a href="<%=request.getContextPath()%>/user/profil?action=update&userId=${connectedUser.getId()}">
+		<input type="button" name="modify" value="Modifier mon profil" />
+	</a>				
+	<a onclick="showPopUp();">
+		<input type="button" name="delete" value="Supprimer mon profil" />
+	</a>	
+</div>
+<div id="confirmationPopUp" class="confirmationPopUp">
+	<p class="textConfirmationPopUp"> Êtes-vous sûr(e) de vouloir supprimer votre profil ?</p>
+	<a onclick="hidePopUp();">
+		<input type="button" name="cancel" value="Annuler" class="buttonPopUp"/>
+	</a>
+		
+	<a href="<%=request.getContextPath()%>/User/profil?action=delete&userId=${connectedUser.getId()}">
+		<input type="button" name="validate" value="Supprimer mon profil" class="buttonPopUp"/>
+	</a>		
+</div>
+
+<script type="text/javascript">
+	function hidePopUp(){
+		document.getElementById("confirmationPopUp").style.display = 'none';
+	}
+	
+	function showPopUp(){
+		document.getElementById("confirmationPopUp").style.display = 'block';
+	}
+</script>
+</c:if>

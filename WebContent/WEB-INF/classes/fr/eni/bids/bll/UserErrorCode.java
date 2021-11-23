@@ -23,4 +23,5 @@ public abstract class UserErrorCode {
 	public static final int MY_OFFER_SUP_STARTING_BID = 20013;
 	public static final int MY_OFFER_INF_MY_POINTS = 20014;
 
+	public static final int USER_UPDATE_FORBIDDEN = 20015;
 }

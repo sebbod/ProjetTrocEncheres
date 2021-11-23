@@ -1,8 +1,6 @@
 package fr.eni.bids.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,8 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.bids.bll.BLLException;
+import fr.eni.bids.bll.UserErrorCode;
 import fr.eni.bids.bll.UserManager;
 import fr.eni.bids.bo.User;
 
@@ -34,39 +34,54 @@ public class UserProfil extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String strId = request.getParameter("userId");
+		HttpSession session = request.getSession();
+		User u = new User();
+		User cu = (User) session.getAttribute("connectedUser");
+		String action = request.getParameter("action");
 
-		int id = 1;
-		if (strId != null) {
-			id = Integer.getInteger(strId);
-		}
-
-		// Debug message
-		System.out.println("Servlet UserProfil - doGet(), id=" + id);
-
-		// User - link to data base
-		UserManager uMngr;
-		User u = null;
-
-		try {
-			uMngr = new UserManager();
-			u = uMngr.getById(id);
-		} catch (BLLException e) {
-			List<Integer> lstErrorCode = (List<Integer>) request.getAttribute("lstErrorCode");
-
-			if (lstErrorCode == null) {
-				lstErrorCode = new ArrayList<Integer>();
-				request.setAttribute("lstErrorCode", lstErrorCode);
+		if (action == "insert") {
+			session.setAttribute("action", "insert");
+		} else {
+			// for select and update
+			String strId = request.getParameter("userId");
+			int id = 1;
+			if (strId != null) {
+				id = Integer.parseInt(strId);
+			}
+			if (action == "update" || action == "save" || action == "delete") {
+				// check user can update this profil
+				if (cu.getId() != id) {
+					// otherwise throw exception
+					BLLException be = new BLLException();
+					be.add(UserErrorCode.USER_UPDATE_FORBIDDEN);
+					request.setAttribute("lstErrorCode", be.getLstErrorCode());
+					session.setAttribute("action", "select");
+					RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/User/Profile.jsp");
+					rd.forward(request, response);
+					return;
+				}
+				session.setAttribute("action", "update");
+			} else {
+				session.setAttribute("action", "select");
 			}
 
-			lstErrorCode.addAll(e.getLstErrorCode());
+			// User - link to data base
+			UserManager uMngr;
+
+			try {
+				uMngr = new UserManager();
+				u = uMngr.getById(id);
+			} catch (BLLException e) {
+				request.setAttribute("lstErrorCode", e.getLstErrorCode());
+			}
+
+			// Save user for the session
+			session.setAttribute("connectedUser", u);
+			// ^^ !!! temporaire !!! code ^^ a supprimer quand la page de cnx sera faite
 		}
-
 		request.getServletContext().setAttribute("user", u);
-
 		RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/User/Profile.jsp");
 		rd.forward(request, response);
-
 	}
 
 	@Override
