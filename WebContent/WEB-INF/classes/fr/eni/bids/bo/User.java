@@ -1,6 +1,11 @@
 package fr.eni.bids.bo;
 
-public class User {
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "User")
+public class User implements Serializable {
 	private Integer id;
 	private String pseudo;
 	private String name;

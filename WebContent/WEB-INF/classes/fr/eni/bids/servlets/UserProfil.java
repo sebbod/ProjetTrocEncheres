@@ -38,6 +38,12 @@ public class UserProfil extends HttpServlet {
 		User u = new User();
 		User cu = (User) session.getAttribute("connectedUser");
 		String action = request.getParameter("action");
+		if (action == null) {
+			action = "select";
+		}
+		// Debug message
+		System.out.println("Servlet UserProfil - doGet(), action=" + action);
+		System.out.println("Servlet UserProfil - doGet(), cu=" + cu);
 
 		if (action == "insert") {
 			session.setAttribute("action", "insert");
@@ -48,9 +54,11 @@ public class UserProfil extends HttpServlet {
 			if (strId != null) {
 				id = Integer.parseInt(strId);
 			}
-			if (action == "update" || action == "save" || action == "delete") {
+			if (action.equals("update") || action.equals("save") || action.equals("delete")) {
 				// check user can update this profil
-				if (cu.getId() != id) {
+				System.out.println("Servlet UserProfil - doGet(), cu.getId()=" + cu.getId());
+				System.out.println("Servlet UserProfil - doGet(), Id=" + id);
+				if (!cu.getId().equals(id)) {
 					// otherwise throw exception
 					BLLException be = new BLLException();
 					be.add(UserErrorCode.USER_UPDATE_FORBIDDEN);

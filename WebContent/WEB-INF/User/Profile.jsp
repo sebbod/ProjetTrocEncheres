@@ -42,7 +42,7 @@
 				</c:otherwise>
 			</c:choose>		
 		</div>
-		
+		${sessionScope.action}
 		<footer class="footer" id="footerCell">
 			<%@include file="../fragment/Footer.jspf" %>
 		</footer>
