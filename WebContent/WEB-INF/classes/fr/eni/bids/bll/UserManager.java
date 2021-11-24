@@ -6,7 +6,7 @@ import fr.eni.bids.bo.User;
 import fr.eni.bids.dal.DALException;
 import fr.eni.bids.dal.DAOFactory;
 import fr.eni.bids.dal.UserDAO;
-import fr.eni.bids.rest.ErrorCodes;
+import fr.eni.bids.msg.ErrorCodes;
 
 public class UserManager {
 	private static UserDAO userDao;

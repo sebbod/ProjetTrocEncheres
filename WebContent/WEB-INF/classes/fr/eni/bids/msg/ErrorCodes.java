@@ -1,4 +1,4 @@
-package fr.eni.bids.rest;
+package fr.eni.bids.msg;
 
 public class ErrorCodes {
 

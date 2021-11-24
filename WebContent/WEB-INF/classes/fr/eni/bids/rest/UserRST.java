@@ -20,6 +20,7 @@ import javax.ws.rs.core.Context;
 import fr.eni.bids.bll.BLLException;
 import fr.eni.bids.bll.UserManager;
 import fr.eni.bids.bo.User;
+import fr.eni.bids.msg.ErrorCodes;
 
 @Path("/User")
 public class UserRST {

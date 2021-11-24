@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import fr.eni.bids.bll.BLLException;
 import fr.eni.bids.bll.UserManager;
 import fr.eni.bids.bo.User;
-import fr.eni.bids.rest.ErrorCodes;
+import fr.eni.bids.msg.ErrorCodes;
 
 /**
  * Servlet implementation class Login
