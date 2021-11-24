@@ -20,6 +20,18 @@ public class User implements Serializable {
 	private int credit;
 	private Boolean isAdmin;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", pseudo=" + pseudo + ", name=" + name + ", firstName=" + firstName + ", email="
+				+ email + ", telephone=" + telephone + ", street=" + street + ", zipCode=" + zipCode + ", town=" + town
+				+ ", pwd=" + pwd + ", credit=" + credit + ", isAdmin=" + isAdmin + "]";
+	}
+
 	public User() {
 	}
 
