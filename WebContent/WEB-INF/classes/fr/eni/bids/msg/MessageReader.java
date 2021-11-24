@@ -1,16 +1,14 @@
-package fr.eni.bids.bll;
+package fr.eni.bids.msg;
 
 import java.util.ResourceBundle;
 
-/**
- * read file in user_messages_fr.properties or user_messages_en
- */
-public abstract class UserMessageReader {
+public abstract class MessageReader {
 	private static ResourceBundle rb;
+	private static final String FILENAME = "fr.eni.bids.bll.user_messages_fr";
 
 	static {
 		try {
-			rb = ResourceBundle.getBundle("fr.eni.bids.bll.user_messages_fr");
+			rb = ResourceBundle.getBundle(FILENAME);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

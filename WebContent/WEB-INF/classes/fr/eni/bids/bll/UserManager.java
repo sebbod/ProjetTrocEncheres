@@ -6,6 +6,7 @@ import fr.eni.bids.bo.User;
 import fr.eni.bids.dal.DALException;
 import fr.eni.bids.dal.DAOFactory;
 import fr.eni.bids.dal.UserDAO;
+import fr.eni.bids.rest.ErrorCodes;
 
 public class UserManager {
 	private static UserDAO userDao;
@@ -89,34 +90,34 @@ public class UserManager {
 		}
 
 		if (u.getPseudo() == null || u.getPseudo().equals("") || u.getPseudo().length() > 30) {
-			be.add(UserErrorCode.PSEUDO_ERROR);
+			be.add(ErrorCodes.PSEUDO_ERROR);
 		}
 		if (u.getName() == null || u.getName().equals("") || u.getName().length() > 30) {
-			be.add(UserErrorCode.NAME_ERROR);
+			be.add(ErrorCodes.NAME_ERROR);
 		}
 		if (u.getFirstName() == null || u.getFirstName().equals("") || u.getFirstName().length() > 30) {
-			be.add(UserErrorCode.FIRSTNAME_ERROR);
+			be.add(ErrorCodes.FIRSTNAME_ERROR);
 		}
 		if (u.getEmail() == null || u.getEmail().equals("") || u.getEmail().length() > 40
 				|| !u.getEmail().contains("@")) {
-			be.add(UserErrorCode.EMAIL_ERROR);
+			be.add(ErrorCodes.EMAIL_ERROR);
 		}
 		if (u.getTelephone() == null || u.getTelephone().equals("") || u.getTelephone().length() > 15
 				|| u.getTelephone().contains("[a-zA-Z]")) {
-			be.add(UserErrorCode.TELEPHONE_ERROR);
+			be.add(ErrorCodes.TELEPHONE_ERROR);
 		}
 		if (u.getStreet() == null || u.getStreet().equals("") || u.getStreet().length() > 30) {
-			be.add(UserErrorCode.STREET_ERROR);
+			be.add(ErrorCodes.STREET_ERROR);
 		}
 		if (u.getZipCode() == null || u.getZipCode().equals("") || u.getZipCode().length() > 10
 				|| u.getZipCode().contains("[a-zA-Z]")) {
-			be.add(UserErrorCode.ZIPCODE_ERROR);
+			be.add(ErrorCodes.ZIPCODE_ERROR);
 		}
 		if (u.getTown() == null || u.getTown().equals("") || u.getTown().length() > 40) {
-			be.add(UserErrorCode.TOWN_ERROR);
+			be.add(ErrorCodes.TOWN_ERROR);
 		}
 		if (u.getPwd() == null || u.getPwd().equals("") || u.getPwd().length() > 50) {
-			be.add(UserErrorCode.PWD_ERROR);
+			be.add(ErrorCodes.PWD_ERROR);
 		}
 	}
 

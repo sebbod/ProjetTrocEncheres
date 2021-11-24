@@ -1,7 +1,13 @@
-package fr.eni.bids;
+package fr.eni.bids.rest;
 
+import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -9,6 +15,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Context;
 
 import fr.eni.bids.bll.BLLException;
 import fr.eni.bids.bll.UserManager;
@@ -16,6 +23,55 @@ import fr.eni.bids.bo.User;
 
 @Path("/User")
 public class UserRST {
+
+	@Context
+	private HttpServletRequest request;
+	@Context
+	private HttpServletResponse response;
+
+	@GET
+	@Path("/session")
+	public Object checkValidity(@CookieParam("connectedUserId") String connectedUserId) {
+		try {
+			if (connectedUserId != null) {
+				UserManager uMngr = new UserManager();
+				User u = uMngr.getById(Integer.parseInt(connectedUserId));
+				generateNewSession(u);
+				return u;
+			}
+			HttpSession session = request.getSession(false);
+			if (session == null) {
+				return false;
+			}
+			return session.getAttribute("User");
+		} catch (BLLException BLLException) {
+			try {
+				throw new BLLException(ErrorCodes.SESSION_VALIDATION_ERROR, BLLException);
+			} catch (BLLException BLLExceptionValidation) {
+				BLLExceptionValidation.printStackTrace();
+				return new HashMap<String, String>() {
+					{
+						put("message", BLLExceptionValidation.getMessage());
+					}
+				};
+			}
+		}
+	}
+
+	public void generateNewSession(User u, boolean rememberMe) {
+		HttpSession session = request.getSession(true);
+		session.setAttribute("User", u);
+		if (rememberMe) {
+			String identifier = String.valueOf(u.getId());
+			Cookie cookie = new Cookie("CookieIDUser", identifier);
+			cookie.setMaxAge(Integer.MAX_VALUE);
+			response.addCookie(cookie);
+		}
+	}
+
+	public void generateNewSession(User u) {
+		generateNewSession(u, false);
+	}
 
 	@GET
 	public List<User> getAll() {

@@ -1,4 +1,4 @@
-package fr.eni.bids;
+package fr.eni.bids.rest;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

@@ -48,6 +48,6 @@
 		</footer>
 
 	</div>
-	
+	<script src="../../js/ajax.js"></script>
 </body>
 </html>

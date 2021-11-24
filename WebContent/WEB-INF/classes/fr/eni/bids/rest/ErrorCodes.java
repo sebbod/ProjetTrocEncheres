@@ -1,9 +1,6 @@
-package fr.eni.bids.bll;
+package fr.eni.bids.rest;
 
-/**
- * Free codes between 20000 and 29999
- */
-public abstract class UserErrorCode {
+public class ErrorCodes {
 
 	public static final int NAME_ERROR = 20000;
 	public static final int PSEUDO_ERROR = 20001;
@@ -24,4 +21,6 @@ public abstract class UserErrorCode {
 	public static final int MY_OFFER_INF_MY_POINTS = 20014;
 
 	public static final int USER_UPDATE_FORBIDDEN = 20015;
+
+	static public int SESSION_VALIDATION_ERROR = 30000;
 }

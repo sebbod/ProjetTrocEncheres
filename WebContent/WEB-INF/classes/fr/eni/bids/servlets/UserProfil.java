@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import fr.eni.bids.bll.BLLException;
-import fr.eni.bids.bll.UserErrorCode;
 import fr.eni.bids.bll.UserManager;
 import fr.eni.bids.bo.User;
+import fr.eni.bids.rest.ErrorCodes;
 
 /**
  * Servlet implementation class Login
@@ -61,7 +61,7 @@ public class UserProfil extends HttpServlet {
 				if (!cu.getId().equals(id)) {
 					// otherwise throw exception
 					BLLException be = new BLLException();
-					be.add(UserErrorCode.USER_UPDATE_FORBIDDEN);
+					be.add(ErrorCodes.USER_UPDATE_FORBIDDEN);
 					request.setAttribute("lstErrorCode", be.getLstErrorCode());
 					session.setAttribute("action", "select");
 					RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/User/Profile.jsp");
