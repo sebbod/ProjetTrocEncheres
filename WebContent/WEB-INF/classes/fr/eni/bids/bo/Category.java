@@ -4,6 +4,9 @@ public class Category {
 	private Integer id;
 	private String libelle;
 
+	public Category() {
+	}
+
 	/**
 	 * @param id
 	 * @param libelle

@@ -4,7 +4,7 @@ import java.util.ResourceBundle;
 
 public abstract class MessageReader {
 	private static ResourceBundle rb;
-	private static final String FILENAME = "fr.eni.bids.bll.user_messages_fr";
+	private static final String FILENAME = "fr.eni.bids.errors_messages_fr";
 
 	static {
 		try {

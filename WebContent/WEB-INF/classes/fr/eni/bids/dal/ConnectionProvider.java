@@ -8,6 +8,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import fr.eni.bids.BidsException;
+import fr.eni.bids.dal.jdbc.ErrorCodesJDBC;
+
 public abstract class ConnectionProvider {
 
 	private static DataSource dataSource;
@@ -21,8 +24,11 @@ public abstract class ConnectionProvider {
 			context = new InitialContext();
 			ConnectionProvider.dataSource = (DataSource) context.lookup("java:comp/env/jdbc/bids_cnx");
 		} catch (NamingException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Impossible d'accéder à la base de données");
+			try {
+				throw new BidsException(ErrorCodesJDBC.DATABASE_ACCESS_ERROR, e);
+			} catch (BidsException bException) {
+				throw new RuntimeException();
+			}
 		}
 	}
 
@@ -33,7 +39,11 @@ public abstract class ConnectionProvider {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Connection getConnection() throws SQLException {
-		return ConnectionProvider.dataSource.getConnection();
+	public static Connection getConnection() throws BidsException {
+		try {
+			return dataSource.getConnection();
+		} catch (SQLException e) {
+			throw new BidsException(ErrorCodesJDBC.CONNECTION_ERROR, e);
+		}
 	}
 }

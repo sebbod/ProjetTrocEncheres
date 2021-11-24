@@ -1,22 +1,66 @@
 package fr.eni.bids.dal;
 
+import fr.eni.bids.BidsException;
+import fr.eni.bids.bo.Bid;
+import fr.eni.bids.bo.Category;
+import fr.eni.bids.bo.Item;
+import fr.eni.bids.bo.User;
+import fr.eni.bids.dal.jdbc.BidJDBCDAOImpl;
+import fr.eni.bids.dal.jdbc.CategoryJDBCDAOImpl;
+import fr.eni.bids.dal.jdbc.ItemJDBCDAOImpl;
+import fr.eni.bids.dal.jdbc.UserJDBCDAOImpl;
+
 public class DAOFactory {
 
-	public static UserDAO getUserDAO() {
-		UserDAO userDAO = null;
+	public static DAO<Item> getItemDAO() throws BidsException {
+		return new ItemJDBCDAOImpl();
+	}
+
+	public static DAO<User> getUserDAO() throws BidsException {
+		return new UserJDBCDAOImpl();
+	}
+
+	public static DAO<Category> getCategoryDAO() throws BidsException {
+		return new CategoryJDBCDAOImpl();
+	}
+
+	// public static DAO<PickUpAdress> getPickUpAdressDAO() throws BidsException {
+	// return new PickUpAdressJDBCDAOImpl(); }
+
+	public static DAO<Bid> getBidDAO() throws BidsException {
+		return new BidJDBCDAOImpl();
+	}
+
+	public static DAO<?> getBusinessObjectDAO(String classSimpleName) throws BidsException {
+		switch (classSimpleName) {
+		case "Item":
+			return getItemDAO();
+		case "User":
+			return getUserDAO();
+		case "Category":
+			return getCategoryDAO();
+		// case "PickUpAdress":
+		// return getPickUpAdressDAO();
+		case "Bid":
+			return getBidDAO();
+		default:
+			throw new BidsException(ErrorCodesDAL.GENERIC_FACTORY_ERROR);
+		}
+	}
+
+	
+	public static LoginDAO getLoginDAO() {
+		LoginDAO loginDAO = null;
 		try {
-			userDAO = (UserDAO) Class.forName("fr.eni.bids.dal.jdbc.UserDAOJdbcImpl").newInstance();
+			loginDAO = (LoginDAO) Class.forName("fr.eni.bids.dal.jdbc.LoginDAOJdbcImpl").newInstance();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return userDAO;
+		return loginDAO;
 	}
 
 }

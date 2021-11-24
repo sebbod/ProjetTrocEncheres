@@ -1,132 +1,127 @@
 package fr.eni.bids.bll;
 
-import java.util.List;
-
+import fr.eni.bids.BidsException;
 import fr.eni.bids.bo.User;
-import fr.eni.bids.dal.DALException;
+import fr.eni.bids.dal.DAO;
 import fr.eni.bids.dal.DAOFactory;
-import fr.eni.bids.dal.UserDAO;
-import fr.eni.bids.msg.ErrorCodes;
 
-public class UserManager {
-	private static UserDAO userDao;
+public class UserManager extends GenericManager<User> {
+	private static DAO<User> userDao;
 
-	public UserManager() throws BLLException {
+	public UserManager() throws BidsException {
+		super();
 		userDao = DAOFactory.getUserDAO();
 	}
 
-	public User getById(int id) throws BLLException {
-		User u = null;
+	// CRUD
+
+	public User getByPseudo(String pseudo) throws BidsException {
 		try {
-			u = userDao.getById(id);
-		} catch (DALException e) {
-			throw new BLLException("getById()", e);
+			return this.userDao.selectByField("pseudo", pseudo);
+		} catch (BidsException BidsException) {
+			BidsException.printStackTrace();
+			throw new BidsException(ErrorCodesBLL.USER_GET_BY_PSEUDO_ERROR, BidsException);
 		}
-
-		return u;
 	}
 
-	public List<User> getAll() throws BLLException {
-		List<User> lst = null;
+	public User getByEmail(String email) throws BidsException {
 		try {
-			lst = userDao.getAll();
-		} catch (DALException e) {
-			throw new BLLException("getAll()", e);
-		}
-
-		return lst;
-	}
-
-	// method in order to create a new user in database
-	public void insert(String pseudo, String name, String firstName, String email, String telephone, String street,
-			String zipCode, String town, String pwd) throws BLLException {
-		User u = new User(pseudo, name, firstName, email, telephone, street, zipCode, town, pwd, 0, false);
-		try {
-			this.validate4Insert(u);
-			userDao.insert(u);
-		} catch (DALException e) {
-			throw new BLLException("insert(...)" + u, e);
+			return userDao.selectByField("email", email);
+		} catch (BidsException BidsException) {
+			BidsException.printStackTrace();
+			throw new BidsException(ErrorCodesBLL.USER_GET_BY_EMAIL_ERROR, BidsException);
 		}
 	}
 
-	// method to update user infos
-	public void update(int id, String pseudo, String name, String firstName, String email, String telephone,
-			String street, String zipCode, String town, String pwd) throws BLLException {
-		User u = new User(id, pseudo, name, firstName, email, telephone, street, zipCode, town, pwd, 0, false);
-		try {
-			this.validate4Update(u);
-			userDao.update(u);
-		} catch (DALException e) {
-			throw new BLLException("update(...)" + u, e);
+	public User getByPseudoAndPassword(String pseudo, String password) throws BidsException {
+		User u = getByPseudo(pseudo);
+		if (u != null && password.equals(u.getPwd())) {
+			return u;
+		} else {
+			throw new BidsException(ErrorCodesBLL.AUTHENTICATION_ERROR);
 		}
 	}
 
-	// User validation before insertion in database
-	private void validate4Update(User u) throws BLLException {
-		BLLException be = new BLLException();
+	@Override
+	public User add(User User) throws BidsException {
+		doHashPassword(User);
+		return super.add(User);
+	}
 
-		validateCommon(u, be);
+	@Override
+	public User update(User User) throws BidsException {
+		doHashPassword(User);
+		return super.update(User);
+	}
 
-		if (be.hasError()) {
-			throw new BLLException(be.getLstErrorCode().toString());
+	// LOGIC & CHECKS
+
+	@Override
+	protected int[] getIdentifiers(User u) {
+		return new int[] { u.getId() };
+	}
+
+	@Override
+	protected void executeUpdate(User u, String operationCRUD) throws BidsException {
+		if (operationCRUD.equals("DELETE")) {
+			new BidManager().deleteAllBy(u);
+			new ItemManager().deleteAllBySeller(u);
 		}
 	}
 
-	// User validation before insertion in database
-	private void validate4Insert(User u) throws BLLException {
-		BLLException be = new BLLException();
-
-		validateCommon(u, be);
-
-		if (be.hasError()) {
-			throw new BLLException(be.getLstErrorCode().toString());
+	/**
+	 * Check all the attributes of an User.
+	 * 
+	 * @param User
+	 *            User | User to check.
+	 * @throws BidsException
+	 *             BidsException | Newly created exception.
+	 */
+	protected void checkAttributes(User User) throws BidsException {
+		if (User == null) {
+			throw new BidsException(ErrorCodesBLL.BO_NULL_ERROR.get("User"));
+		}
+		StringBuilder errors = new StringBuilder();
+		if (User.getPseudo() == null || User.getPseudo().isEmpty()) {
+			errors.append("Champs obligatoire. L'utilisateur n'a pas de pseudonyme.").append("\n");
+		}
+		if (User.getName() == null || User.getName().isEmpty()) {
+			errors.append("Champs obligatoire. L'utilisateur n'a pas de nom.").append("\n");
+		}
+		if (User.getFirstName() == null || User.getFirstName().isEmpty()) {
+			errors.append("Champs obligatoire. L'utilisateur n'a pas de nom.").append("\n");
+		}
+		if (User.getEmail() == null || User.getEmail().isEmpty()) {
+			errors.append("Champs obligatoire. L'utilisateur n'a pas d'e-mail.").append("\n");
+		}
+		if (User.getStreet() == null || User.getStreet().isEmpty()) {
+			errors.append("Champs obligatoire. L'utilisateur n'a pas de rue renseignée pour son adresse.").append("\n");
+		}
+		if (User.getZipCode() == null || User.getZipCode().isEmpty()) {
+			errors.append("Champs obligatoire. L'utilisateur n'a pas de code postal renseigné pour son adresse.")
+					.append("\n");
+		}
+		if (User.getTown() == null || User.getTown().isEmpty()) {
+			errors.append("Champs obligatoire. L'utilisateur n'a pas de ville renseignée pour son adresse.")
+					.append("\n");
+		}
+		if (User.getPwd() == null || User.getPwd().isEmpty()) {
+			errors.append("Champs obligatoire. L'utilisateur n'a pas de mot de passe.").append("\n");
+		}
+		if (User.getCredit() < 0) {
+			errors.append("Champs incorrecte. Le nombre de crédits ne peut pas être négatif").append("\n");
+		}
+		if (!errors.toString().isEmpty()) {
+			throw new BidsException(errors.toString());
 		}
 	}
 
-	// Common validation for insert and update
-	private void validateCommon(User u, BLLException be) throws BLLException {
-		if (u == null) {
-			throw new BLLException("validateCommon() : User is null");
-		}
-
-		if (u.getPseudo() == null || u.getPseudo().equals("") || u.getPseudo().length() > 30) {
-			be.add(ErrorCodes.PSEUDO_ERROR);
-		}
-		if (u.getName() == null || u.getName().equals("") || u.getName().length() > 30) {
-			be.add(ErrorCodes.NAME_ERROR);
-		}
-		if (u.getFirstName() == null || u.getFirstName().equals("") || u.getFirstName().length() > 30) {
-			be.add(ErrorCodes.FIRSTNAME_ERROR);
-		}
-		if (u.getEmail() == null || u.getEmail().equals("") || u.getEmail().length() > 40
-				|| !u.getEmail().contains("@")) {
-			be.add(ErrorCodes.EMAIL_ERROR);
-		}
-		if (u.getTelephone() == null || u.getTelephone().equals("") || u.getTelephone().length() > 15
-				|| u.getTelephone().contains("[a-zA-Z]")) {
-			be.add(ErrorCodes.TELEPHONE_ERROR);
-		}
-		if (u.getStreet() == null || u.getStreet().equals("") || u.getStreet().length() > 30) {
-			be.add(ErrorCodes.STREET_ERROR);
-		}
-		if (u.getZipCode() == null || u.getZipCode().equals("") || u.getZipCode().length() > 10
-				|| u.getZipCode().contains("[a-zA-Z]")) {
-			be.add(ErrorCodes.ZIPCODE_ERROR);
-		}
-		if (u.getTown() == null || u.getTown().equals("") || u.getTown().length() > 40) {
-			be.add(ErrorCodes.TOWN_ERROR);
-		}
-		if (u.getPwd() == null || u.getPwd().equals("") || u.getPwd().length() > 50) {
-			be.add(ErrorCodes.PWD_ERROR);
-		}
+	protected boolean checkUnity(User User) throws BidsException {
+		return getByEmail(User.getEmail()) != null && getByPseudo(User.getPseudo()) != null;
 	}
 
-	public void delete(int id) throws BLLException {
-		try {
-			userDao.delete(id);
-		} catch (DALException e) {
-			throw new BLLException("delete(" + id + ")", e);
-		}
+	private void doHashPassword(User User) throws BidsException {
+		// TODO
+		// User.setMotDePasse(PasswordTool.hashPassword(User.getMotDePasse()));
 	}
-
 }

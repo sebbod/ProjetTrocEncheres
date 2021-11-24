@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="fr.eni.bids.bll.UserMessageReader" %>
+<%@ page import="fr.eni.bids.msg.MessageReader" %>
 <!DOCTYPE html>
 
 <html>
@@ -15,7 +15,7 @@
 <body>
 	<header>
 		<c:choose>
-			<c:when test="${sessionScope.connectedUser!=null}">
+			<c:when test="${sessionScope.connectedUserId!=null}">
 				<%@include file="../fragment/HeaderConnected.jspf" %>
 			</c:when> 
 			<c:otherwise >
@@ -48,6 +48,6 @@
 		</footer>
 
 	</div>
-	<script src="../../js/ajax.js"></script>
+	<script src="../js/ajax.js"></script>
 </body>
 </html>

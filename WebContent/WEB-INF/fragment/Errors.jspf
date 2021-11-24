@@ -3,7 +3,7 @@
 		  <br>
 		  <ul>
 		  	<c:forEach var="code" items="${lstErrorCode}">
-		  		<li class="messageError">${UserMessageReader.getById(code)}</li>
+		  		<li class="messageError">${MessageReader.getById(code)}</li>
 		  	</c:forEach>
 		  </ul>
 		</div>

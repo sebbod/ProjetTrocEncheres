@@ -18,7 +18,7 @@ public class User implements Serializable {
 	private String town;
 	private String pwd;
 	private int credit;
-	private Boolean isAdmin;
+	private byte isAdmin;
 
 	/*
 	 * (non-Javadoc)
@@ -35,65 +35,68 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	/**
-	 * @param pseudo
-	 * @param name
-	 * @param firstName
-	 * @param email
-	 * @param telephone
-	 * @param street
-	 * @param zipCode
-	 * @param town
-	 * @param pwd
-	 * @param credit
-	 * @param isAdmin
-	 */
-	public User(String pseudo, String name, String firstName, String email, String telephone, String street,
-			String zipCode, String town, String pwd, int credit, Boolean isAdmin) {
-		super();
-		this.pseudo = pseudo;
-		this.name = name;
-		this.firstName = firstName;
-		this.email = email;
-		this.telephone = telephone;
-		this.street = street;
-		this.zipCode = zipCode;
-		this.town = town;
-		this.pwd = pwd;
-		this.credit = credit;
-		this.isAdmin = isAdmin;
+	public User(String pseudo, String name, String firstName, String email, String street, String zipCode,
+			String town) {
+		setPseudo(pseudo);
+		setName(name);
+		setFirstName(firstName);
+		setEmail(email);
+		setStreet(street);
+		setZipCode(zipCode);
+		setTown(town);
+		setCredit(0);
+		setIsAdmin((byte) 0);
 	}
 
-	/**
-	 * @param id
-	 * @param pseudo
-	 * @param name
-	 * @param firstName
-	 * @param email
-	 * @param telephone
-	 * @param street
-	 * @param zipCode
-	 * @param town
-	 * @param pwd
-	 * @param credit
-	 * @param isAdmin
-	 */
-	public User(Integer id, String pseudo, String name, String firstName, String email, String telephone, String street,
-			String zipCode, String town, String pwd, int credit, Boolean isAdmin) {
-		super();
-		this.id = id;
-		this.pseudo = pseudo;
-		this.name = name;
-		this.firstName = firstName;
-		this.email = email;
-		this.telephone = telephone;
-		this.street = street;
-		this.zipCode = zipCode;
-		this.town = town;
-		this.pwd = pwd;
-		this.credit = credit;
-		this.isAdmin = isAdmin;
+	public User(String pseudo, String name, String firstName, String email, String telephone, String street,
+			String zipCode, String town) {
+		this(pseudo, name, firstName, email, street, zipCode, town);
+		setTelephone(telephone);
 	}
+
+	public User(String pseudo, String name, String firstName, String email, String telephone, String street,
+			String zipCode, String town, String pwd) {
+		this(pseudo, name, firstName, email, telephone, street, zipCode, town);
+		setPwd(pwd);
+	}
+
+	public User(String pseudo, String name, String firstName, String email, String telephone, String street,
+			String zipCode, String town, String pwd, int credit) {
+		this(pseudo, name, firstName, email, telephone, street, zipCode, town, pwd);
+		setCredit(credit);
+	}
+
+	public User(String pseudo, String name, String firstName, String email, String street, String zipCode, String town,
+			String pwd, int credit, byte isAdmin) {
+		this(pseudo, name, firstName, email, street, zipCode, town);
+		setPwd(pwd);
+		setCredit(credit);
+		setIsAdmin(isAdmin);
+	}
+
+	public User(String pseudo, String name, String firstName, String email, String telephone, String street,
+			String zipCode, String town, String pwd, int credit, byte isAdmin) {
+		this(pseudo, name, firstName, email, street, zipCode, town, pwd, credit, isAdmin);
+		setTelephone(telephone);
+	}
+
+	public User(int id, String pseudo, String name, String firstName, String email, String telephone, String street,
+			String zipCode, String town, String pwd, int credit, byte isAdmin) {
+		this(pseudo, name, firstName, email, telephone, street, zipCode, town, pwd, credit, isAdmin);
+		setId(id);
+	}
+
+	// METHODS
+
+	public void addCredit(int credit) {
+		this.credit += credit;
+	}
+
+	public void substractCredit(int credit) {
+		this.credit -= credit;
+	}
+
+	// GETTERS & SETTERS
 
 	/**
 	 * @return the id
@@ -263,7 +266,7 @@ public class User implements Serializable {
 	/**
 	 * @return the isAdmin
 	 */
-	public Boolean getIsAdmin() {
+	public byte getIsAdmin() {
 		return isAdmin;
 	}
 
@@ -271,7 +274,7 @@ public class User implements Serializable {
 	 * @param isAdmin
 	 *            the isAdmin to set
 	 */
-	public void setIsAdmin(Boolean isAdmin) {
+	public void setIsAdmin(byte isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 

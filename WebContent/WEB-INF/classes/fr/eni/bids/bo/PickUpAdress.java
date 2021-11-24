@@ -6,6 +6,9 @@ public class PickUpAdress {
 	private String city;
 	private String postCode;
 
+	public PickUpAdress() {
+	}
+
 	/**
 	 * @param id
 	 * @param street

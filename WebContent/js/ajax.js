@@ -34,13 +34,7 @@ function executerRequete(method, endpoint = "", data = null)
     xhr.send(data);
 }	
 
-const getData = executerRequete("GET", endpoint);
-
-const insertData = executerRequete("POST", endpoint, data); 
-
-const updateData = executerRequete("PUT", endpoint, data); 
-
-const deleteData = executerRequete("DELETE", endpoint); 
+executerRequete("GET", "user/1");
 
 function succes(reponse)
 {

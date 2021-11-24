@@ -13,10 +13,13 @@ public class Item implements Serializable {
 	private LocalDateTime dateEnd;
 	private int priceSeller;
 	private int priceBuyer;
-	private int userIdBuyer;
+	private int userIdSeller;
 	private int cateId;
-	private User buyer;
+	private User seller;
 	private Category category;
+
+	public Item() {
+	}
 
 	/**
 	 * @param id
@@ -25,12 +28,12 @@ public class Item implements Serializable {
 	 * @param dateStart
 	 * @param dateEnd
 	 * @param priceSeller
-	 * @param priceBuyer
-	 * @param userIdBuyer
+	 * @param priceSeller
+	 * @param userIdSeller
 	 * @param cateId
 	 */
 	public Item(Integer id, String name, String description, LocalDateTime dateStart, LocalDateTime dateEnd,
-			int priceSeller, int priceBuyer, int userIdBuyer, int cateId) {
+			int priceSeller, int priceBuyer, int userIdSeller, int cateId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -39,7 +42,7 @@ public class Item implements Serializable {
 		this.dateEnd = dateEnd;
 		this.priceSeller = priceSeller;
 		this.priceBuyer = priceBuyer;
-		this.userIdBuyer = userIdBuyer;
+		this.userIdSeller = userIdSeller;
 		this.cateId = cateId;
 	}
 
@@ -149,18 +152,18 @@ public class Item implements Serializable {
 	}
 
 	/**
-	 * @return the userIdBuyer
+	 * @return the userIdSeller
 	 */
-	public int getUserIdBuyer() {
-		return userIdBuyer;
+	public int getUserIdSeller() {
+		return userIdSeller;
 	}
 
 	/**
-	 * @param userIdBuyer
-	 *            the userIdBuyer to set
+	 * @param userIdSeller
+	 *            the userIdSeller to set
 	 */
-	public void setUserIdBuyer(int userIdBuyer) {
-		this.userIdBuyer = userIdBuyer;
+	public void setUserIdSeller(int userIdSeller) {
+		this.userIdSeller = userIdSeller;
 	}
 
 	/**
@@ -179,18 +182,18 @@ public class Item implements Serializable {
 	}
 
 	/**
-	 * @return the buyer
+	 * @return the seller
 	 */
-	public User getBuyer() {
-		return buyer;
+	public User getSeller() {
+		return seller;
 	}
 
 	/**
-	 * @param buyer
-	 *            the buyer to set
+	 * @param seller
+	 *            the seller to set
 	 */
-	public void setBuyer(User buyer) {
-		this.buyer = buyer;
+	public void setSeller(User seller) {
+		this.seller = seller;
 	}
 
 	/**

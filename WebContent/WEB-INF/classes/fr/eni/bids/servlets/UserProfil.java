@@ -10,11 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import fr.eni.bids.bll.BLLException;
-import fr.eni.bids.bll.UserManager;
-import fr.eni.bids.bo.User;
-import fr.eni.bids.msg.ErrorCodes;
-
 /**
  * Servlet implementation class Login
  */
@@ -30,64 +25,35 @@ public class UserProfil extends HttpServlet {
 		// TODO Auto-generated constructor stub
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
+	 * javax.servlet.http.HttpServletResponse)
+	 */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
+	 * javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		User u = new User();
-		User cu = (User) session.getAttribute("connectedUser");
-		String action = request.getParameter("action");
-		if (action == null) {
-			action = "select";
-		}
+		int connectedUserId = 1;// (int) session.getAttribute("connectedUserId");
+
 		// Debug message
-		System.out.println("Servlet UserProfil - doGet(), action=" + action);
-		System.out.println("Servlet UserProfil - doGet(), cu=" + cu);
+		System.out.println("Servlet UserProfil - doGet(), connectedUserId=" + connectedUserId);
 
-		if (action == "insert") {
-			session.setAttribute("action", "insert");
-		} else {
-			// for select and update
-			String strId = request.getParameter("userId");
-			int id = 1;
-			if (strId != null) {
-				id = Integer.parseInt(strId);
-			}
-			if (action.equals("update") || action.equals("save") || action.equals("delete")) {
-				// check user can update this profil
-				System.out.println("Servlet UserProfil - doGet(), cu.getId()=" + cu.getId());
-				System.out.println("Servlet UserProfil - doGet(), Id=" + id);
-				if (!cu.getId().equals(id)) {
-					// otherwise throw exception
-					BLLException be = new BLLException();
-					be.add(ErrorCodes.USER_UPDATE_FORBIDDEN);
-					request.setAttribute("lstErrorCode", be.getLstErrorCode());
-					session.setAttribute("action", "select");
-					RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/User/Profile.jsp");
-					rd.forward(request, response);
-					return;
-				}
-				session.setAttribute("action", "update");
-			} else {
-				session.setAttribute("action", "select");
-			}
+		// Save user for the session
+		session.setAttribute("connectedUserId", 1);
+		// ^^ !!! temporaire !!! code ^^ a supprimer quand la page de cnx sera faite
 
-			// User - link to data base
-			UserManager uMngr;
-
-			try {
-				uMngr = new UserManager();
-				u = uMngr.getById(id);
-			} catch (BLLException e) {
-				request.setAttribute("lstErrorCode", e.getLstErrorCode());
-			}
-
-			// Save user for the session
-			session.setAttribute("connectedUser", u);
-			// ^^ !!! temporaire !!! code ^^ a supprimer quand la page de cnx sera faite
-		}
-		request.getServletContext().setAttribute("user", u);
+		request.getServletContext().setAttribute("connectedUserId", connectedUserId);
 		RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/User/Profile.jsp");
 		rd.forward(request, response);
 	}

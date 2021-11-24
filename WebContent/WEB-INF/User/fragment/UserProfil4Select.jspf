@@ -30,12 +30,12 @@
 	<label>Ville : ${user.getTown()}</label>		
 </span>
 <br>
-<c:if test="${user.getId().equals(connectedUser.getId())}">
+<c:if test="${user.getId().equals(connectedUserId)}">
 <span>
 	<label >Crédit : ${user.getCredit()}</label>		
 </span>
 <div>
-	<a href="<%=request.getContextPath()%>/user/profil?action=update&userId=${connectedUser.getId()}">
+	<a href="<%=request.getContextPath()%>/user/profil?action=update&userId=${connectedUserId}">
 		<input type="button" name="modify" value="Modifier mon profil" />
 	</a>				
 	<a onclick="showPopUp();">
@@ -48,7 +48,7 @@
 		<input type="button" name="cancel" value="Annuler" class="buttonPopUp"/>
 	</a>
 		
-	<a href="<%=request.getContextPath()%>/User/profil?action=delete&userId=${connectedUser.getId()}">
+	<a href="<%=request.getContextPath()%>/User/profil?action=delete&userId=${connectedUserId}">
 		<input type="button" name="validate" value="Supprimer mon profil" class="buttonPopUp"/>
 	</a>		
 </div>

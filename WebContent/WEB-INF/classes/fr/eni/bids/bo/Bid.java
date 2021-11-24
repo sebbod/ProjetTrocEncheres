@@ -9,8 +9,23 @@ public class Bid {
 	private LocalDateTime dateCreated;
 	private int amount;
 
-	private User seller;
+	private User buyer;
 	private Item item;
+
+	public Bid() {
+	}
+
+	public Bid(User buyer, Item item, int amount) {
+		setBuyer(buyer);
+		setItem(item);
+		setDateCreated(LocalDateTime.now());
+		setAmount(amount);
+	}
+
+	public Bid(User buyer, Item item, LocalDateTime dateCreated, int amount) {
+		this(buyer, item, amount);
+		setDateCreated(dateCreated);
+	}
 
 	/**
 	 * @param userId
@@ -27,7 +42,7 @@ public class Bid {
 	}
 
 	/**
-	 * @return the userId
+	 * @return the buyer userId
 	 */
 	public int getUserId() {
 		return userId;
@@ -35,7 +50,7 @@ public class Bid {
 
 	/**
 	 * @param userId
-	 *            the userId to set
+	 *            the buyer userId to set
 	 */
 	public void setUserId(int userId) {
 		this.userId = userId;
@@ -87,18 +102,18 @@ public class Bid {
 	}
 
 	/**
-	 * @return the seller
+	 * @return the buyer
 	 */
-	public User getSeller() {
-		return seller;
+	public User getBuyer() {
+		return buyer;
 	}
 
 	/**
-	 * @param seller
-	 *            the seller to set
+	 * @param buyer
+	 *            the buyer to set
 	 */
-	public void setSeller(User seller) {
-		this.seller = seller;
+	public void setBuyer(User buyer) {
+		this.buyer = buyer;
 	}
 
 	/**
