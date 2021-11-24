@@ -32,13 +32,13 @@
 		
 			<c:choose>
 				<c:when test="${sessionScope.action==\"insert\"}">
-					<%@include file="../fragment/User/UserProfil4Insert.jspf" %>
+					<%@include file="../User/fragment/UserProfil4Insert.jspf" %>
 				</c:when> 
 				<c:when test="${sessionScope.action==\"update\"}">
-					<%@include file="../fragment/User/UserProfil4Update.jspf" %>
+					<%@include file="../User/fragment/UserProfil4Update.jspf" %>
 				</c:when>
 				<c:otherwise >
-					<%@include file="../fragment/User/UserProfil4Select.jspf" %>
+					<%@include file="../User/fragment/UserProfil4Select.jspf" %>
 				</c:otherwise>
 			</c:choose>		
 		</div>
@@ -48,5 +48,6 @@
 		</footer>
 
 	</div>
+	
 </body>
 </html>
