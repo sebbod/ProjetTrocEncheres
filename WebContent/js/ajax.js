@@ -34,7 +34,17 @@ function executerRequete(method, endpoint = "", data = null)
     xhr.send(data);
 }	
 
-executerRequete("GET", "user/1");
+//executerRequete("GET", "user/2");
+
+const getData = (endpoint) => { return ajax("GET", endpoint); }
+
+const insertData = (endpoint, data) => { ajax("POST", endpoint, data); }
+
+const updateData = (endpoint, data) => { ajax("PUT", endpoint, data); }
+
+const deleteData = (endpoint) => { ajax("DELETE", endpoint); }
+
+getData("user/2");
 
 function succes(reponse)
 {
