@@ -1,8 +1,12 @@
 package fr.eni.bids;
 
+import java.util.List;
+
 import fr.eni.bids.msg.PropertiesReader;
 
 public class BidsException extends Exception {
+	private static final long serialVersionUID = 1L;
+	private List<Integer> lstErrorCode;
 	private int code;
 
 	// CONSTRUCTORS
@@ -61,5 +65,24 @@ public class BidsException extends Exception {
 
 	public int getCode() {
 		return this.code;
+	}
+
+	/**
+	 * 
+	 * @param code
+	 *            Must be associate with message in properties file
+	 */
+	public void add(int code) {
+		if (!this.lstErrorCode.contains(code)) {
+			this.lstErrorCode.add(code);
+		}
+	}
+
+	public boolean hasError() {
+		return this.lstErrorCode.size() > 0;
+	}
+
+	public List<Integer> getLstErrorCode() {
+		return this.lstErrorCode;
 	}
 }

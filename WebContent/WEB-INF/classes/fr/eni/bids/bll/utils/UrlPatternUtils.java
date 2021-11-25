@@ -1,4 +1,4 @@
-package fr.eni.bids.utils;
+package fr.eni.bids.bll.utils;
 
 import java.util.Collection;
 import java.util.Map;

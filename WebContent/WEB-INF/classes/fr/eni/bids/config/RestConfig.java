@@ -1,9 +1,9 @@
-package fr.eni.bids.rest;
+package fr.eni.bids.config;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 @ApplicationPath("/rest")
-public class Configuration extends Application {
+public class RestConfig extends Application {
 
 }

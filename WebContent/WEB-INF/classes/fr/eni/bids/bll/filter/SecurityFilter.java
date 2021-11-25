@@ -1,4 +1,4 @@
-package fr.eni.bids.filter;
+package fr.eni.bids.bll.filter;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.bids.bo.User;
-import fr.eni.bids.utils.AppUtils;
-import fr.eni.bids.utils.SecurityUtils;
-import fr.eni.bids.utils.UserRoleRequestWrapper;
+import fr.eni.bids.bll.utils.AppUtils;
+import fr.eni.bids.bll.utils.SecurityUtils;
+import fr.eni.bids.bll.utils.UserRoleRequestWrapper;
 
 @WebFilter("/*")
 public class SecurityFilter implements Filter {
