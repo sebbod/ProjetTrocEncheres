@@ -19,30 +19,32 @@ import fr.eni.bids.bll.LoginManager;
 @WebServlet("/login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public Login() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public Login() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * Show login page
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("test", "valeur de test");
-		RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/Login.jsp");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/views/Login.jsp");
 		rd.forward(request, response);
 	}
 
 	/**
 	 * Try to login
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		
 		// Debug message
 		System.out.println("Servlet Login - doPost(), username=" + username + ", password=" + password);
 
@@ -56,20 +58,26 @@ public class Login extends HttpServlet {
 		} catch (BLLException e) {
 			request.setAttribute("lstErrorCode", e.getLstErrorCode());
 		}
-
+		
 		// If valid username/password, create session and redirect to homepage
-		if (id != 0) {
+		if(id != 0) {
 			HttpSession session = request.getSession();
 			session.setAttribute("connectedUserId", id);
-			RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/User/Profile.jsp");
-			rd.forward(request, response);
-			// Else, redirect to login page with error
+
+			// After 5 minutes of inactivity, invalidate that session
+			session.setMaxInactiveInterval(5*60);
+			
+			// Redirect to homepage
+			// TO EDIT WHEN HOMEPAGE WILL BE READY
+			response.sendRedirect(request.getContextPath() + "/user/profil");
+		// Else, redirect to login page with error
 		} else {
 			request.setAttribute("error", "Identifiant ou mot de passe invalide");
 			request.setAttribute("username", username);
-			RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/Login.jsp");
+			RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/views/Login.jsp");
 			rd.forward(request, response);
 		}
+		
 	}
 
 }

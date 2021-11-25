@@ -1,0 +1,10 @@
+<header>
+	<c:choose>
+		<c:when test="${sessionScope.connectedUserId!=null}">
+			<%@include file="./HeaderConnected.jspf" %>
+		</c:when> 
+		<c:otherwise >
+			<%@include file="./HeaderDisconnected.jspf" %>
+		</c:otherwise>
+	</c:choose>		
+</header>
