@@ -1,5 +1,3 @@
- 
-      
 function displayError(msg){	
 	if(msg.hasOwnProperty('message')){
 		if( msg.message.length > 0){			
@@ -12,32 +10,33 @@ function displayError(msg){
 	}	
 }
 
-function insertUser(pseudo, name, firstName, email, telephone, street, zipCode, town, pwd) {
-    const data = {pseudo, name, firstName, email, telephone, street, zipCode, town, pwd};
-    insertData(`user/signup`, data);
-    getSession();
-}
-
-function updateUser() {
+function getData(){
 	const data = {};
     ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd"].forEach(attribute => {
     	input = document.querySelector(`#i${attribute}`);
     	data[`${attribute}`] = input.value;
     })
     //console.log(data);
-    updateData(`user/modify`, displayError, data);   
+    return data;
 }
 
+function insertUser() {
+    insertData(`user/signup`, displayError, getData());
+}
+
+function updateUser() {
+    updateData(`user/modify`, displayError, getData());   
+}
 
 function getUser (pseudo_or_id) {
-	user = getData("user/" + pseudo_or_id, loadUsers);
+	user = getData(`user/` + pseudo_or_id, loadUsers);
 }
 
 function displayProfile4View(user) {
     ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd"].forEach(attribute => {
         document.querySelector(`#${attribute}`).innerHTML = user[attribute] ? user[attribute] : ""; // vide car non renseigné en base
     })
-    SwitchMode(false);
+    SwitchMode('view');
 }
 
 function displayProfile4Edit() {
@@ -47,13 +46,14 @@ function displayProfile4Edit() {
     	span.innerHTML = `<input id="i${attribute}" type="text" value="${value}">`;
     })
 }
-/*
-function authenticate(pseudo, password, rememberMe) {
-    let authenticated = getData(`user/signin?pseudo=${pseudo}&pwd=${password}&rememberMe=${rememberMe}`, displayProfile);
-    getSession();
-    return authenticated;
+
+function displayProfile4Add() {
+    ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd"].forEach(attribute => {
+        document.querySelector(`#${attribute}`).innerHTML = ""; // vide
+    })
+    SwitchMode('add');
 }
-*/
+
 function loadUsers(user) {
 	displayProfile4View(user);	
     if (user["id"] === connectedUserId) {
@@ -63,32 +63,40 @@ function loadUsers(user) {
         	updateUser();        	   	
         }
 
-        //pwdh4.style.display = "none";
-        //pwdspn.style.display = "none";
-             
         editBtn.onclick = () => {
         	displayProfile4Edit();  
-        	SwitchMode(true);
+        	SwitchMode('edit');
         }
-        SwitchMode(false);
+        SwitchMode('view');
     }
 }
 
 
-function SwitchMode(isEdit){
-
-
-    if(isEdit){
+function SwitchMode(mode){
+    switch(mode){
+    case 'edit':
+    	addBtn.style.display = "none";
     	cancBtn.style.display = "block";
     	saveBtn.style.display = "block";
     	pwdh4.style.display = "block";
     	pwdspn.style.display = "block";
     	editBtn.style.display = "none";
-	}else{
+    	break;
+    case 'view':
+    	addBtn.style.display = "none";
 		cancBtn.style.display = "none";
 		saveBtn.style.display = "none";
     	pwdh4.style.display = "none";
     	pwdspn.style.display = "none";
     	editBtn.style.display = "block";
+    	break;
+    case 'add':
+    	addBtn.style.display = "block";
+    	cancBtn.style.display = "block";
+		saveBtn.style.display = "none";
+    	pwdh4.style.display = "block";
+    	pwdspn.style.display = "block";
+    	editBtn.style.display = "none";
+    	break;
 	}
 }
