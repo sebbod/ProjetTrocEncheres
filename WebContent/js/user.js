@@ -10,7 +10,7 @@ function displayError(msg){
 	}	
 }
 
-function getData(){
+function getFormData(){
 	const data = {};
     ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd"].forEach(attribute => {
     	input = document.querySelector(`#i${attribute}`);
@@ -21,11 +21,11 @@ function getData(){
 }
 
 function insertUser() {
-    insertData(`user/signup`, displayError, getData());
+    insertData(`user/signup`, displayError, getFormData());
 }
 
 function updateUser() {
-    updateData(`user/modify`, displayError, getData());   
+    updateData(`user/modify`, displayError, getFormData());   
 }
 
 function getUser (pseudo_or_id) {

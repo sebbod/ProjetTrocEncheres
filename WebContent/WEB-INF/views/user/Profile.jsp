@@ -52,8 +52,8 @@
 		        	if(connectedUserId != null){
 			        	getUser(connectedUserId);
 		        	}else{
-		        		const add = ${sessionScope.add};
-			        	if(connectedUserId != null){
+		        		const add = "${sessionScope.add}";
+			        	if(add != ""){
 			        		displayProfile4Add();
 			        	}		        		
 		        	}		        	
