@@ -31,6 +31,6 @@
 			<a href="/password-reset">Mot de passe oublié</a>
 		</div>
 	</form>
-	<a href="/user/register">Créer un compte</a>
+	<a href="<%=request.getContextPath()%>/user/register">Créer un compte</a>
 </body>
 </html>

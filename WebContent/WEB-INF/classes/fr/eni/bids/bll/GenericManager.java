@@ -65,7 +65,8 @@ public abstract class GenericManager<T> {
 	 */
 	public T add(T object) throws BidsException {
 		try {
-			boolean alreadyExists = checkUnity(object);
+			boolean alreadyExists = exist(object);
+			//System.out.println("alreadyExists=" + alreadyExists);
 			if (alreadyExists) {
 				throw new BidsException(ErrorCodesBLL.ADD_ALREADY_EXIST_ERROR.get(getActualClassName()));
 			}
@@ -83,7 +84,7 @@ public abstract class GenericManager<T> {
 	 */
 	public T update(T object) throws BidsException {
 		try {
-			boolean alreadyExists = checkUnity(object);
+			boolean alreadyExists = exist(object);
 			System.out.println("alreadyExists=" + alreadyExists);
 			if (!alreadyExists) {
 				throw new BidsException(ErrorCodesBLL.UPDATE_NOT_EXIST_ERROR.get(getActualClassName()));
@@ -102,7 +103,7 @@ public abstract class GenericManager<T> {
 	 */
 	private void delete(T object, int... identifiers) throws BidsException {
 		try {
-			boolean alreadyExists = checkUnity(object);
+			boolean alreadyExists = exist(object);
 			if (!alreadyExists) {
 				throw new BidsException(ErrorCodesBLL.DELETE_NOT_EXIST_ERROR.get(getActualClassName()));
 			}
@@ -129,7 +130,7 @@ public abstract class GenericManager<T> {
 
 	protected abstract void executeUpdate(T object, String operationCRUD) throws BidsException;
 
-	protected abstract boolean checkUnity(T Object) throws BidsException;
+	protected abstract boolean exist(T Object) throws BidsException;
 
 	protected abstract void checkAttributes(T Object) throws BidsException;
 }

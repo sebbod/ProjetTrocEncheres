@@ -219,7 +219,7 @@ public class BidManager extends GenericManager<Bid> {
 		}
 	}
 
-	protected boolean checkUnity(Bid bid) throws BidsException {
+	protected boolean exist(Bid bid) throws BidsException {
 		return getById(bid.getItemId(), bid.getUserId()) != null;
 	}
 

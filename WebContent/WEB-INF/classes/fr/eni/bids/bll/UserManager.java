@@ -114,7 +114,7 @@ public class UserManager extends GenericManager<User> {
 		}
 	}
 
-	protected boolean checkUnity(User User) throws BidsException {
+	protected boolean exist(User User) throws BidsException {
 		System.out.println("checkUnity, User=" + User);
 		//return getByEmail(User.getEmail()) != null && getByPseudo(User.getPseudo()) != null;
 
@@ -127,9 +127,10 @@ public class UserManager extends GenericManager<User> {
 		if (uWithSamePseudo != null && uWithSamePseudo.getId() != User.getId()) {
 			return false;
 		}
-		//System.out.println("checkUnity, return true");
-		return true;
 
+		//System.out.println("checkUnity, return true");
+		//return true;
+		return getByEmail(User.getEmail()) != null && getByPseudo(User.getPseudo()) != null;
 	}
 
 	private void doHashPassword(User User) throws BidsException {

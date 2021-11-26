@@ -192,7 +192,7 @@ public class ItemManager extends GenericManager<Item> {
 	/**
 	 * Check if an item already exists in the database.
 	 */
-	protected boolean checkUnity(Item item) throws BidsException {
+	protected boolean exist(Item item) throws BidsException {
 		Map<String, Object> fields = new HashMap<String, Object>() {
 			{
 				put("name", item.getName());

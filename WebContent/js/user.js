@@ -49,9 +49,14 @@ function displayProfile4Edit() {
 
 function displayProfile4Add() {
     ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd"].forEach(attribute => {
-        document.querySelector(`#${attribute}`).innerHTML = ""; // vide
+    	span = document.querySelector(`#${attribute}`);
+    	value = span.innerHTML;
+    	span.innerHTML = `<input id="i${attribute}" type="text" value="">`;
     })
     SwitchMode('add');
+    addBtn.onclick = () => {  
+    	insertUser();        	   	
+    }
 }
 
 function loadUsers(user) {

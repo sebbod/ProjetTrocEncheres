@@ -67,7 +67,7 @@ public class CategoryManager extends GenericManager<Category> {
 	/**
 	 * Check if an article already exists in the database.
 	 */
-	protected boolean checkUnity(Category categorie) throws BidsException {
+	protected boolean exist(Category categorie) throws BidsException {
 		return CategoryDao.selectByField("libelle", categorie.getLibelle()) != null;
 	}
 

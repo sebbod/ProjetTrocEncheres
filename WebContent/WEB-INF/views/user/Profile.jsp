@@ -48,8 +48,16 @@
 			</section>
 			<section id="scripts">
 		        <script defer>
-		        	const connectedUserId = ${sessionScope.connectedUserId};
-		        	if(connectedUserId != null){
+		        let addBtn = document.querySelector("#add")
+		        let cancBtn = document.querySelector("#cancel")
+		        let saveBtn = document.querySelector("#save")
+		        let pwdh4 = document.querySelector("#hpwd")
+		        let pwdspn = document.querySelector("#pwd")
+		        let editBtn = document.querySelector("#edit")  
+		        let errorMsg = document.querySelector("#errorMsg")
+		        
+		        	const connectedUserId = "${sessionScope.connectedUserId}";
+		        	if(connectedUserId != ""){
 			        	getUser(connectedUserId);
 		        	}else{
 		        		const add = "${sessionScope.add}";
@@ -59,13 +67,7 @@
 		        	}		        	
 		        </script>
 		        <script>
-		        let addBtn = document.querySelector("#add")
-		        let cancBtn = document.querySelector("#cancel")
-		        let saveBtn = document.querySelector("#save")
-		        let pwdh4 = document.querySelector("#hpwd")
-		        let pwdspn = document.querySelector("#pwd")
-		        let editBtn = document.querySelector("#edit")  
-		        let errorMsg = document.querySelector("#errorMsg")
+
 		        </script>
 		    </section>
 	    </div>
