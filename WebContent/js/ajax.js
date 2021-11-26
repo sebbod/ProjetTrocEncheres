@@ -11,7 +11,7 @@ function createXHR() {
     return xhr;
 }
 	
-function executerRequete(method, endpoint = "", data = null)
+function ajax(method, endpoint = "", callback, data = null)
 {
     var xhr = createXHR();
     xhr.onreadystatechange = function()
@@ -20,42 +20,35 @@ function executerRequete(method, endpoint = "", data = null)
         {
             if (xhr.status == 200)
             {
-            	succes(xhr.responseText);//xhr.responseXML si réponse au format XML
+            	callback(eval('('+xhr.responseText+')'));
             }
             else
-            {
-                echec(xhr.status, xhr.responseText);
+            {                
+                alert("Error:" + xhr.status + "\n"+ xhr.responseText);
             }
         }
     };
 
-    xhr.open(method, "/ProjetTrocEncheres/rest/"+endpoint, true);
-    xhr.setRequestHeader("Accept","application/json");
+    xhr.open(method, "/ProjetTrocEncheres/rest/"+endpoint, true);  
+    
+    if (data) {
+    	xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    	console.log("data");
+    	console.log(data);
+    	data = JSON.stringify(data);
+    	console.log("JSON.stringify(data)");
+    	console.log(data);
+    }else{
+    	xhr.setRequestHeader("Accept","application/json");
+    }
     xhr.send(data);
 }	
 
-//executerRequete("GET", "user/2");
 
-const getData = (endpoint) => { return ajax("GET", endpoint); }
+const getData = (endpoint, callback) => { return ajax("GET", endpoint, callback); }
 
-const insertData = (endpoint, data) => { ajax("POST", endpoint, data); }
+const insertData = (endpoint, callback, data) => { ajax("POST", endpoint, callback, data); }
 
-const updateData = (endpoint, data) => { ajax("PUT", endpoint, data); }
+const updateData = (endpoint, callback, data) => { ajax("PUT", endpoint, callback, data); }
 
-const deleteData = (endpoint) => { ajax("DELETE", endpoint); }
-
-getData("user/2");
-
-function succes(reponse)
-{
-	alert(reponse);
-	//document.getElementById("succes").innerHTML=reponse;
-	//document.getElementById("echec").innerHTML="";
-}
-
-function echec(codeReponse, reponse)
-{
-	alert(reponse);
-	//document.getElementById("echec").innerHTML=reponse;
-	//document.getElementById("succes").innerHTML="";
-}
+const deleteData = (endpoint, callback) => { ajax("DELETE", endpoint, callback); }

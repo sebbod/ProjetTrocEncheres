@@ -19,6 +19,7 @@
 }
 
 
+.hidden { display: none; }
 
 .navbar{
 	background-color: #84a4bc;
@@ -55,8 +56,9 @@
 
 .divProfile{
 	padding:1em;
-	height: 60vh;
-	width:40vw;
+	height:60vh;
+	width:60vw;
+	padding-top:120px;
 	margin-right:30vw;
 	margin-left:30vw;
 }

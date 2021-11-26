@@ -7,111 +7,111 @@ public class ErrorCodesBLL {
 	// Error during the initialization using DAOFactory.
 	public static final Map<String, Integer> INITIALIZATION_DAO_ERROR = new HashMap<String, Integer>() {
 		{
-			put("Article", 20001);
-			put("Categorie", 20002);
-			put("Enchere", 20003);
-			put("Retrait", 20004);
-			put("Utilisateur", 20005);
+			put("Item", 20001);
+			put("Category", 20002);
+			put("Bid", 20003);
+			put("PickUpAdress", 20004);
+			put("User", 20005);
 		}
 	};
 	// Business object is null.
 	public static final Map<String, Integer> BO_NULL_ERROR = new HashMap<String, Integer>() {
 		{
-			put("Article", 20201);
-			put("Categorie", 20202);
-			put("Enchere", 20203);
-			put("Retrait", 20204);
-			put("Utilisateur", 20205);
+			put("Item", 20201);
+			put("Category", 20202);
+			put("Bid", 20203);
+			put("PickUpAdress", 20204);
+			put("User", 20205);
 		}
 	};
 	// Error while attempting to insert a business object to the database.
 	public static final Map<String, Integer> ADD_ERROR = new HashMap<String, Integer>() {
 		{
-			put("Article", 20301);
-			put("Categorie", 20302);
-			put("Enchere", 20303);
-			put("Retrait", 20304);
-			put("Utilisateur", 20305);
+			put("Item", 20301);
+			put("Category", 20302);
+			put("Bid", 20303);
+			put("PickUpAdress", 20304);
+			put("User", 20305);
 		}
 	};
 	// Business object already exist in the database.
 	public static final Map<String, Integer> ADD_ALREADY_EXIST_ERROR = new HashMap<String, Integer>() {
 		{
-			put("Article", 20311);
-			put("Categorie", 20312);
-			put("Enchere", 20313);
-			put("Retrait", 20314);
-			put("Utilisateur", 20315);
+			put("Item", 20311);
+			put("Category", 20312);
+			put("Bid", 20313);
+			put("PickUpAdress", 20314);
+			put("User", 20315);
 		}
 	};
 	// Error while attempting to update a business object to the database.
 	public static final Map<String, Integer> UPDATE_ERROR = new HashMap<String, Integer>() {
 		{
-			put("Article", 20401);
-			put("Categorie", 20402);
-			put("Enchere", 20403);
-			put("Retrait", 20404);
-			put("Utilisateur", 20405);
+			put("Item", 20401);
+			put("Category", 20402);
+			put("Bid", 20403);
+			put("PickUpAdress", 20404);
+			put("User", 20405);
 		}
 	};
 	// Business object doesn't exist in the database.
 	public static final Map<String, Integer> UPDATE_NOT_EXIST_ERROR = new HashMap<String, Integer>() {
 		{
-			put("Article", 20411);
-			put("Categorie", 20412);
-			put("Enchere", 20413);
-			put("Retrait", 20414);
-			put("Utilisateur", 20415);
+			put("Item", 20411);
+			put("Category", 20412);
+			put("Bid", 20413);
+			put("PickUpAdress", 20414);
+			put("User", 20415);
 		}
 	};
 	// Error while attempting to delete a business object to the database.
 	public static final Map<String, Integer> DELETE_ERROR = new HashMap<String, Integer>() {
 		{
-			put("Article", 20501);
-			put("Categorie", 20502);
-			put("Enchere", 20503);
-			put("Retrait", 20504);
-			put("Utilisateur", 20505);
+			put("Item", 20501);
+			put("Category", 20502);
+			put("Bid", 20503);
+			put("PickUpAdress", 20504);
+			put("User", 20505);
 		}
 	};
 	// Business object doesn't exist in the database.
 	public static final Map<String, Integer> DELETE_NOT_EXIST_ERROR = new HashMap<String, Integer>() {
 		{
-			put("Article", 20511);
-			put("Categorie", 20512);
-			put("Enchere", 20513);
-			put("Retrait", 20514);
-			put("Utilisateur", 20515);
+			put("Item", 20511);
+			put("Category", 20512);
+			put("Bid", 20513);
+			put("PickUpAdress", 20514);
+			put("User", 20515);
 		}
 	};
 	// Error while retrieving a business object by ID.
 	public static final Map<String, Integer> GET_BY_ID_ERROR = new HashMap<String, Integer>() {
 		{
-			put("Article", 20601);
-			put("Categorie", 20602);
-			put("Enchere", 20603);
-			put("Retrait", 20604);
-			put("Utilisateur", 20605);
+			put("Item", 20601);
+			put("Category", 20602);
+			put("Bid", 20603);
+			put("PickUpAdress", 20604);
+			put("User", 20605);
 		}
 	};
 	// Error while retrieving a business object by field.
 	public static final Map<String, Integer> GET_BY_FIELD_ERROR = new HashMap<String, Integer>() {
 		{
-			put("Article", 20611);
-			put("Categorie", 20612);
-			put("Enchere", 20613);
-			put("Retrait", 20614);
-			put("Utilisateur", 20615);
+			put("Item", 20611);
+			put("Category", 20612);
+			put("Bid", 20613);
+			put("PickUpAdress", 20614);
+			put("User", 20615);
 		}
 	};
 	// Error while retrieving a list of business objects by ID.
 	public static final Map<String, Integer> GET_ALL_ERROR = new HashMap<String, Integer>() {
 		{
-			put("Article", 20621);
-			put("Categorie", 20622);
-			put("Enchere", 20623);
-			put("Retrait", 20624);
-			put("Utilisateur", 20625);
+			put("Item", 20621);
+			put("Category", 20622);
+			put("Bid", 20623);
+			put("PickUpAdress", 20624);
+			put("User", 20625);
 		}
 	};
 	// Error specific to the ItemManager.

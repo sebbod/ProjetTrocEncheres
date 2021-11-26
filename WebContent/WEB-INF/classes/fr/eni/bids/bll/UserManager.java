@@ -98,12 +98,10 @@ public class UserManager extends GenericManager<User> {
 			errors.append("Champs obligatoire. L'utilisateur n'a pas de rue renseignée pour son adresse.").append("\n");
 		}
 		if (User.getZipCode() == null || User.getZipCode().isEmpty()) {
-			errors.append("Champs obligatoire. L'utilisateur n'a pas de code postal renseigné pour son adresse.")
-					.append("\n");
+			errors.append("Champs obligatoire. L'utilisateur n'a pas de code postal renseigné pour son adresse.").append("\n");
 		}
 		if (User.getTown() == null || User.getTown().isEmpty()) {
-			errors.append("Champs obligatoire. L'utilisateur n'a pas de ville renseignée pour son adresse.")
-					.append("\n");
+			errors.append("Champs obligatoire. L'utilisateur n'a pas de ville renseignée pour son adresse.").append("\n");
 		}
 		if (User.getPwd() == null || User.getPwd().isEmpty()) {
 			errors.append("Champs obligatoire. L'utilisateur n'a pas de mot de passe.").append("\n");
@@ -117,7 +115,21 @@ public class UserManager extends GenericManager<User> {
 	}
 
 	protected boolean checkUnity(User User) throws BidsException {
-		return getByEmail(User.getEmail()) != null && getByPseudo(User.getPseudo()) != null;
+		System.out.println("checkUnity, User=" + User);
+		//return getByEmail(User.getEmail()) != null && getByPseudo(User.getPseudo()) != null;
+
+		User uWithSameMail = getByEmail(User.getEmail());
+		if (uWithSameMail != null && uWithSameMail.getId() != User.getId()) {
+			return false;
+		}
+
+		User uWithSamePseudo = getByPseudo(User.getPseudo());
+		if (uWithSamePseudo != null && uWithSamePseudo.getId() != User.getId()) {
+			return false;
+		}
+		//System.out.println("checkUnity, return true");
+		return true;
+
 	}
 
 	private void doHashPassword(User User) throws BidsException {

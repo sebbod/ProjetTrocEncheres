@@ -8,8 +8,8 @@
 <title>Une erreur est survenue</title>
 </head>
 <body>
-	<%@ include file="../fragment/Header.jspf"%>
-	<%@ include file="../fragment/Errors.jspf"%>
-	<%@ include file="../fragment/Footer.jspf"%>
+	<%@ include file="fragment/Header.jspf"%>
+	<%@ include file="fragment/Errors.jspf"%>
+	<%@ include file="fragment/Footer.jspf"%>
 </body>
 </html>

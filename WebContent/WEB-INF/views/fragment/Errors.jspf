@@ -5,6 +5,6 @@
 		  	<c:forEach var="code" items="${lstErrorCode}">
 		  		<li class="messageError">${MessageReader.getById(code)}</li>
 		  	</c:forEach>
-		  </ul>
+		  </ul>		  
 		</div>
 </c:if>

@@ -13,13 +13,11 @@ public abstract class GenericManager<T> {
 
 	// CONSTRUCTOR
 	public GenericManager() throws BidsException {
-		this.entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
-				.getActualTypeArguments()[0];
+		this.entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		try {
 			DAOBusinessObject = DAOFactory.getBusinessObjectDAO(this.getActualClassName());
 		} catch (BidsException BidsException) {
-			throw new BidsException(ErrorCodesBLL.INITIALIZATION_DAO_ERROR.get(this.getActualClassName()),
-					BidsException);
+			throw new BidsException(ErrorCodesBLL.INITIALIZATION_DAO_ERROR.get(this.getActualClassName()), BidsException);
 		}
 	}
 
@@ -86,6 +84,7 @@ public abstract class GenericManager<T> {
 	public T update(T object) throws BidsException {
 		try {
 			boolean alreadyExists = checkUnity(object);
+			System.out.println("alreadyExists=" + alreadyExists);
 			if (!alreadyExists) {
 				throw new BidsException(ErrorCodesBLL.UPDATE_NOT_EXIST_ERROR.get(getActualClassName()));
 			}

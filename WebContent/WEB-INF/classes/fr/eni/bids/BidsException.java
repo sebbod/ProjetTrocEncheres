@@ -21,6 +21,7 @@ public class BidsException extends Exception {
 
 	public BidsException(String message, Exception exception) {
 		super(message, exception);
+
 	}
 
 	public BidsException(int code) {
@@ -29,7 +30,7 @@ public class BidsException extends Exception {
 	}
 
 	public BidsException(int code, Exception exception) {
-		super(decode(code), exception);
+		super(decode(code) + "\n" + exception.getMessage(), exception);
 		setCode(code);
 	}
 

@@ -34,8 +34,7 @@ public class UserRST {
 	@Path("/signup")
 	public Object create(Map<String, String> data) {
 		try {
-			User newUser = new User(data.get("pseudo"), data.get("name"), data.get("firstName"), data.get("email"),
-					data.get("telephone"), data.get("street"), data.get("zipCode"), data.get("town"), data.get("pwd"));
+			User newUser = new User(data.get("pseudo"), data.get("name"), data.get("firstName"), data.get("email"), data.get("telephone"), data.get("street"), data.get("zipCode"), data.get("town"), data.get("pwd"));
 			User user = new UserManager().add(newUser);
 			generateNewSession(user);
 			return newUser;
@@ -53,12 +52,12 @@ public class UserRST {
 	@Path("/modify")
 	public Object update(Map<String, String> data) {
 		try {
+			System.out.println("generateObject, data=" + data);
 			String pseudo = (String) data.get("pseudo");
-			String motDePasse = (String) data.remove("motDePasseActuel");
-			User user = new UserManager().getByPseudoAndPassword(pseudo, motDePasse);
+			String pwd = (String) data.remove("pwd");
+			User user = new UserManager().getByPseudoAndPassword(pseudo, pwd);
 			for (Map.Entry<String, String> attribute : data.entrySet()) {
-				String method = "set" + attribute.getKey().substring(0, 1).toUpperCase()
-						+ attribute.getKey().substring(1);
+				String method = "set" + attribute.getKey().substring(0, 1).toUpperCase() + attribute.getKey().substring(1);
 				User.class.getMethod(method, String.class).invoke(user, attribute.getValue());
 			}
 			return new UserManager().update(user);
@@ -84,8 +83,7 @@ public class UserRST {
 
 	@GET
 	@Path("/signin")
-	public Object authenticate(@QueryParam("pseudo") String pseudo, @QueryParam("pwd") String pwd,
-			@QueryParam("rememberMe") boolean rememberMe) {
+	public Object authenticate(@QueryParam("pseudo") String pseudo, @QueryParam("pwd") String pwd, @QueryParam("rememberMe") boolean rememberMe) {
 		try {
 			User user = new UserManager().getByPseudoAndPassword(pseudo, pwd);
 			if (user != null) {
