@@ -1,7 +1,52 @@
 @charset "UTF-8";
 
+@media screen and (max-width: 480px) {
+    .left, 
+    .right {
+        float: none;
+        width: auto;
+    }
+}
+
+.dataContainer{
+	flex-wrap: wrap;
+	margin: auto;
+	padding-top: 120px;
+	width:90%
+}
+.left {
+	display: flex;
+	
+    float: left;
+    width: 50%;
+
+}
+.right {
+	display: flex;
+
+    float: right;
+    width: 50%;
+
+}
+.group:after {
+    content:"";
+    display: table;
+    clear: both;
+}
 
 
+  
+  
+.btnActions{
+	  display:inline-block;
+      width:100%;
+      margin: 20px;
+      text-align: center;
+}       
+
+
+
+  
 .body {
 	display: flex;
 	flex-direction: column;
@@ -20,6 +65,11 @@
 
 
 .hidden { display: none; }
+
+
+
+
+
 
 .navbar{
 	background-color: #84a4bc;
@@ -52,37 +102,3 @@
      color:grey;
 }
 
-
-
-.divProfile{
-	padding:1em;
-	height:60vh;
-	width:60vw;
-	padding-top:120px;
-	margin-right:30vw;
-	margin-left:30vw;
-}
-
-.labelProfil{
-	width:40%;
-	text-align: right;
-}
-
-.infoProfil{
-	width:40%;
-	text-align: left;
-}
-
-.confirmationPopUp {
-	display: none;
-	background-color: #cacace;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	width:30vw;
-	height:20vh;
-	padding:2em;
-	text-align: center;
-	position:fixed; 
-  	top: 40%;
-  	left: 37%;
-}

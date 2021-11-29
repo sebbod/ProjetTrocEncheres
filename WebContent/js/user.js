@@ -40,28 +40,42 @@ function displayProfile4View(user) {
 }
 
 function displayProfile4Edit() {
-    ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd"].forEach(attribute => {
+    ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd", "pwdbis"].forEach(attribute => {
     	span = document.querySelector(`#${attribute}`);
     	value = span.innerHTML;
-    	span.innerHTML = `<input id="i${attribute}" type="text" value="${value}">`;
+    	if(span.id == "pwd" || span.id == "pwdbis"){
+    		span.innerHTML = `<input id="i${attribute}" type="password" value="">`;
+    	}else{
+    		span.innerHTML = `<input id="i${attribute}" type="text" value="${value}">`;	
+    	} 
     })
+    cancBtn.onclick = () => {  
+    	window.history.back();        	   	
+    }
 }
 
 function displayProfile4Add() {
-    ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd"].forEach(attribute => {
+    ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd", "pwdbis"].forEach(attribute => {
     	span = document.querySelector(`#${attribute}`);
     	value = span.innerHTML;
-    	span.innerHTML = `<input id="i${attribute}" type="text" value="">`;
+    	if(span.id == "pwd" || span.id == "pwdbis"){
+    		span.innerHTML = `<input id="i${attribute}" type="password" value="">`;
+    	}else{
+    		span.innerHTML = `<input id="i${attribute}" type="text" value="">`;	
+    	}    	
     })
     SwitchMode('add');
     addBtn.onclick = () => {  
     	insertUser();        	   	
     }
+    cancBtn.onclick = () => {  
+    	window.history.back();        	   	
+    }
 }
 
 function loadUsers(user) {
 	displayProfile4View(user);	
-    if (user["id"] === connectedUserId) {
+    if (user["id"] === parseInt(connectedUserId)) {
         document.title = "Mon profil";
         
         saveBtn.onclick = () => {  
@@ -81,26 +95,35 @@ function SwitchMode(mode){
     switch(mode){
     case 'edit':
     	addBtn.style.display = "none";
-    	cancBtn.style.display = "block";
-    	saveBtn.style.display = "block";
-    	pwdh4.style.display = "block";
-    	pwdspn.style.display = "block";
+    	delBtn.style.display = "inline";
+    	cancBtn.style.display = "inline";
+    	saveBtn.style.display = "inline";
+    	pwdh4.style.display = "inline";
+    	pwdspn.style.display = "inline";
+    	pwdbish4.style.display = "inline";
+    	pwdbisspn.style.display = "inline";
     	editBtn.style.display = "none";
     	break;
     case 'view':
     	addBtn.style.display = "none";
-		cancBtn.style.display = "none";
+    	delBtn.style.display = "none";
+		cancBtn.style.display = "inline";
 		saveBtn.style.display = "none";
     	pwdh4.style.display = "none";
     	pwdspn.style.display = "none";
-    	editBtn.style.display = "block";
+    	pwdbish4.style.display = "none";
+    	pwdbisspn.style.display = "none";
+    	editBtn.style.display = "inline";
     	break;
     case 'add':
-    	addBtn.style.display = "block";
-    	cancBtn.style.display = "block";
+    	addBtn.style.display = "inline";
+    	delBtn.style.display = "none";
+    	cancBtn.style.display = "inline";
 		saveBtn.style.display = "none";
-    	pwdh4.style.display = "block";
-    	pwdspn.style.display = "block";
+    	pwdh4.style.display = "inline";
+    	pwdspn.style.display = "inline";
+    	pwdbish4.style.display = "inline";
+    	pwdbisspn.style.display = "inline";
     	editBtn.style.display = "none";
     	break;
 	}

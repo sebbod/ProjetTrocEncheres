@@ -109,7 +109,7 @@ CREATE TABLE [dbo].[USERS](
 	[street] [varchar](30) NOT NULL,
 	[zipCode] [varchar](10) NOT NULL,
 	[town] [varchar](40) NOT NULL,
-	[pwd] [varchar](50) NOT NULL,
+	[pwd] [varchar](100) NOT NULL,
 	[credit] [int] NOT NULL,
 	[isAdmin] [bit] NOT NULL,
  CONSTRAINT [PK_USERS] PRIMARY KEY CLUSTERED 

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.bids.bll.BLLException;
 import fr.eni.bids.bll.LoginManager;
+import fr.eni.bids.bll.utils.TrippleDes;
 
 /**
  * Servlet implementation class Login
@@ -52,7 +53,16 @@ public class Login extends HttpServlet {
 
 		try {
 			lMngr = new LoginManager();
-			id = lMngr.validate(username, password);
+			TrippleDes crypto;
+			String hPwd = "!bad_pwd!";
+			try {
+				crypto = new TrippleDes();
+				hPwd = crypto.encrypt(password);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			id = lMngr.validate(username, hPwd);
 		} catch (BLLException e) {
 			request.setAttribute("lstErrorCode", e.getLstErrorCode());
 		}
