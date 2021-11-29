@@ -73,6 +73,7 @@
 				
 				<section id="scripts">
 			        <script defer>
+			        let loginPage = "<%=request.getContextPath()%>/login";
 			        let addBtn = document.querySelector("#add")
 			        let delBtn = document.querySelector("#del")
 			        let cancBtn = document.querySelector("#cancel")

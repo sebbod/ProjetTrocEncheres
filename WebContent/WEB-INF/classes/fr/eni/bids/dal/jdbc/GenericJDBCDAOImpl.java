@@ -200,17 +200,7 @@ public abstract class GenericJDBCDAOImpl<T> implements DAO<T> {
 	 */
 	@Override
 	public T selectByFields(Map<String, Object> fields) throws BidsException {
-		// System.out.println("selectByFields, generateQueryFields()=" +
-		// generateQueryFields());
-		// System.out.println("selectByFields, getActualClassName()=" +
-		// getActualClassName());
-		// System.out.println("selectByFields, generateQueryFields(fields.keySet(),
-		// true, true, false)="
-		// + generateQueryFields(fields.keySet(), true, true, false));
-		//System.out.println("selectByFields, tableName=" + tableName);
 		String SQL_SELECT_BY_FIELDS = QueryGenerator.SELECT(generateQueryFields(), tableName, generateQueryFields(fields.keySet(), true, true, false));
-		//System.out.println("selectByFields, SQL_SELECT_BY_FIELDS=" + SQL_SELECT_BY_FIELDS);
-		//System.out.println("selectByFields, fields=" + fields);
 		return selectBy(SQL_SELECT_BY_FIELDS, fields.values());
 	}
 
@@ -268,6 +258,8 @@ public abstract class GenericJDBCDAOImpl<T> implements DAO<T> {
 	 */
 	@Override
 	public List<T> selectAllBy(String query, Collection<Object> fieldsValues) throws BidsException {
+		System.out.println("selectAllBy :query=" + query);
+
 		List<T> instances = new ArrayList<>();
 		try (Connection connection = ConnectionProvider.getConnection()) {
 			PreparedStatement statement = connection.prepareStatement(query);

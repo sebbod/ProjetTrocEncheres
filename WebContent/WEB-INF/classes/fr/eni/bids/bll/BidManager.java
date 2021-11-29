@@ -70,7 +70,7 @@ public class BidManager extends GenericManager<Bid> {
 			int noUser = user.getId();
 			return bidDao.selectAllByFields(new HashMap<String, Object>() {
 				{
-					put("encherisseur", noUser);
+					put("userIdBuyer", noUser);
 				}
 			});
 		} catch (BidsException eException) {
@@ -79,8 +79,7 @@ public class BidManager extends GenericManager<Bid> {
 	}
 
 	/**
-	 * Call the getBidsFrom() method with a given user, and filter the instances of
-	 * Bid the user is actually winning.
+	 * Call the getBidsFrom() method with a given user, and filter the instances of Bid the user is actually winning.
 	 */
 	public List<Bid> getWinningBidsFrom(User user) throws BidsException {
 		List<Bid> winningBids = new ArrayList<>();
@@ -96,10 +95,7 @@ public class BidManager extends GenericManager<Bid> {
 	 * @param item
 	 *            Item | Item the bids to delete are on.
 	 * @param updateCredits
-	 *            boolean | "true" if the credits of the user needs to be updated
-	 *            after deletion. "false" otherwise. Must be "false" while deleting
-	 *            all the bids when the sale ends since the winning user must not
-	 *            get his/her credits back.
+	 *            boolean | "true" if the credits of the user needs to be updated after deletion. "false" otherwise. Must be "false" while deleting all the bids when the sale ends since the winning user must not get his/her credits back.
 	 * @throws BidsException
 	 *             BidsException | BID_DELETE_ALL_BY
 	 */
@@ -207,9 +203,7 @@ public class BidManager extends GenericManager<Bid> {
 			errors.append("Champs incorrect. L'enchère sur l'item associée est déjà terminée.").append("\n");
 		}
 		if (this.temporaryHighestBid != null && bid.getAmount() > this.temporaryHighestBid.getAmount()) {
-			errors.append(
-					"Champs incorrect. Le montant de l'enchère doit être supérieur à l'enchère actuelle la plus haute.")
-					.append("\n");
+			errors.append("Champs incorrect. Le montant de l'enchère doit être supérieur à l'enchère actuelle la plus haute.").append("\n");
 		}
 		if (bid.getAmount() > bid.getBuyer().getCredit()) {
 			errors.append("Champs incorrect. L'utilisateur ne dispose pas de suffisamment de crédits.").append("\n");

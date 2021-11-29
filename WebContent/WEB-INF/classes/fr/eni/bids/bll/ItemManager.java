@@ -57,14 +57,13 @@ public class ItemManager extends GenericManager<Item> {
 	 * Call getItemsFrom with "seller".
 	 */
 	public List<Item> getItemsFromSeller(User seller) throws BidsException {
-		return getItemsFrom("seller", seller);
+		return getItemsFrom("userIdSeller", seller);
 	}
 
 	/**
 	 * @param variable
 	 *            String | Search input for the name or description of a user.
-	 * @return List<Item> | List of items including part of the variable in their
-	 *         name or description.
+	 * @return List<Item> | List of items including part of the variable in their name or description.
 	 * @throws BidsException
 	 *             BidsException |
 	 */
@@ -114,16 +113,14 @@ public class ItemManager extends GenericManager<Item> {
 	 * Filter a list of items by category.
 	 */
 	public List<Item> filterByCategorie(List<Item> items, String category) {
-		return items.stream().filter(item -> item.getCategory().getLibelle().equals(category))
-				.collect(Collectors.toList());
+		return items.stream().filter(item -> item.getCategory().getLibelle().equals(category)).collect(Collectors.toList());
 	}
 
 	/**
 	 * Filter the items for which the sales are over.
 	 */
 	public List<Item> filterByIsOver(List<Item> items) {
-		return items.stream().filter(item -> item.getDateEnd().isBefore(LocalDateTime.now()))
-				.collect(Collectors.toList());
+		return items.stream().filter(item -> item.getDateEnd().isBefore(LocalDateTime.now())).collect(Collectors.toList());
 	}
 
 	/**

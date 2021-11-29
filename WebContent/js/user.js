@@ -10,6 +10,18 @@ function displayError(msg){
 	}	
 }
 
+function actionAfterDelete(msg){	
+	if(msg.hasOwnProperty('message')){
+		if( msg.message.length > 0){			
+			msgs = msg.message.split('|');
+			errorMsg.innerHTML = msgs[msgs.length-1].replaceAll("\n","<br>");
+		}
+	}else{
+		errorMsg.innerHTML = ""
+		window.location.href = loginPage;
+	}		
+}
+
 function getFormData(){
 	const data = {};
     ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd"].forEach(attribute => {
@@ -20,12 +32,29 @@ function getFormData(){
     return data;
 }
 
+function checkPwd(){
+	pwd1 = document.querySelector("#ipwd")
+    pwd2 = document.querySelector("#ipwdbis")
+   	return pwd1.value === pwd2.value;    
+}
 function insertUser() {
-    insertData(`user/signup`, displayError, getFormData());
+	if(checkPwd()){
+		insertData(`user/signup`, displayError, getFormData());
+	}else{
+		errorMsg.innerHTML = "La confirmation du mot de passe n'est pas correct"
+	}
 }
 
 function updateUser() {
-    updateData(`user/modify`, displayError, getFormData());   
+	if(checkPwd()){
+		updateData(`user/modify`, displayError, getFormData());   
+	}else{
+		errorMsg.innerHTML = "La confirmation du mot de passe n'est pas correct"
+	}    
+}
+
+function deleteUser(id) {
+	deleteData(`user/delete/` + id, actionAfterDelete);   
 }
 
 function getUser (pseudo_or_id) {
@@ -51,6 +80,9 @@ function displayProfile4Edit() {
     })
     cancBtn.onclick = () => {  
     	window.history.back();        	   	
+    }
+    delBtn.onclick = () => {  
+    	deleteUser(connectedUserId);        	   	
     }
 }
 

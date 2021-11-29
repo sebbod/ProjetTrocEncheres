@@ -108,6 +108,7 @@ public abstract class GenericManager<T> {
 				throw new BidsException(ErrorCodesBLL.DELETE_NOT_EXIST_ERROR.get(getActualClassName()));
 			}
 			DAOBusinessObject.delete(identifiers);
+
 			executeUpdate(object, "DELETE");
 		} catch (BidsException BidsException) {
 			throw new BidsException(ErrorCodesBLL.DELETE_ERROR.get(this.getActualClassName()), BidsException);

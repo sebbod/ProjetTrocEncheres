@@ -4,24 +4,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 
 import fr.eni.bids.BidsException;
 import fr.eni.bids.bll.UserManager;
+import fr.eni.bids.bll.utils.TrippleDes;
 import fr.eni.bids.bo.User;
-import fr.eni.bids.msg.ErrorCodes;
 
 @Path("/user")
 public class UserRST {
@@ -34,9 +30,21 @@ public class UserRST {
 	@Path("/signup")
 	public Object create(Map<String, String> data) {
 		try {
-			User newUser = new User(data.get("pseudo"), data.get("name"), data.get("firstName"), data.get("email"), data.get("telephone"), data.get("street"), data.get("zipCode"), data.get("town"), data.get("pwd"));
+			TrippleDes crypto;
+			String hPwd = "!bad_pwd!";
+			try {
+				crypto = new TrippleDes();
+				hPwd = crypto.encrypt(data.get("pwd"));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new HashMap<String, String>() {
+					{
+						put("message", e.getMessage());
+					}
+				};
+			}
+			User newUser = new User(data.get("pseudo"), data.get("name"), data.get("firstName"), data.get("email"), data.get("telephone"), data.get("street"), data.get("zipCode"), data.get("town"), hPwd);
 			User user = new UserManager().add(newUser);
-			generateNewSession(user);
 			return newUser;
 		} catch (BidsException eException) {
 			eException.printStackTrace();
@@ -73,48 +81,18 @@ public class UserRST {
 
 	@DELETE
 	@Path("/delete/{id: \\d+}")
-	public void delete(@PathParam("id") int id) {
+	public Object delete(@PathParam("id") int id) {
 		try {
 			new UserManager().delete(id);
-		} catch (BidsException eException) {
-			eException.printStackTrace();
-		}
-	}
-
-	@GET
-	@Path("/signin")
-	public Object authenticate(@QueryParam("pseudo") String pseudo, @QueryParam("pwd") String pwd, @QueryParam("rememberMe") boolean rememberMe) {
-		try {
-			User user = new UserManager().getByPseudoAndPassword(pseudo, pwd);
-			if (user != null) {
-				generateNewSession(user, rememberMe);
-			}
-			return user;
-		} catch (BidsException eException) {
-			eException.printStackTrace();
+			return id;
+		} catch (BidsException e) {
+			e.printStackTrace();
 			return new HashMap<String, String>() {
 				{
-					put("message", eException.getMessage());
+					put("message", e.getMessage());
 				}
 			};
 		}
-	}
-
-	@GET
-	@Path("/signout")
-	public Object logout() {
-		for (int index = 0; index < request.getCookies().length; index++) {
-			Cookie cookie = request.getCookies()[index];
-			if (cookie.getName().equals("connectedUserId")) {
-				cookie.setMaxAge(0);
-				response.addCookie(cookie); // Send back an expired cookie.
-			}
-		}
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		return false;
 	}
 
 	@GET
@@ -161,47 +139,4 @@ public class UserRST {
 		}
 	}
 
-	@GET
-	@Path("/session")
-	public Object checkValidity(@CookieParam("connectedUserId") String connectedUserId) {
-		try {
-			if (connectedUserId != null) {
-				UserManager userManager = new UserManager();
-				User user = userManager.getById(Integer.parseInt(connectedUserId));
-				generateNewSession(user);
-				return user;
-			}
-			HttpSession session = request.getSession(false);
-			if (session == null) {
-				return false;
-			}
-			return session.getAttribute("User");
-		} catch (BidsException eException) {
-			try {
-				throw new BidsException(ErrorCodes.SESSION_VALIDATION_ERROR, eException);
-			} catch (BidsException eExceptionValidation) {
-				eExceptionValidation.printStackTrace();
-				return new HashMap<String, String>() {
-					{
-						put("message", eExceptionValidation.getMessage());
-					}
-				};
-			}
-		}
-	}
-
-	public void generateNewSession(User user, boolean rememberMe) {
-		HttpSession session = request.getSession(true);
-		session.setAttribute("User", user);
-		if (rememberMe) {
-			String connectedUserId = String.valueOf(user.getId());
-			Cookie cookie = new Cookie("connectedUserId", connectedUserId);
-			cookie.setMaxAge(Integer.MAX_VALUE);
-			response.addCookie(cookie);
-		}
-	}
-
-	public void generateNewSession(User user) {
-		generateNewSession(user, false);
-	}
 }
