@@ -49,11 +49,13 @@ public class LoginDAOJdbcImpl implements LoginDAO {
 			}
 		}
 
-		System.out.println("Pseudo de l'utilisateur" + user.getPseudo() + " - Password " + user.getPwd());
+		System.out.println("Pseudo de l'utilisateur=" + user.getPseudo() + " - Password=" + user.getPwd());
+		System.out.println("Pseudo de l'utilisateur=" + pseudo + " - Password=" + password);
 
 		// CHECK PASSWORD
 		if (password.equals(user.getPwd())) {
 			id = user.getId();
+			System.out.println("id=" + id);
 		} else {
 			// THROW LOGIN ERROR
 		}

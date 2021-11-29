@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.bids.bll.BLLException;
 import fr.eni.bids.bll.LoginManager;
+import fr.eni.bids.bll.utils.TrippleDes;
 
 /**
  * Servlet implementation class Login
@@ -62,7 +63,16 @@ public class Login extends HttpServlet {
 
 		try {
 			lMngr = new LoginManager();
-			id = lMngr.validate(username, password);
+			TrippleDes crypto;
+			String hPwd = "!bad_pwd!";
+			try {
+				crypto = new TrippleDes();
+				hPwd = crypto.encrypt(password);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			id = lMngr.validate(username, hPwd);
 		} catch (BLLException e) {
 			request.setAttribute("lstErrorCode", e.getLstErrorCode());
 		}
@@ -71,18 +81,20 @@ public class Login extends HttpServlet {
 		if (id != 0) {
 			
 			// If "remember me" is checked, create cookie with username
-			if(request.getParameter("remember").equals("checked")) {
-				Cookie cookie = new Cookie("username", username);
-				// Expiration in 1 month
-				cookie.setMaxAge(2628000);
-				response.addCookie(cookie);
+			if (request.getParameter("remember") != null) {
+				if (request.getParameter("remember").equals("checked")) {
+					Cookie cookie = new Cookie("username", username);
+					// Expiration in 1 month
+					cookie.setMaxAge(2628000);
+					response.addCookie(cookie);
+				}
 			}
-			
+
 			HttpSession session = request.getSession();
 			session.setAttribute("connectedUserId", id);
 
 			// After 5 minutes of inactivity, invalidate that session
-			session.setMaxInactiveInterval(5*60);
+			session.setMaxInactiveInterval(5 * 60);
 
 			// Redirect to homepage
 			// TO EDIT WHEN HOMEPAGE WILL BE READY

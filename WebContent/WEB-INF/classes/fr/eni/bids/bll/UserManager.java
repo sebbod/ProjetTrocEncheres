@@ -1,6 +1,7 @@
 package fr.eni.bids.bll;
 
 import fr.eni.bids.BidsException;
+import fr.eni.bids.bll.utils.TrippleDes;
 import fr.eni.bids.bo.User;
 import fr.eni.bids.dal.DAO;
 import fr.eni.bids.dal.DAOFactory;
@@ -35,7 +36,19 @@ public class UserManager extends GenericManager<User> {
 
 	public User getByPseudoAndPassword(String pseudo, String password) throws BidsException {
 		User u = getByPseudo(pseudo);
-		if (u != null && password.equals(u.getPwd())) {
+
+		TrippleDes crypto;
+		String hPwd = "!bad_pwd!";
+		try {
+			crypto = new TrippleDes();
+			hPwd = crypto.encrypt(password);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println("getByPseudoAndPassword : User.getPwd()=" + u.getPwd() + ", password=" + password + ",hPwd=" + hPwd);
+		if (u != null && u.getPwd().equals(hPwd)) {
 			return u;
 		} else {
 			throw new BidsException(ErrorCodesBLL.AUTHENTICATION_ERROR);
@@ -44,13 +57,11 @@ public class UserManager extends GenericManager<User> {
 
 	@Override
 	public User add(User User) throws BidsException {
-		doHashPassword(User);
 		return super.add(User);
 	}
 
 	@Override
 	public User update(User User) throws BidsException {
-		doHashPassword(User);
 		return super.update(User);
 	}
 
@@ -131,10 +142,5 @@ public class UserManager extends GenericManager<User> {
 		//System.out.println("checkUnity, return true");
 		//return true;
 		return getByEmail(User.getEmail()) != null && getByPseudo(User.getPseudo()) != null;
-	}
-
-	private void doHashPassword(User User) throws BidsException {
-		// TODO
-		// User.setMotDePasse(PasswordTool.hashPassword(User.getMotDePasse()));
 	}
 }
