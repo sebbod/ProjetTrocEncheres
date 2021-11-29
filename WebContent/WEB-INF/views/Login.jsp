@@ -26,7 +26,7 @@
 			<button type="submit">Connexion</button>
 		</div>
 		<div>
-			<input type="checkbox" name="remember">
+			<input type="checkbox" name="remember" value="checked">
 			<label for="remember">Se souvenir de moi</label>
 			<a href="/password-reset">Mot de passe oublié</a>
 		</div>
