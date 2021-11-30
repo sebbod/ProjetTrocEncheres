@@ -39,9 +39,7 @@ public class Login extends HttpServlet {
 		// If remember me cookie is find, complete username
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				System.out.println(cookie.getName());
 				if (cookie.getName().equals("username")) {
-					System.out.println(cookie.getValue());
 					request.setAttribute("username", cookie.getValue());
 				}
 			}

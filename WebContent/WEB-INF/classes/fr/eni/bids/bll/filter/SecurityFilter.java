@@ -36,51 +36,56 @@ public class SecurityFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) resp;
 		String servletPath = request.getServletPath();
 		User connectedUser = AppUtils.getConnectedUser(request.getSession());
+		
+		// If logged in
+		if(connectedUser != null) {
+			//	If login/register page redirect to homepage
+			if(servletPath.equals("/login") || servletPath.equals("/user/register")) {
+				response.sendRedirect(request.getContextPath() + "/");
+				
+			// Else check other conditions
+			} else {
+				HttpServletRequest wrapRequest = request;
 
-		//|| servletPath.equals("/user/register")
+				// Wrap original request to a new one with added informations (username and roles)
+				List<String> userRoles = SecurityUtils.getUserRoles(connectedUser);
+				wrapRequest = new UserRoleRequestWrapper(connectedUser.getPseudo(), userRoles, request);
 
-		// If login page, then invoke next filter in the chain
-		if (servletPath.equals("/login")) {
+				// If request need authentication, check user permissions
+				if (SecurityUtils.isSecurityPage(request)) {
+
+					// Check user permissions
+					if (!SecurityUtils.hasPermission(wrapRequest)) {
+						// TODO: INSERT ERROR HERE
+						request.setAttribute("lstErrorCode", "");
+
+						RequestDispatcher rd = request.getServletContext().getRequestDispatcher("/WEB-INF/views/ErrorPage.jsp");
+						rd.forward(wrapRequest, response);
+					
+					} else {
+						// Invoke next filter in the chain
+						chain.doFilter(wrapRequest, response);
+					}
+				} else {
+					// Invoke next filter in the chain
+					chain.doFilter(wrapRequest, response);
+				}
+			}
+			
+		// Else, if request need authentication redirect to login page
+		} else if(SecurityUtils.isSecurityPage(request)) {
+			String requestUri = request.getRequestURI();
+
+			// Store page to redirect to after logged in
+			int redirectId = AppUtils.storeRedirectAfterLoginUrl(request.getSession(), requestUri);
+
+			response.sendRedirect(request.getContextPath() + "/login?redirectId=" + redirectId);
+			
+		// Else invoke next filter in the chain
+		} else {
+			// Invoke next filter in the chain
 			chain.doFilter(request, response);
-			return;
 		}
-
-		HttpServletRequest wrapRequest = request;
-
-		// Wrap original request to a new one with added informations (username and roles)
-		if (connectedUser != null) {
-			List<String> userRoles = SecurityUtils.getUserRoles(connectedUser);
-			wrapRequest = new UserRoleRequestWrapper(connectedUser.getPseudo(), userRoles, request);
-		}
-
-		// If request need authentication, check user permissions
-		if (SecurityUtils.isSecurityPage(request)) {
-
-			// If not logged in, redirect to login page
-			if (connectedUser == null) {
-				String requestUri = request.getRequestURI();
-
-				// Store page to redirect to after logged in
-				int redirectId = AppUtils.storeRedirectAfterLoginUrl(request.getSession(), requestUri);
-
-				response.sendRedirect(wrapRequest.getContextPath() + "/login?redirectId=" + redirectId);
-				return;
-			}
-
-			// Check user permissions
-			if (!SecurityUtils.hasPermission(wrapRequest)) {
-				// INSERT ERROR HERE
-				request.setAttribute("lstErrorCode", "");
-
-				RequestDispatcher rd = request.getServletContext().getRequestDispatcher("/WEB-INF/views/ErrorPage.jsp");
-				rd.forward(wrapRequest, response);
-				return;
-			}
-		}
-
-		// Invoke next filter in the chain
-		chain.doFilter(wrapRequest, response);
-
 	}
 
 	@Override
