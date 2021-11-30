@@ -24,7 +24,7 @@ function ajax(method, endpoint = "", callback, data = null)
             }
             else
             {                
-                alert("Error:" + xhr.status + "\n"+ xhr.responseText);
+                alert("ajax::Error:" + xhr.status + "\n"+ xhr.responseText);
             }
         }
     };
