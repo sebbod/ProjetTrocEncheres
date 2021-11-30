@@ -1,0 +1,48 @@
+@charset "UTF-8";
+
+#logo {
+	display: block;
+	width: auto;
+	height: 100px;
+	margin-left: 102px;
+	margin-bottom: 100px;
+	margin-top: 50px;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	width: 480px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+label[for="username"],
+label[for="password"] {
+	display: inline-block;
+	width: 136px;
+}
+
+input {
+	width: 290px;
+	margin-bottom: 20px;
+}
+
+#bottom-zone {
+	display: flex;
+	flex-direction: row;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+#options {
+	display: inline-flex;
+	flex-direction: column;
+	justify-content: center;
+    align-items: center;
+    width: calc(100% - 170px);
+}
+
+label[for="remember"] {
+	margin-left: 5px;
+}
