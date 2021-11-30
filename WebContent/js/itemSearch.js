@@ -1,162 +1,115 @@
-function displayError(msg){	
-	if(msg.hasOwnProperty('message')){
-		if( msg.message.length > 0){			
-			msgs = msg.message.split('|');
-			errorMsg.innerHTML = msgs[msgs.length-1].replaceAll("\n","<br>");
-		}
-	}else{
-		errorMsg.innerHTML = ""
-		displayProfile4View(msg);
-	}	
-}
 
-function actionAfterDelete(msg){	
-	if(msg.hasOwnProperty('message')){
-		if( msg.message.length > 0){			
-			msgs = msg.message.split('|');
-			errorMsg.innerHTML = msgs[msgs.length-1].replaceAll("\n","<br>");
-		}
-	}else{
-		errorMsg.innerHTML = ""
-		window.location.href = loginPage;
-	}		
-}
-
-function getFormData(){
-	const data = {};
-    ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd"].forEach(attribute => {
-    	input = document.querySelector(`#i${attribute}`);
-    	data[`${attribute}`] = input.value;
-    })
-    //console.log(data);
-    return data;
-}
-
-function checkPwd(){
-	pwd1 = document.querySelector("#ipwd")
-    pwd2 = document.querySelector("#ipwdbis")
-   	return pwd1.value === pwd2.value;    
-}
-function insertUser() {
-	if(checkPwd()){
-		insertData(`user/signup`, displayError, getFormData());
-	}else{
-		errorMsg.innerHTML = "La confirmation du mot de passe n'est pas correct"
-	}
-}
-
-function updateUser() {
-	if(checkPwd()){
-		updateData(`user/modify`, displayError, getFormData());   
-	}else{
-		errorMsg.innerHTML = "La confirmation du mot de passe n'est pas correct"
-	}    
-}
-
-function deleteUser(id) {
-	deleteData(`user/delete/` + id, actionAfterDelete);   
-}
-
-function getUser (pseudo_or_id) {
-	user = getData(`user/` + pseudo_or_id, loadUsers);
-}
-
-function displayProfile4View(user) {
-    ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd"].forEach(attribute => {
-        document.querySelector(`#${attribute}`).innerHTML = user[attribute] ? user[attribute] : ""; // vide car non renseigné en base
-    })
-    SwitchMode('view');
-}
-
-function displayProfile4Edit() {
-    ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd", "pwdbis"].forEach(attribute => {
-    	span = document.querySelector(`#${attribute}`);
-    	value = span.innerHTML;
-    	if(span.id == "pwd" || span.id == "pwdbis"){
-    		span.innerHTML = `<input id="i${attribute}" type="password" value="">`;
-    	}else{
-    		span.innerHTML = `<input id="i${attribute}" type="text" value="${value}">`;	
-    	} 
-    })
-    cancBtn.onclick = () => {  
-    	window.history.back();        	   	
-    }
-    delBtn.onclick = () => {  
-    	deleteUser(connectedUserId);        	   	
+function search () {
+    if (filter === "buy") {
+        let {saleIsOpen, isCurrentUser, saleIsWon} = checkboxes;
+        return getArticlesToBuy(userSearch, category, saleIsOpen, isCurrentUser, saleIsWon);
+    } else if  (filter === "sell") {
+        let {saleIsOnGoing, saleIsCreated, saleIsOver} = checkboxes;
+        return getArticlesToSell(userSearch, category, saleIsOnGoing, saleIsCreated, saleIsOver);
     }
 }
 
-function displayProfile4Add() {
-    ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd", "pwdbis"].forEach(attribute => {
-    	span = document.querySelector(`#${attribute}`);
-    	value = span.innerHTML;
-    	if(span.id == "pwd" || span.id == "pwdbis"){
-    		span.innerHTML = `<input id="i${attribute}" type="password" value="">`;
-    	}else{
-    		span.innerHTML = `<input id="i${attribute}" type="text" value="">`;	
-    	}    	
-    })
-    SwitchMode('add');
-    addBtn.onclick = () => {  
-    	insertUser();        	   	
-    }
-    cancBtn.onclick = () => {  
-    	window.history.back();        	   	
-    }
+function getArticlesToBuy(userSearch = "", category = "", saleIsOpen = false, isCurrentUser = false, saleIsWon = false){
+    const data = {userSearch, category, saleIsOpen, isCurrentUser, saleIsWon};
+    let endpoint = "item/search4buy?"
+    for (let [pointer, value] of Object.entries(data)) { endpoint += `${pointer}=${value}&`; }
+    getData(endpoint, updateResults);
 }
 
-function loadUsers(user) {
-	displayProfile4View(user);	
-    if (user["id"] === parseInt(connectedUserId)) {
-        document.title = "Mon profil";
-        
-        saveBtn.onclick = () => {  
-        	updateUser();        	   	
-        }
-
-        editBtn.onclick = () => {
-        	displayProfile4Edit();  
-        	SwitchMode('edit');
-        }
-        SwitchMode('view');
-    }
+function getArticlesToSell(userSearch = "", category = "", saleIsOnGoing = false, saleIsCreated = false, saleIsOver = false) {
+    const data = {userSearch, category, saleIsOnGoing, saleIsCreated, saleIsOver};
+    let endpoint = "item/search4sell?"
+    for (let [pointer, value] of Object.entries(data)) { endpoint += `${pointer}=${value}&`; }
+    getData(endpoint, updateResults);
 }
 
 
-function SwitchMode(mode){
-    switch(mode){
-    case 'edit':
-    	addBtn.style.display = "none";
-    	delBtn.style.display = "inline";
-    	cancBtn.style.display = "inline";
-    	saveBtn.style.display = "inline";
-    	pwdh4.style.display = "inline";
-    	pwdspn.style.display = "inline";
-    	pwdbish4.style.display = "inline";
-    	pwdbisspn.style.display = "inline";
-    	editBtn.style.display = "none";
-    	break;
-    case 'view':
-    	addBtn.style.display = "none";
-    	delBtn.style.display = "none";
-		cancBtn.style.display = "inline";
-		saveBtn.style.display = "none";
-    	pwdh4.style.display = "none";
-    	pwdspn.style.display = "none";
-    	pwdbish4.style.display = "none";
-    	pwdbisspn.style.display = "none";
-    	editBtn.style.display = "inline";
-    	break;
-    case 'add':
-    	addBtn.style.display = "inline";
-    	delBtn.style.display = "none";
-    	cancBtn.style.display = "inline";
-		saveBtn.style.display = "none";
-    	pwdh4.style.display = "inline";
-    	pwdspn.style.display = "inline";
-    	pwdbish4.style.display = "inline";
-    	pwdbisspn.style.display = "inline";
-    	editBtn.style.display = "none";
-    	break;
-	}
+function updateResults() {
+	divItems.innerHTML = '<i></i>';
+    items => {
+    	itemLst = items ? items : [];
+    	divItems.innerHTML = "";
+    	itemLst.forEach(item => { createItem(item) })   
+    };
+}
+
+
+function createItem(item) {
+    let card = document.createElement("div");
+    card.classList.add("card", "mx-auto", "border-dark", "col-12", 'col-sm-6', "col-lg-4", "col-xl-3");
+    card.style.width = "18rem";
+    let image = document.createElement("img");
+    image.src = "https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101028/112815904-stock-vector-no-image-available-icon-flat-vector-illustration.jpg?ver=6";
+    image.width = 300;
+    image.className = "card-img-top";
+    card.appendChild(image);
+    let header = document.createElement("div");
+    header.className = "card-body";
+    
+    let title = setUpTitle(item);
+    header.appendChild(title);
+    
+    let description = document.createElement("p");
+    description.className = "card-text";
+    description.textContent = item["description"];
+    header.appendChild(description);
+    card.appendChild(header);
+    
+    let details = document.createElement("ul");
+    details.classList.add("list-group", "list-group-flush");
+    
+    let price = document.createElement("li");
+    price.className = "list-group-item";
+    price.textContent = `Mise à prix: ${item["miseAPrix"]} point(s)`;
+    details.appendChild(price);
+    /*
+     * TODO
+    let countdown = setUpCountdown(item);
+    details.appendChild(countdown);
+    */
+    let seller = setUpSeller(item);
+    details.appendChild(seller);
+    
+    card.appendChild(details);
+    divItems.appendChild(card);
+}
+
+function setUpTitle(item) {
+    let title = document.createElement("h5"); // Add link and loadComponent();
+    title.className = "card-title";
+    title.textContent = item["name"];
+    /*
+    title.onclick = () => {
+    TODO
+        getHighestBid(item["id"])
+    }
+    */
+    return title;
+}
+
+function setUpSeller(item) {
+    let seller = document.createElement("li");
+    seller.className = "list-group-item";
+    let pseudoSeller = item["seller"]["pseudo"];
+    seller.textContent = `Vendeur: ${pseudoSeller}`;
+    /*
+     * TODO
+    seller.onclick = () => {
+        loadComponent("user")            
+    }*/
+    return vendeur;
+}
+    
+
+function updateCheckboxes () {
+    ["#saleIsOpen", "#isCurrentUser", "#saleIsWon"].forEach(enabledCheckbox => {
+        let checkbox = document.querySelector(enabledCheckbox);
+        checkbox.disabled = filter === "sell";
+        checkbox.checked = false;
+    });
+    ["#saleIsOnGoing", "#saleIsCreated", "#saleIsOver"].forEach(disabledCheckbox => {
+        let checkbox = document.querySelector(disabledCheckbox);
+        checkbox.disabled = filter === "buy";
+        checkbox.checked = false;
+    });
 }

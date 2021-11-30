@@ -1,5 +1,6 @@
 package fr.eni.bids.bll;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import fr.eni.bids.dal.DAOFactory;
 import fr.eni.bids.dal.jdbc.QueryGenerator;
 
 public class BidManager extends GenericManager<Bid> {
-	private static DAO<Bid> bidDao;
+	private final DAO<Bid> bidDao;
 	private Bid temporaryHighestBid;
 
 	public BidManager() throws BidsException {
@@ -32,8 +33,8 @@ public class BidManager extends GenericManager<Bid> {
 	public Bid getHighestBid(int identifier) throws BidsException {
 		try {
 			return bidDao.selectBy(QueryGenerator.SELECT_BID_MAX(), Collections.singleton(identifier));
-		} catch (BidsException eException) {
-			throw new BidsException(ErrorCodesBLL.BID_GET_HIGHEST_BID, eException);
+		} catch (BidsException e) {
+			throw new BidsException(ErrorCodesBLL.BID_GET_HIGHEST_BID, e);
 		}
 
 	}
@@ -65,16 +66,17 @@ public class BidManager extends GenericManager<Bid> {
 	 * @throws BidsException
 	 *             BidsException | BID_GET_BIDS_FROM
 	 */
+	@SuppressWarnings("serial")
 	public List<Bid> getBidsFrom(User user) throws BidsException {
 		try {
-			int noUser = user.getId();
+			int userIdBuyer = user.getId();
 			return bidDao.selectAllByFields(new HashMap<String, Object>() {
 				{
-					put("userIdBuyer", noUser);
+					put("userIdBuyer", userIdBuyer);
 				}
 			});
-		} catch (BidsException eException) {
-			throw new BidsException(ErrorCodesBLL.BID_GET_BIDS_FROM, eException);
+		} catch (BidsException e) {
+			throw new BidsException(ErrorCodesBLL.BID_GET_BIDS_FROM, e);
 		}
 	}
 
@@ -104,15 +106,15 @@ public class BidManager extends GenericManager<Bid> {
 			this.temporaryHighestBid = getHighestBid(item);
 			/*
 			 * Note: A loop is not necessary, the table having two identifiers, and the
-			 * first one being "itemVendu". The SQL Query will be executed with only the
+			 * first one being itemId (selling item). The SQL Query will be executed with only the
 			 * identifier for the item, and delete all the matching occurrences.
 			 */
 			bidDao.delete(item.getId());
 			if (updateCredits) {
 				setCredits(this.temporaryHighestBid, null);
 			}
-		} catch (BidsException eException) {
-			throw new BidsException(ErrorCodesBLL.BID_DELETE_ALL_BY, eException);
+		} catch (BidsException e) {
+			throw new BidsException(ErrorCodesBLL.BID_DELETE_ALL_BY, e);
 		}
 	}
 
@@ -143,8 +145,20 @@ public class BidManager extends GenericManager<Bid> {
 			for (Bid bid : bids) {
 				delete(bid);
 			}
-		} catch (BidsException eException) {
-			throw new BidsException(ErrorCodesBLL.BID_DELETE_ALL_BY, eException);
+		} catch (BidsException e) {
+			throw new BidsException(ErrorCodesBLL.BID_DELETE_ALL_BY, e);
+		}
+	}
+
+	/**
+	 * Delete all the bids on an item when the sale is over and set the highest one as the buyer of the item.
+	 */
+	public void deleteAllWhenOver(Item item) throws BidsException {
+		if (item.getDateEnd().isBefore(LocalDateTime.now())) {
+			item.setUserIdBuyer(getHighestBid(item).getBuyer());
+			item.setStatus();
+			new ItemManager().update(item);
+			deleteAllBy(item, false);
 		}
 	}
 
@@ -191,7 +205,7 @@ public class BidManager extends GenericManager<Bid> {
 		}
 		StringBuilder errors = new StringBuilder();
 		if (bid.getItem() == null) {
-			errors.append("Champs obligatoire. L'enchère n'a pas d'item associé.").append("\n");
+			errors.append("Champs obligatoire. L'enchère n'a pas d'articel associé.").append("\n");
 		}
 		if (bid.getBuyer() == null) {
 			errors.append("Champs obligatoire. L'enchère n'a pas d'utilisateur associé.").append("\n");
@@ -200,7 +214,7 @@ public class BidManager extends GenericManager<Bid> {
 			errors.append("Champs obligatoire. L'enchère n'a pas de date associée").append("\n");
 		}
 		if (bid.getDateCreated().isAfter(bid.getItem().getDateEnd())) {
-			errors.append("Champs incorrect. L'enchère sur l'item associée est déjà terminée.").append("\n");
+			errors.append("Champs incorrect. L'enchère sur l'article associée est déjà terminée.").append("\n");
 		}
 		if (this.temporaryHighestBid != null && bid.getAmount() > this.temporaryHighestBid.getAmount()) {
 			errors.append("Champs incorrect. Le montant de l'enchère doit être supérieur à l'enchère actuelle la plus haute.").append("\n");

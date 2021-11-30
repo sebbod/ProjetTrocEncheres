@@ -10,6 +10,8 @@ public interface DAO<T> {
 
 	public List<String> identifiers = null;
 
+	public String tableName = null;
+
 	public T insert(T object) throws BidsException;
 
 	public T update(T object) throws BidsException;

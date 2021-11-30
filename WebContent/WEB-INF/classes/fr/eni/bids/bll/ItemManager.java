@@ -1,5 +1,6 @@
 package fr.eni.bids.bll;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -9,13 +10,14 @@ import java.util.stream.Collectors;
 import fr.eni.bids.BidsException;
 import fr.eni.bids.bo.Bid;
 import fr.eni.bids.bo.Item;
+import fr.eni.bids.bo.PickUpAdress;
 import fr.eni.bids.bo.User;
 import fr.eni.bids.dal.DAO;
 import fr.eni.bids.dal.DAOFactory;
 import fr.eni.bids.dal.jdbc.QueryGenerator;
 
 public class ItemManager extends GenericManager<Item> {
-	private static DAO<Item> ItemDao;
+	private final DAO<Item> ItemDao;
 
 	public ItemManager() throws BidsException {
 		super();
@@ -47,9 +49,9 @@ public class ItemManager extends GenericManager<Item> {
 		int userId = u.getId();
 		try {
 			return this.ItemDao.selectAllByField(field, userId);
-		} catch (BidsException eException) {
-			eException.printStackTrace();
-			throw new BidsException(ErrorCodesBLL.ITEM_GET_ALL_FROM_ERROR, eException);
+		} catch (BidsException e) {
+			e.printStackTrace();
+			throw new BidsException(ErrorCodesBLL.ITEM_GET_ALL_FROM_ERROR, e);
 		}
 	}
 
@@ -70,30 +72,28 @@ public class ItemManager extends GenericManager<Item> {
 	public List<Item> getItemsLike(String variable, String category) throws BidsException {
 		try {
 			return ItemDao.selectAllBy(QueryGenerator.SELECT_ITEM_LIKE(variable, category), null);
-		} catch (BidsException eException) {
-			throw new BidsException(ErrorCodesBLL.ITEM_GET_ALL_BY_NAME_DESCRIPTION, eException);
+		} catch (BidsException e) {
+			throw new BidsException(ErrorCodesBLL.ITEM_GET_ALL_BY_NAME_DESCRIPTION, e);
 		}
 	}
 
 	/**
 	 * Update the items won for a given user.
 	 */
-	public void setItemsObtenus(User u) throws BidsException {
+	public void setItemsGained(User u) throws BidsException {
 		try {
-			BidManager enchereManager = new BidManager();
-			for (Bid enchere : enchereManager.getWinningBidsFrom(u)) {
-				Item item = enchere.getItem();
-				// TODO
-				/*
-				 * String etatVente = item.getEtatVente(); if
-				 * (etatVente.equals("Enchères terminées")) {
-				 * item.setPrixVente(enchere.getMontantBid()); item.setAcquereur(u);
-				 * enchereManager.deleteAllWhenOver(item); }
-				 */
+			BidManager bidMngr = new BidManager();
+			for (Bid bid : bidMngr.getWinningBidsFrom(u)) {
+				Item item = bid.getItem();
+				if (item.getStatus().equals(Item.STATUS_CLOSED)) {
+					item.setPriceBuyer(bid.getAmount());
+					item.setUserIdBuyer(u);
+					bidMngr.deleteAllWhenOver(item);
+				}
 				update(item);
 			}
-		} catch (BidsException eException) {
-			throw new BidsException(ErrorCodesBLL.ITEM_SET_ITEM_WON, eException);
+		} catch (BidsException e) {
+			throw new BidsException(ErrorCodesBLL.ITEM_SET_ITEM_WON, e);
 		}
 
 	}
@@ -101,19 +101,72 @@ public class ItemManager extends GenericManager<Item> {
 	/**
 	 * Update the items won for all the users.
 	 */
-	public void setAllItemsObtenus() throws BidsException {
+	public void setAllItemsGained() throws BidsException {
 		for (User u : new UserManager().getAll()) {
-			setItemsObtenus(u);
+			setItemsGained(u);
 		}
+	}
+
+	/**
+	 * @return long | Time in milliseconds until the next sale is ending.
+	 */
+	public int getTimeUntilNextEnd() throws BidsException {
+		setAllItemsGained();
+		int milliseconds = Integer.MAX_VALUE;
+		for (Item item : getAll()) {
+			if (item.getStatus().equals(Item.STATUS_PENDING)) {
+				milliseconds = (int) Math.min(milliseconds, Duration.between(LocalDateTime.now(), item.getDateEnd()).toMillis());
+			}
+		}
+		return milliseconds;
+	}
+
+	/**
+	 * Set an article as having been picked up.
+	 */
+	public void setCollected(Item item) throws BidsException {
+		item.setIsCollected(true);
+		PickUpAdressManager pickUpAdrMngr = new PickUpAdressManager();
+		PickUpAdress pickUpAdr = pickUpAdrMngr.getById(item.getId());
+		pickUpAdrMngr.delete(pickUpAdr);
+		update(item);
 	}
 
 	// FILTERS
 
 	/**
+	 * Filter a list of items by status.
+	 */
+	public List<Item> filterByStatus(List<Item> items, String status) {
+		return items.stream().filter(i -> i.getStatus().equals(status)).collect(Collectors.toList());
+	}
+
+	/**
 	 * Filter a list of items by category.
 	 */
 	public List<Item> filterByCategorie(List<Item> items, String category) {
-		return items.stream().filter(item -> item.getCategory().getLibelle().equals(category)).collect(Collectors.toList());
+		return items.stream().filter(item -> item.getCateId().getLibelle().equals(category)).collect(Collectors.toList());
+	}
+
+	/**
+	 * Filter a list of items by buyer.
+	 */
+	public List<Item> filterByBuyer(List<Item> items, int userId) {
+		return items.stream().filter(i -> i.getUserIdBuyer() != null && i.getUserIdBuyer().getId() == userId).collect(Collectors.toList());
+	}
+
+	/**
+	 * Filter a list of items by bids's buyer.
+	 */
+	public List<Item> filterByBidsBuyer(List<Item> items, int userId) {
+		return items.stream().filter(i -> {
+			try {
+				return new BidManager().getById(i.getId(), userId) != null;
+			} catch (BidsException e) {
+				e.printStackTrace();
+			}
+			return false;
+		}).collect(Collectors.toList());
 	}
 
 	/**
@@ -124,10 +177,10 @@ public class ItemManager extends GenericManager<Item> {
 	}
 
 	/**
-	 * Filter the items for which the sales are over.
+	 * Filter the items by seller
 	 */
 	public List<Item> filterBySeller(List<Item> items, int userIdSeller) throws BidsException {
-		return items.stream().filter(item -> item.getSeller().getId() == userIdSeller).collect(Collectors.toList());
+		return items.stream().filter(item -> item.getUserIdSeller().getId() == userIdSeller).collect(Collectors.toList());
 	}
 
 	// LOGIC & CHECKS
@@ -169,10 +222,10 @@ public class ItemManager extends GenericManager<Item> {
 		if (dateFinBids.isBefore(LocalDateTime.now()) || dateFinBids.isBefore(item.getDateStart())) {
 			errors.append("Champs incorrecte. La date de fin d'enchère est invalide.").append("\n");
 		}
-		if (item.getSeller() == null) {
+		if (item.getUserIdSeller() == null) {
 			errors.append("Champs obligatoire. L'article n'a pas de vendeur.").append("\n");
 		}
-		if (item.getCategory() != null && new CategoryManager().getById(item.getId()) == null) {
+		if (item.getCateId() != null && new CategoryManager().getById(item.getId()) == null) {
 			errors.append("Champs incorrect. La catégorie renseignée n'existe pas.").append("\n");
 		}
 		if (item.getPriceSeller() < 0) {
@@ -190,6 +243,7 @@ public class ItemManager extends GenericManager<Item> {
 	 * Check if an item already exists in the database.
 	 */
 	protected boolean exist(Item item) throws BidsException {
+		@SuppressWarnings("serial")
 		Map<String, Object> fields = new HashMap<String, Object>() {
 			{
 				put("name", item.getName());

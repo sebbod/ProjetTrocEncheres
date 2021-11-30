@@ -38,11 +38,41 @@
 					    <button type="submit" style="cursor: not-allowed" disabled>Recherche</button>
 					  </div>
 					  <div >
-					    <label for="categories">Catégorie</label>
-					    <select id="categories">
+					    <label for="category">Catégorie</label>
+					    <select id="category">
 					      <option selected value ="">Toutes</option>
 					    </select>
-					  </div>					
+					  </div>	
+					  <table id="filters" class="d-none">
+					    <tr>
+					      <td>
+					        <label>
+					          <input type="radio" name="filter"  value="buy" checked />
+					          Achats
+					        </label>
+					        <br />
+					        <input type="checkbox" id="saleIsOpen"><label for="saleIsOpen">Enchères ouvertes</label>
+					        <br />
+					        <input type="checkbox" id="isCurrentUser"><label for="isCurrentUser">Mes enchères en cours</label>
+					        <br />
+					        <input type="checkbox" id="saleIsWon"><label for="saleIsWon">Mes enchères remportées</label>
+					        <br />
+					      </td>
+					      <td>
+					        <label>
+					          <input type="radio" name="filter"  value="sell" />
+					          Ventes
+					        </label>
+					        <br />
+					        <input type="checkbox" id="saleIsOnGoing"><label for="saleIsOnGoing">Mes ventes en cours</label>
+					        <br />
+					        <input type="checkbox" id="saleIsCreated"><label for="saleIsCreated">Ventes non débutées</label>
+					        <br />
+					        <input type="checkbox" id="saleIsOver"><label for="saleIsOver">Ventes terminées</label>
+					        <br />
+					      </td>
+					    </tr>
+					</table>				
 				</form>
 				<div class="container">
 				  <div id="items"></div>
@@ -50,21 +80,47 @@
 			
 				<section id="scripts">
 			        <script defer>
-			        //let loginPage = "<%=request.getContextPath()%>/login";
-			        let searchBtn = document.querySelector("#search")
-			        let divItems = document.querySelector("#items")
-			        let cateLst = document.querySelector("#categories")			
-			        /*
-		        	const connectedUserId = "${sessionScope.connectedUserId}";
-		        	if(connectedUserId != ""){
-			        	getUser(connectedUserId);
-		        	}else{
-		        		const add = "${sessionScope.add}";
-			        	if(add != ""){
-			        		displayProfile4Add();
-			        	}		        		
+			       
+			        const connectedUserId = "${sessionScope.connectedUserId}";
+		        	if(connectedUserId == ""){
+		        		document.querySelector("#filters").style.display = "none";
 		        	}
-		        	*/
+			        let searchInput = document.querySelector("#search")
+			        let userSearch = searchInput.value;			        
+			        searchInput.oninput = $event => {
+			        	userSearch = $event.target.value;
+			        	search();
+			        }
+			        
+			        
+			        let cateLst = document.querySelector("#category")	
+			        let category = cateLst.value;
+			        cateLst.onchange = $event => {
+			        	category = $event.target.value;
+			        	search();
+			        }
+			        
+			        let checkboxes = {
+		                saleIsOpen: false,
+		                isCurrentUser: false,
+		                saleIsWon: false,
+		                saleIsOnGoing: false,
+		                saleIsCreated: false,
+		                saleIsOver: false
+		            };
+			        
+			        let filter = document.querySelector('input[name="filter"]:checked').value;
+			        document.querySelectorAll("input[type=radio]").forEach(radio => {
+			            radio.onchange = $event => {
+			                filter = $event.target.value;
+			                updateCheckboxes();
+			                search();
+			            }
+			        })
+			        
+			        let divItems = document.querySelector("#items")
+			        let itemLst = [];
+
 			        </script>
 			        <script>
 	

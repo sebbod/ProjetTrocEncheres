@@ -41,7 +41,7 @@ public class CategoryManager extends GenericManager<Category> {
 		};
 		List<Item> items = DAOFactory.getItemDAO().selectAllByFields(fields);
 		for (Item item : items) {
-			item.setCategory(null);
+			item.setCateId(null);
 			new ItemManager().update(item);
 		}
 		;

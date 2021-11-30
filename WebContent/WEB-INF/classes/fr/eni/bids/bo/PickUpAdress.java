@@ -1,41 +1,84 @@
 package fr.eni.bids.bo;
 
 public class PickUpAdress {
-	private Integer id;
+	private Integer itemId;
 	private String street;
-	private String city;
-	private String postCode;
+	private String town;
+	private String zipCode;
+	private Item item;
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "PickUpAdress [itemId=" + itemId + ", street=" + street + ", town=" + town + ", zipCode=" + zipCode + ", item=" + item + "]";
+	}
 
 	public PickUpAdress() {
+	}
+
+	public PickUpAdress(Item item) {
+		setItem(item);
+		setItemId(item.getId());
+
+		User seller = item.getUserIdSeller();
+		setStreet(seller.getStreet());
+		setZipCode(seller.getZipCode());
+		setTown(seller.getTown());
+	}
+
+	public PickUpAdress(Item item, String street, String zipCode, String town) {
+		setItem(item);
+		setItemId(item.getId());
+
+		setStreet(street);
+		setZipCode(zipCode);
+		setTown(town);
 	}
 
 	/**
 	 * @param id
 	 * @param street
-	 * @param city
-	 * @param postCode
+	 * @param town
+	 * @param zipCode
 	 */
-	public PickUpAdress(Integer id, String street, String city, String postCode) {
+	public PickUpAdress(Integer itemId, String street, String zipCode, String town) {
 		super();
-		this.id = id;
+		this.itemId = itemId;
 		this.street = street;
-		this.city = city;
-		this.postCode = postCode;
+		this.zipCode = zipCode;
+		this.town = town;
 	}
 
 	/**
-	 * @return the id
+	 * @return the item
 	 */
-	public Integer getId() {
-		return id;
+	public Item getItem() {
+		return item;
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
+	 * @param item
+	 *            the item to set
 	 */
-	public void setId(Integer id) {
-		this.id = id;
+	public void setItem(Item item) {
+		this.item = item;
+	}
+
+	/**
+	 * @return the itemId
+	 */
+	public Integer getItemId() {
+		return itemId;
+	}
+
+	/**
+	 * @param itemId
+	 *            the itemId to set
+	 */
+	public void setItemId(Integer itemId) {
+		this.itemId = itemId;
 	}
 
 	/**
@@ -54,33 +97,33 @@ public class PickUpAdress {
 	}
 
 	/**
-	 * @return the city
+	 * @return the town
 	 */
-	public String getCity() {
-		return city;
+	public String getTown() {
+		return town;
 	}
 
 	/**
-	 * @param city
-	 *            the city to set
+	 * @param town
+	 *            the town to set
 	 */
-	public void setCity(String city) {
-		this.city = city;
+	public void setTown(String town) {
+		this.town = town;
 	}
 
 	/**
-	 * @return the postCode
+	 * @return the zipCode
 	 */
-	public String getPostCode() {
-		return postCode;
+	public String getZipCode() {
+		return zipCode;
 	}
 
 	/**
-	 * @param postCode
-	 *            the postCode to set
+	 * @param zipCode
+	 *            the zipCode to set
 	 */
-	public void setPostCode(String postCode) {
-		this.postCode = postCode;
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
 }

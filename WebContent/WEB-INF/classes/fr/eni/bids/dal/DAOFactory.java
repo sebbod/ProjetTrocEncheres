@@ -4,10 +4,12 @@ import fr.eni.bids.BidsException;
 import fr.eni.bids.bo.Bid;
 import fr.eni.bids.bo.Category;
 import fr.eni.bids.bo.Item;
+import fr.eni.bids.bo.PickUpAdress;
 import fr.eni.bids.bo.User;
 import fr.eni.bids.dal.jdbc.BidJDBCDAOImpl;
 import fr.eni.bids.dal.jdbc.CategoryJDBCDAOImpl;
 import fr.eni.bids.dal.jdbc.ItemJDBCDAOImpl;
+import fr.eni.bids.dal.jdbc.PickUpAdressJDBCDAOImpl;
 import fr.eni.bids.dal.jdbc.UserJDBCDAOImpl;
 
 public class DAOFactory {
@@ -24,8 +26,9 @@ public class DAOFactory {
 		return new CategoryJDBCDAOImpl();
 	}
 
-	// public static DAO<PickUpAdress> getPickUpAdressDAO() throws BidsException {
-	// return new PickUpAdressJDBCDAOImpl(); }
+	public static DAO<PickUpAdress> getPickUpAdressDAO() throws BidsException {
+		return new PickUpAdressJDBCDAOImpl();
+	}
 
 	public static DAO<Bid> getBidDAO() throws BidsException {
 		return new BidJDBCDAOImpl();
@@ -39,8 +42,8 @@ public class DAOFactory {
 			return getUserDAO();
 		case "Category":
 			return getCategoryDAO();
-		// case "PickUpAdress":
-		// return getPickUpAdressDAO();
+		case "PickUpAdress":
+			return getPickUpAdressDAO();
 		case "Bid":
 			return getBidDAO();
 		default:
@@ -48,7 +51,6 @@ public class DAOFactory {
 		}
 	}
 
-	
 	public static LoginDAO getLoginDAO() {
 		LoginDAO loginDAO = null;
 		try {

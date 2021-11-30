@@ -30,6 +30,7 @@ public abstract class GenericJDBCDAOImpl<T> implements DAO<T> {
 
 	// CONSTRUCTOR
 
+	@SuppressWarnings("unchecked")
 	protected GenericJDBCDAOImpl() throws BidsException {
 		this.entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		setIdentifiers();
@@ -230,6 +231,7 @@ public abstract class GenericJDBCDAOImpl<T> implements DAO<T> {
 	 * @throws BidsException
 	 *             BidsException | CRUD_SELECT_FIELD_ERROR.
 	 */
+	@SuppressWarnings("serial")
 	@Override
 	public T selectByField(String field, Object fieldValue) throws BidsException {
 		Map<String, Object> fields = new HashMap<String, Object>() {
@@ -302,6 +304,7 @@ public abstract class GenericJDBCDAOImpl<T> implements DAO<T> {
 	 * @throws BidsException
 	 *             BidsException | CRUD_SELECT_FIELD_ERROR.
 	 */
+	@SuppressWarnings("serial")
 	@Override
 	public List<T> selectAllByField(String field, Object fieldValue) throws BidsException {
 		Map<String, Object> fields = new HashMap<String, Object>() {
@@ -340,6 +343,7 @@ public abstract class GenericJDBCDAOImpl<T> implements DAO<T> {
 	 * @throws BidsException
 	 *             BidsException | GENERATE_OBJECT_ERROR.
 	 */
+	@SuppressWarnings("unchecked")
 	private T generateObject(ResultSet resultSet) throws BidsException {
 		T instance = getObject();
 		try {
@@ -364,7 +368,10 @@ public abstract class GenericJDBCDAOImpl<T> implements DAO<T> {
 					entityClass.getMethod(method, LocalDateTime.class).invoke(instance, resultSet.getTimestamp(field.getKey()).toLocalDateTime());
 					break;
 				default:
+					//System.out.println("generateObject, method=" + method);
+					//System.out.println("generateObject, field.getValue()=" + field.getValue());
 					int identifier = resultSet.getInt(field.getKey());
+					//System.out.println("generateObject, identifier=" + identifier);
 					GenericJDBCDAOImpl<T> implementation = (GenericJDBCDAOImpl<T>) Class.forName(field.getValue()).newInstance();
 					entityClass.getMethod(method, implementation.getObject().getClass()).invoke(instance, implementation.selectById(identifier));
 				}
