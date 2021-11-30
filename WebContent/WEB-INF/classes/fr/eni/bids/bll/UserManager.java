@@ -1,6 +1,7 @@
 package fr.eni.bids.bll;
 
 import fr.eni.bids.BidsException;
+import fr.eni.bids.bll.utils.RegExUtils;
 import fr.eni.bids.bll.utils.TrippleDes;
 import fr.eni.bids.bo.User;
 import fr.eni.bids.dal.DAO;
@@ -47,7 +48,7 @@ public class UserManager extends GenericManager<User> {
 			e.printStackTrace();
 		}
 
-		System.out.println("getByPseudoAndPassword : User.getPwd()=" + u.getPwd() + ", password=" + password + ",hPwd=" + hPwd);
+		//System.out.println("getByPseudoAndPassword : User.getPwd()=" + u.getPwd() + ", password=" + password + ",hPwd=" + hPwd);
 		if (u != null && u.getPwd().equals(hPwd)) {
 			return u;
 		} else {
@@ -96,6 +97,10 @@ public class UserManager extends GenericManager<User> {
 		if (User.getPseudo() == null || User.getPseudo().isEmpty()) {
 			errors.append("Champs obligatoire. L'utilisateur n'a pas de pseudonyme.").append("\n");
 		}
+		if (!RegExUtils.isAlphaNumeric(User.getPseudo())) {
+			errors.append("Le pseudo ne doit contenir que des lettres et des chiffres.").append("\n");
+		}
+
 		if (User.getName() == null || User.getName().isEmpty()) {
 			errors.append("Champs obligatoire. L'utilisateur n'a pas de nom.").append("\n");
 		}
