@@ -110,6 +110,10 @@ public class UserManager extends GenericManager<User> {
 		if (User.getEmail() == null || User.getEmail().isEmpty()) {
 			errors.append("Champs obligatoire. L'utilisateur n'a pas d'e-mail.").append("\n");
 		}
+		if (!RegExUtils.isMail(User.getEmail())) {
+			errors.append("Le mail ne respecte pas la convention de format.").append("\n");
+		}
+
 		if (User.getStreet() == null || User.getStreet().isEmpty()) {
 			errors.append("Champs obligatoire. L'utilisateur n'a pas de rue renseignée pour son adresse.").append("\n");
 		}
@@ -131,7 +135,7 @@ public class UserManager extends GenericManager<User> {
 	}
 
 	protected boolean exist(User User) throws BidsException {
-		System.out.println("checkUnity, User=" + User);
+		//System.out.println("exist, User=" + User);
 
 		User uWithSameMail = getByEmail(User.getEmail());
 		if (uWithSameMail != null && uWithSameMail.getId() != User.getId()) {
