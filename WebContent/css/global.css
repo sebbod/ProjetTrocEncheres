@@ -1,9 +1,17 @@
 @charset "UTF-8";
 
+/* Imports other CSS files */
+@import 'links.css';
+@import 'buttons.css';
+@import 'forms.css';
+@import 'navbar.css';
+@import 'footer.css';
+
 /* Global variables */
 :root {
   /* Colors */
   --primary-color: #F06141;
+  --danger-color: #f04141;
   --text-color: #000000;
   --border-color: #BBC1E1;
   
@@ -34,95 +42,10 @@
 	outline: none;
 }
 
-/* Link style */
-a {
-	text-decoration: none;
-}
-
-a.link,
-a.link:visited {
-	font-family: var(--primary-font);
-	font-size: var(--fs-normal);
-	font-weight: var(--fw-semi-bold);
-	color: var(--text-color);
-	transition: 0.4s;
-	text-decoration: underline;
-}
-
-a.link:hover {
-	color: var(--primary-color);
-}
-
-/* Buttons styles */
-.btn-accent,
-.btn-outline {
-	font-family: var(--primary-font);
-	font-weight: var(--fw-semi-bold);
-	font-size: var(--fs-large);
-	text-align: center;
-	border: 3px solid var(--primary-color);
-	border-radius: 13px;
-	padding-left: 21px;
-	padding-right: 21px;
-	padding-top: 8px;
-	padding-bottom: 8px;
-	box-shadow: rgba(0, 0, 0, 0.16) 0 0 6px;
-	transition: 0.45s;
-	text-decoration: none!important;
-}
-
-.btn-accent,
-.btn-outline:hover {
-	background-color: var(--primary-color);
-	color: white;
-}
-
-.btn-accent:hover,
-.btn-outline {
-	background-color: transparent;
-	color: var(--primary-color);
-}
-
-.btn-accent:hover,
-.btn-accent:hover {
-	cursor: pointer;
-}
-
-/* Forms */
-label {
-	font-family: var(--primary-font);
-	font-weight: var(--fw-regular);
-	font-size: var(--fs-large);
-}
-
-input {
-	font-family: var(--primary-font);
-	font-weight: var(--fw-regular);
-	font-size: var(--fs-large);
-	border: 1.5px solid #d0d0df;
-	border-radius: 8px;
-	padding-left: 16px;
-	padding-right: 16px;
-	padding-top: 12px;
-	padding-bottom: 12px;
-	transition: border 0.08s;
-}
-
-input:focus {
-	border: 2px solid var(--primary-color);
-}
-
-.checkbox-with-label {
+/* Body style */
+body {
 	display: flex;
-	flex-direction: row;
-	align-items: baseline;
-}
-
-.checkbox-with-label > input[type=checkbox] {
-	width: 10px;
-	margin-right: 5px;
-}
-
-.checkbox-with-label > label {
-	font-size: var(--fs-normal);
+	flex-direction: column;
+	height: 100vh;
+	margin: 0;
 }

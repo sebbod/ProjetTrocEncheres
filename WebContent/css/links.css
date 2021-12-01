@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+/* Links style */
+a {
+	text-decoration: none;
+}
+
+a.link,
+a.link:visited {
+	font-family: var(--primary-font);
+	font-size: var(--fs-normal);
+	font-weight: var(--fw-semi-bold);
+	color: var(--text-color);
+	transition: 0.4s;
+	text-decoration: underline;
+}
+
+a.link:hover {
+	color: var(--primary-color);
+}

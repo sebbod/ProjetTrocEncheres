@@ -1,4 +1,18 @@
-<div class="navbar">
+<nav id="navbar">
+	<a id="navbar-logo-a" href="<%=request.getContextPath()%>/">
+		<img id="navbar-logo" alt="Logo du site ENI ENCHERES" src="<%=request.getContextPath()%>/img/logo.png" srcset="<%=request.getContextPath()%>/img/logo.svg">
+	</a>
+	<ul id="navbar-links">
+		<c:set var="uri" value="<%=request.getAttribute(\"javax.servlet.forward.request_uri\")%>" />
+		<a href="<%=request.getContextPath()%>/encheres"><li${uri.endsWith('/') ? ' class="active" ' : ''}${uri.endsWith('/encheres') ? ' class="active"' : ''}>Enchères</li></a>
+		<a href="<%=request.getContextPath()%>/vendre"><li${uri.endsWith('/vendre') ? ' class="active"' : ''}>Vendre un article</li></a>
+		<a href="<%=request.getContextPath()%>/user/profil"><li${uri.endsWith('/user/profil') ? ' class="active"' : ''}>Mon profil</li></a>
+		<a href="<%=request.getContextPath()%>/logout"><li>Déconnexion</li></a>
+	</ul>
+</nav>
+
+<!--
+<nav class="navbar">
 	<div Style="width:10%">
 		<a href="<%=request.getContextPath()%>/Home">
 			<img class="navbarLogo" src="https://www.trocauxencheres.fr/images/Logo-TrocAuxEncheres.png"/>
@@ -6,6 +20,7 @@
 	</div>
 	<div Style="width:50%"></div>
 	<div Style="width:40%" class="navbarLabelDiv">
-		<!-- TODO -->
+		<!-- TODO 
 	</div>
-</div>
+</nav>
+-->

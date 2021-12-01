@@ -1,0 +1,66 @@
+@charset "UTF-8";
+
+/* User profil style */
+.title {
+	font-family: var(--primary-font);
+	font-size: var(--fs-title);
+	font-weight: var(--fw-semi-bold);
+	color: var(--text-color);
+	text-align: center;
+	margin-bottom: 31px;
+}
+
+/* Default view */
+#formData h4 {
+	font-family: var(--primary-font);
+	font-size: var(--fs-large);
+	font-weight: var(--fw-regular);
+	color: var(--text-color);
+	text-align: center;
+}
+
+#formData input {
+	width: 250px;
+}
+
+#btnActions {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin-top: 76px;
+}
+
+#btnActions input {
+	margin-right: 26px;
+}
+
+#btnActions input:last-child {
+	margin-right: 0;
+}
+
+/* Edit and add (register) view */
+#formData.edit-mode,
+#formData.add-mode {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+#formData.edit-mode #left-form,
+#formData.add-mode #left-form {
+	margin-right: 38px;
+}
+
+#formData.edit-mode #right-form,
+#formData.add-mode #right-form {
+	margin-left: 38px;
+}
+
+#formData.edit-mode h4,
+#formData.add-mode h4 {
+	text-align: left;
+	display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}

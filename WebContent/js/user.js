@@ -40,6 +40,7 @@ function checkPwd(){
 function insertUser() {
 	if(checkPwd()){
 		insertData(`user/signup`, displayError, getFormData());
+		document.location.href = "../";
 	}else{
 		errorMsg.innerHTML = "La confirmation du mot de passe n'est pas correct"
 	}
@@ -78,15 +79,19 @@ function displayProfile4Edit() {
     		span.innerHTML = `<input id="i${attribute}" type="text" value="${value}">`;	
     	} 
     })
-    cancBtn.onclick = () => {  
-    	window.history.back();        	   	
+    cancBtn.onclick = () => {
+		getUser(connectedUserId);
     }
-    delBtn.onclick = () => {  
-    	deleteUser(connectedUserId);        	   	
+    delBtn.onclick = () => {
+		let confirmed = confirm("La suppression de votre compte est irréversible, êtes-vous sûr(e) de vouloir supprimer votre compte ?");
+    	if(confirmed) {
+			deleteUser(connectedUserId);
+		}
     }
 }
 
 function displayProfile4Add() {
+	document.getElementById("page-title").innerHTML = "Mon profil";
     ["pseudo", "name", "firstName", "email", "telephone", "street", "zipCode", "town", "pwd", "pwdbis"].forEach(attribute => {
     	span = document.querySelector(`#${attribute}`);
     	value = span.innerHTML;
@@ -98,10 +103,10 @@ function displayProfile4Add() {
     })
     SwitchMode('add');
     addBtn.onclick = () => {  
-    	insertUser();        	   	
+    	insertUser(); 
     }
     cancBtn.onclick = () => {  
-    	window.history.back();        	   	
+    	document.location.href = "../login";
     }
 }
 
@@ -109,9 +114,10 @@ function loadUsers(user) {
 	displayProfile4View(user);	
     if (user["id"] === parseInt(connectedUserId)) {
         document.title = "Mon profil";
+		document.getElementById("page-title").innerHTML = "Mon profil";
         
         saveBtn.onclick = () => {  
-        	updateUser();        	   	
+        	updateUser();
         }
 
         editBtn.onclick = () => {
@@ -125,38 +131,53 @@ function loadUsers(user) {
 
 function SwitchMode(mode){
     switch(mode){
-    case 'edit':
-    	addBtn.style.display = "none";
-    	delBtn.style.display = "inline";
-    	cancBtn.style.display = "inline";
-    	saveBtn.style.display = "inline";
-    	pwdh4.style.display = "inline";
-    	pwdspn.style.display = "inline";
-    	pwdbish4.style.display = "inline";
-    	pwdbisspn.style.display = "inline";
-    	editBtn.style.display = "none";
-    	break;
-    case 'view':
-    	addBtn.style.display = "none";
-    	delBtn.style.display = "none";
-		cancBtn.style.display = "inline";
-		saveBtn.style.display = "none";
-    	pwdh4.style.display = "none";
-    	pwdspn.style.display = "none";
-    	pwdbish4.style.display = "none";
-    	pwdbisspn.style.display = "none";
-    	editBtn.style.display = "inline";
-    	break;
-    case 'add':
-    	addBtn.style.display = "inline";
-    	delBtn.style.display = "none";
-    	cancBtn.style.display = "inline";
-		saveBtn.style.display = "none";
-    	pwdh4.style.display = "inline";
-    	pwdspn.style.display = "inline";
-    	pwdbish4.style.display = "inline";
-    	pwdbisspn.style.display = "inline";
-    	editBtn.style.display = "none";
-    	break;
+	    case 'edit':
+			errorMsg.innerHTML = "";
+			removeClass(form, "view-mode");
+			removeClass(form, "add-mode");
+			addClass(form, "edit-mode");
+	    	addBtn.style.display = "none";
+	    	delBtn.style.display = "inline";
+	    	cancBtn.style.display = "inline";
+	    	saveBtn.style.display = "inline";
+	    	pwdh4.style.display = "inline";
+	    	pwdspn.style.display = "inline";
+	    	pwdbish4.style.display = "inline";
+	    	pwdbisspn.style.display = "inline";
+	    	editBtn.style.display = "none";
+	    	break;
+	
+	    case 'view':
+			errorMsg.innerHTML = "";
+			document.querySelectorAll("#formData input").forEach(e => e.remove());
+			removeClass(form, "edit-mode");
+			removeClass(form, "add-mode");
+			addClass(form, "view-mode");
+	    	addBtn.style.display = "none";
+	    	delBtn.style.display = "none";
+			cancBtn.style.display = "none";
+			saveBtn.style.display = "none";
+	    	pwdh4.style.display = "none";
+	    	pwdspn.style.display = "none";
+	    	pwdbish4.style.display = "none";
+	    	pwdbisspn.style.display = "none";
+	    	editBtn.style.display = "inline";
+	    	break;
+	
+	    case 'add':
+			errorMsg.innerHTML = "";
+			removeClass(form, "edit-mode");
+			removeClass(form, "view-mode");
+			addClass(form, "add-mode");
+	    	addBtn.style.display = "inline";
+	    	delBtn.style.display = "none";
+	    	cancBtn.style.display = "inline";
+			saveBtn.style.display = "none";
+	    	pwdh4.style.display = "inline";
+	    	pwdspn.style.display = "inline";
+	    	pwdbish4.style.display = "inline";
+	    	pwdbisspn.style.display = "inline";
+	    	editBtn.style.display = "none";
+	    	break;
 	}
 }
