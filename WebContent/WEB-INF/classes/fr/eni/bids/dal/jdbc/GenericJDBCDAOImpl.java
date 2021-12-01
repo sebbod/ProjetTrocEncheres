@@ -269,6 +269,7 @@ public abstract class GenericJDBCDAOImpl<T> implements DAO<T> {
 				setStatementParameters(statement, fieldsValues);
 			}
 			ResultSet resultSet = statement.executeQuery();
+			//System.out.println("selectAllBy :resultSet=" + resultSet);
 			while (resultSet.next()) {
 				instances.add(generateObject(resultSet));
 			}

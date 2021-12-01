@@ -232,8 +232,12 @@ public class Item implements Serializable {
 	 * @return the status
 	 */
 	public String getStatus() {
-		setStatus();
+		//setStatus();
 		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	/**

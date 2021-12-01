@@ -10,6 +10,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/Style.css" type="text/css" />
 		<title>Liste des enchères</title>
+		<script src="<%=request.getContextPath()%>/js/date-tools.js"></script>
 		<script src="<%=request.getContextPath()%>/js/ajax.js"></script>
 		<script src="<%=request.getContextPath()%>/js/itemSearch.js"></script>
 	</head>
@@ -75,7 +76,7 @@
 					</table>				
 				</form>
 				<div class="container">
-				  <div id="items"></div>
+				  <div id="items" class="items"></div>
 				</div>
 			
 				<section id="scripts">

@@ -1,7 +1,20 @@
 // FUNCTIONS
 
 function getDate(date) {
-    return new Date(date["year"], date["monthValue"] - 1, date["dayOfMonth"], date["hour"], date["minute"], date["second"]);
+    return new Date(Date.UTC(date["year"], date["monthValue"] - 1, date["dayOfMonth"], date["hour"], date["minute"], date["second"]));
+}
+
+function getDateFormated(date) {
+	// jeudi 30 décembre 2021
+	//const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+	
+	//  RangeError: Value numeric out of range for Date.prototype.toLocaleDateString options property weekday
+	//const options = { weekday: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' };
+	
+	//return getDate(date).toLocaleDateString("fr-FR",options);
+	
+	// 30/12/2021
+	return getDate(date).toLocaleDateString("fr-FR");
 }
 
 function getTimeUntil(date) {

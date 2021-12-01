@@ -23,6 +23,7 @@ public class ItemJDBCDAOImpl extends GenericJDBCDAOImpl<Item> {
 		this.tableName = "BID_ITEMS";
 	}
 
+	@SuppressWarnings("serial")
 	@Override
 	protected void setFields() {
 		this.fields = new LinkedHashMap<String, String>() {
@@ -34,8 +35,10 @@ public class ItemJDBCDAOImpl extends GenericJDBCDAOImpl<Item> {
 				put("dateEnd", "LocalDateTime");
 				put("priceSeller", "Int");
 				put("priceBuyer", "Int");
-				put("userIdSeller", "fr.eni.bids.dal.jdbc.UserJDBCDAOImpl"); // Seller
+				put("userIdSeller", "fr.eni.bids.dal.jdbc.UserJDBCDAOImpl");
+				put("userIdBuyer", "fr.eni.bids.dal.jdbc.UserJDBCDAOImpl");
 				put("cateId", "fr.eni.bids.dal.jdbc.CategoryJDBCDAOImpl");
+				put("status", "String");
 			}
 		};
 	}

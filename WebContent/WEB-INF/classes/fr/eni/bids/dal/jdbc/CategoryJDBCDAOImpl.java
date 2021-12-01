@@ -23,6 +23,7 @@ public class CategoryJDBCDAOImpl extends GenericJDBCDAOImpl<Category> {
 		this.tableName = "BID_ITEM_CATEGORIES";
 	}
 
+	@SuppressWarnings("serial")
 	@Override
 	protected void setFields() {
 		this.fields = new LinkedHashMap<String, String>() {
