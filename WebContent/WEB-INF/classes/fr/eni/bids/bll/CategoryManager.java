@@ -36,7 +36,7 @@ public class CategoryManager extends GenericManager<Category> {
 	protected void executeUpdate(Category categorie, String operationCRUD) throws BidsException {
 		Map<String, Object> fields = new HashMap<String, Object>() {
 			{
-				put("categorie", categorie.getId());
+				put("cateId", categorie.getId());
 			}
 		};
 		List<Item> items = DAOFactory.getItemDAO().selectAllByFields(fields);
@@ -64,9 +64,6 @@ public class CategoryManager extends GenericManager<Category> {
 		}
 	}
 
-	/**
-	 * Check if an article already exists in the database.
-	 */
 	protected boolean exist(Category categorie) throws BidsException {
 		return CategoryDao.selectByField("libelle", categorie.getLibelle()) != null;
 	}

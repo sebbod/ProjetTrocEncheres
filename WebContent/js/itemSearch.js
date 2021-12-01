@@ -27,8 +27,10 @@ function getArticlesToSell(userSearch = "", category = "", saleIsOnGoing = false
 function updateResults(items) {
 	divItems.innerHTML = '<i></i>';
 	itemLst = items ? items : [];
-	divItems.innerHTML = "";
-    itemLst.forEach(item => { createItem(item) })    
+	if(itemLst.length > 0){
+		divItems.innerHTML = "";
+    	itemLst.forEach(item => { createItem(item) })
+	}
 }
 
 
@@ -102,6 +104,24 @@ function updateCheckboxes () {
     });
 }
 
+function activeCheckbox(){
+	for (let checkbox of Object.keys(checkboxes)) {
+	    document.querySelector(`#${checkbox}`).onclick = $event => {
+	        checkboxes[checkbox] = $event.target.checked;
+	        search();
+	    }
+	}
+}
+
 function loadCategories(){
-	
+	getData(`category`, updateCategories);
+}
+function updateCategories (categories) {
+	categories.forEach(c => { createOption(cateLst, c) })  
+}
+function createOption(select, category){
+    var opt = document.createElement('option');
+    opt.value = category.id;
+    opt.innerHTML = category.libelle;
+    select.appendChild(opt);
 }

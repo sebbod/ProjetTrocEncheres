@@ -1,7 +1,6 @@
 package fr.eni.bids.dal.jdbc;
 
 import fr.eni.bids.BidsException;
-import fr.eni.bids.bo.Item;
 
 public class QueryGenerator {
 	// GENERIC
@@ -36,7 +35,8 @@ public class QueryGenerator {
 	// ARTICLE
 	public static String SELECT_ITEM_LIKE(String variable, String categoryId) throws BidsException {
 		return "SELECT " + new ItemJDBCDAOImpl().generateQueryFields() + " FROM BID_ITEMS WHERE (name LIKE '%" + variable + "%' OR description LIKE '%" + variable + "%') " + (categoryId == null ? "" : "AND cateId = " + categoryId + " ")
-				+ " AND status IN ('" + Item.STATUS_PENDING + "') ORDER BY name";
+				+ " ORDER BY name";
+		//" AND status IN ('" + Item.STATUS_PENDING + "') ORDER BY name";
 	}
 
 	// ENCHERE
