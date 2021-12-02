@@ -26,7 +26,7 @@
 	<section id="profile" class="dataContainer">
 		<div class="group">
 			<h1 id="page-title" class="title">Profil de l'utilisateur</h1>
-			<div class="containerError" role="alert" id="errorMsg"></div>
+			<div class="container-error" role="alert" id="errorMsg"></div>
 				<form id="formData">
 					<div id="left-form">
 						<!-- TODO LATER: IMPROVE DESIGN

@@ -38,7 +38,7 @@
 			<div class="dateContainer">
 				<h1 class="title">Liste des enchères</h1>	
 				
-				<div class="containerError" role="alert" id="errorMsg"></div>
+				<div class="container-error" role="alert" id="errorMsg"></div>
 				<form id="formData" class="search-mode">
 					<label>Filtres :</label>
 					  <div >

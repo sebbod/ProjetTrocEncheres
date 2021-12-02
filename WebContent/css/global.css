@@ -67,7 +67,7 @@ body {
 	justify-content: center;
 }
 
-.containerError{
+.container-error{
 	display: grid;
 	justify-content: center;
 	align-items: center;
