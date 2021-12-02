@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.bids.bll.BLLException;
 import fr.eni.bids.bll.LoginManager;
+import fr.eni.bids.bll.utils.AppUtils;
 import fr.eni.bids.bll.utils.TrippleDes;
 
 /**
@@ -94,10 +95,24 @@ public class Login extends HttpServlet {
 			// After 5 minutes of inactivity, invalidate that session
 			session.setMaxInactiveInterval(5 * 60);
 
-			// Redirect to homepage
-			// TO EDIT WHEN HOMEPAGE WILL BE READY
-			response.sendRedirect(request.getContextPath() + "/user/profil");
-			// Else, redirect to login page with error
+			// Check for redirect id
+			int redirectId = -1;
+			try {
+				redirectId = Integer.parseInt(request.getParameter("redirectId"));
+			} catch (Exception e) {
+				// Ignore
+			}
+			
+			String requestUri = AppUtils.getRedirectAfterLoginUrl(session, redirectId);
+			
+			// If hasn't valid URI to redirect, redirect to homepage
+			if (requestUri == null) {
+				response.sendRedirect(request.getContextPath() + "/");
+			} else {
+				response.sendRedirect(requestUri);
+			}
+			
+		// Else, redirect to login page with error
 		} else {
 			request.setAttribute("error", "Identifiant ou mot de passe invalide");
 			request.setAttribute("username", username);
