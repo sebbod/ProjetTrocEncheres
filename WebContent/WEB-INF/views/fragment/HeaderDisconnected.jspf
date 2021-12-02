@@ -1,5 +1,7 @@
 <nav id="navbar">
-	<img id="navbar-logo" alt="Logo du site ENI ENCHERES" src="<%=request.getContextPath()%>/img/logo.png" srcset="<%=request.getContextPath()%>/img/logo.svg">
+	<a id="navbar-logo-a" href="<%=request.getContextPath()%>/">
+		<img id="navbar-logo" alt="Logo du site ENI ENCHERES" src="<%=request.getContextPath()%>/img/logo.png" srcset="<%=request.getContextPath()%>/img/logo.svg">
+	</a>
 	<ul id="navbar-links">
 		<a href="<%=request.getContextPath()%>/user/register"><li>S'inscrire</li></a>
 		<a href="<%=request.getContextPath()%>/login"><li>Se connecter</li></a>
