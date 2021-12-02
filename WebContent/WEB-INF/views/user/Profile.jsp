@@ -111,8 +111,13 @@
 			var user;
 						        
 			const connectedUserId = "${sessionScope.connectedUserId}";
+			const profil4UserId =  "${sessionScope.profil4UserId}";
 			if(connectedUserId != "") {
-				getUser(connectedUserId);
+				if(profil4UserId != ""){					
+					getUser(profil4UserId);
+				}else{
+					getUser(connectedUserId);
+				}
 			} else {
 				const add = "${sessionScope.add}";
 				if(add != "") {

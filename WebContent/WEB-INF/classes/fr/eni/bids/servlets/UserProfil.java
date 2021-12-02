@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class Login
@@ -26,6 +27,16 @@ public class UserProfil extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		// Display profil for :
+		if (request.getParameter("id") != null) {
+			// user by id
+			String id = request.getParameter("id");
+			session.setAttribute("profil4UserId", id);
+		} else {
+			// connected user
+			session.removeAttribute("profil4UserId");
+		}
 		RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/views/user/Profile.jsp");
 		rd.forward(request, response);
 	}

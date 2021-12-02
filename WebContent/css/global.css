@@ -72,3 +72,9 @@ body {
 	justify-content: center;
 	align-items: center;
 }
+
+#formData.search-mode {
+	display: grid;
+	flex-direction: row;
+	justify-content: center;
+}

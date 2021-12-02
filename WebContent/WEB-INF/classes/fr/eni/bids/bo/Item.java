@@ -201,6 +201,8 @@ public class Item implements Serializable {
 	 *            the seller to set
 	 */
 	public void setUserIdSeller(User seller) {
+		if (seller != null)
+			seller.setPwd("");
 		this.seller = seller;
 	}
 
@@ -223,6 +225,8 @@ public class Item implements Serializable {
 	 *            the buyer to set
 	 */
 	public void setUserIdBuyer(User buyer) {
+		if (buyer != null)
+			buyer.setPwd("");
 		this.buyer = buyer;
 	}
 

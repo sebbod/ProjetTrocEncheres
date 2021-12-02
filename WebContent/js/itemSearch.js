@@ -48,10 +48,10 @@ function createItem(item) {
     text.className = "item-text";
     
     let title = document.createElement("h5");
-    title.textContent = item["name"];
-    title.onclick = () => {
-    	//TODO        
-    }
+    let linkItem = document.createElement("a");
+    linkItem.href = "item/"+item.id;
+    linkItem.textContent = item.name;
+    title.appendChild(linkItem);
     text.appendChild(title);
     
     /*
@@ -74,12 +74,12 @@ function createItem(item) {
     details.appendChild(datEnd);
     
     let seller = document.createElement("li");
-    let pseudoSeller = item["userIdSeller"]["pseudo"];
-    seller.textContent = `Vendeur : ${pseudoSeller}`;
+    seller.textContent = "Vendeur : ";
+    let linkUser = document.createElement("a");
+    linkUser.href = "user/profil?id="+item.userIdSeller;
+    linkUser.textContent = item.seller.pseudo;
+    seller.appendChild(linkUser);
     details.appendChild(seller);
-    seller.onclick = () => {
-        //TODO            
-    }
     
     let status = document.createElement("li");    
     status.textContent = `status (debug) : ${item["status"]}`;

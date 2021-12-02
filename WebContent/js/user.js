@@ -161,7 +161,11 @@ function SwitchMode(mode){
 	    	pwdspn.style.display = "none";
 	    	pwdbish4.style.display = "none";
 	    	pwdbisspn.style.display = "none";
-	    	editBtn.style.display = "inline";
+	    	if(profil4UserId != "" && profil4UserId != connectedUserId){	
+	    		editBtn.style.display = "none";
+	    	}else{
+	    		editBtn.style.display = "inline";
+	    	}
 	    	break;
 	
 	    case 'add':

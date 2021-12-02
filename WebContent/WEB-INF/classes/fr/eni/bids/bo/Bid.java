@@ -74,6 +74,8 @@ public class Bid {
 	 *            Buyer the user Buyer to set
 	 */
 	public void setUserIdBuyer(User buyer) {
+		if (buyer != null)
+			buyer.setPwd("");
 		this.buyer = buyer;
 	}
 
