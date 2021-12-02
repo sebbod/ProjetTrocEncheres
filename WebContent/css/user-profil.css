@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+.container{
+	display: grid;
+	justify-content: center;
+	align-items: center;
+}
+
 /* User profil style */
 .title {
 	font-family: var(--primary-font);
@@ -21,6 +27,15 @@
 
 #formData input {
 	width: 250px;
+}
+
+#formData [type="checkbox"]  {
+	width: 20px;
+	margin-left: 30px;
+}
+
+#formData [type="radio"]  {
+	width: 20px;
 }
 
 #btnActions {

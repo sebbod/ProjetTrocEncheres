@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="fr.eni.bids.msg.MessageReader" %>
@@ -9,9 +10,15 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/Style.css" type="text/css" />
-		<title>Liste des enchères</title>
-		<script src="<%=request.getContextPath()%>/js/date-tools.js"></script>
+		<title>Liste des enchères</title>		
+		<%@ include file="../fragment/DefaultHead.jspf"%>
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/user-profil.css">
+		<!-- JS UTILS -->
 		<script src="<%=request.getContextPath()%>/js/ajax.js"></script>
+		<script src="<%=request.getContextPath()%>/js/utils.js"></script>
+		<script src="<%=request.getContextPath()%>/js/date-tools.js"></script>
+		
+		<!-- JS PAGE -->
 		<script src="<%=request.getContextPath()%>/js/itemSearch.js"></script>
 	</head>
 	
@@ -28,13 +35,13 @@
 	</header>	
 		<%@include file="../fragment/Errors.jspf" %>
 		<section id="itemSearch" class="dataContainer">
-			<div class="group">
+			<div class="dateContainer">
 				<h1 class="title">Liste des enchères</h1>	
 				
-				<div class="displayLine" role="alert" id="errorMsg"></div>
-				<form id="formData">
+				<div class="container" role="alert" id="errorMsg"></div>
+				<form id="formData" class="search-mode">
 					<label>Filtres :</label>
-					  <div>
+					  <div >
 					    <input type="search" placeholder="Recherche" aria-label="Search" id="search">
 					    <button type="submit" style="cursor: not-allowed" disabled>Recherche</button>
 					  </div>
@@ -44,7 +51,7 @@
 					      <option selected value ="">Toutes</option>
 					    </select>
 					  </div>	
-					  <table id="filters" class="d-none">
+					  <table id="filters" class="">
 					    <tr>
 					      <td>
 					        <label>
