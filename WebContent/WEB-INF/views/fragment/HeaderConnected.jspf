@@ -10,17 +10,3 @@
 		<a href="<%=request.getContextPath()%>/logout"><li>Déconnexion</li></a>
 	</ul>
 </nav>
-
-<!--
-<nav class="navbar">
-	<div Style="width:10%">
-		<a href="<%=request.getContextPath()%>/Home">
-			<img class="navbarLogo" src="https://www.trocauxencheres.fr/images/Logo-TrocAuxEncheres.png"/>
-		</a>
-	</div>
-	<div Style="width:50%"></div>
-	<div Style="width:40%" class="navbarLabelDiv">
-		<!-- TODO 
-	</div>
-</nav>
--->
