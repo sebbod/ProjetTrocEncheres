@@ -3,9 +3,6 @@ package fr.eni.bids.bo;
 import java.time.LocalDateTime;
 
 public class Bid {
-
-	private int userId;
-	private int itemId;
 	private LocalDateTime dateCreated;
 	private int amount;
 
@@ -25,50 +22,6 @@ public class Bid {
 	public Bid(User buyer, Item item, LocalDateTime dateCreated, int amount) {
 		this(buyer, item, amount);
 		setDateCreated(dateCreated);
-	}
-
-	/**
-	 * @param userId
-	 * @param itemId
-	 * @param dateCreated
-	 * @param amount
-	 */
-	public Bid(int userId, int itemId, LocalDateTime dateCreated, int amount) {
-		super();
-		this.userId = userId;
-		this.itemId = itemId;
-		this.dateCreated = dateCreated;
-		this.amount = amount;
-	}
-
-	/**
-	 * @return the buyer userId
-	 */
-	public int getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @param userId
-	 *            the buyer userId to set
-	 */
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	/**
-	 * @return the itemId
-	 */
-	public int getItemId() {
-		return itemId;
-	}
-
-	/**
-	 * @param itemId
-	 *            the itemId to set
-	 */
-	public void setItemId(int itemId) {
-		this.itemId = itemId;
 	}
 
 	/**
@@ -102,18 +55,25 @@ public class Bid {
 	}
 
 	/**
-	 * @return the buyer
+	 * @return the user Buyer
 	 */
 	public User getBuyer() {
 		return buyer;
 	}
 
 	/**
-	 * @param buyer
-	 *            the buyer to set
+	 * @param user
+	 *            Buyer the user Buyer to set
 	 */
 	public void setBuyer(User buyer) {
 		this.buyer = buyer;
+	}
+
+	/**
+	 * @return the buyer
+	 */
+	public int getUserIdBuyer() {
+		return this.buyer != null ? this.buyer.getId() : 0;
 	}
 
 	/**
@@ -129,6 +89,13 @@ public class Bid {
 	 */
 	public void setItem(Item item) {
 		this.item = item;
+	}
+
+	/**
+	 * @return the item
+	 */
+	public int getItemId() {
+		return this.item != null ? this.item.getId() : 0;
 	}
 
 }

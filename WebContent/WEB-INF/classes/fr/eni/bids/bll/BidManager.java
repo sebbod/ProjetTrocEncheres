@@ -181,7 +181,7 @@ public class BidManager extends GenericManager<Bid> {
 	 */
 	@Override
 	protected int[] getIdentifiers(Bid bid) {
-		return new int[] { bid.getItemId(), bid.getUserId() };
+		return new int[] { bid.getItemId(), bid.getUserIdBuyer() };
 	}
 
 	@Override
@@ -205,7 +205,7 @@ public class BidManager extends GenericManager<Bid> {
 		}
 		StringBuilder errors = new StringBuilder();
 		if (bid.getItem() == null) {
-			errors.append("Champs obligatoire. L'enchère n'a pas d'articel associé.").append("\n");
+			errors.append("Champs obligatoire. L'enchère n'a pas d'article associé.").append("\n");
 		}
 		if (bid.getBuyer() == null) {
 			errors.append("Champs obligatoire. L'enchère n'a pas d'utilisateur associé.").append("\n");
@@ -228,7 +228,7 @@ public class BidManager extends GenericManager<Bid> {
 	}
 
 	protected boolean exist(Bid bid) throws BidsException {
-		return getById(bid.getItemId(), bid.getUserId()) != null;
+		return getById(bid.getItemId(), bid.getUserIdBuyer()) != null;
 	}
 
 	/**
