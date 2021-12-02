@@ -1,11 +1,5 @@
 @charset "UTF-8";
 
-.container{
-	display: grid;
-	justify-content: center;
-	align-items: center;
-}
-
 /* User profil style */
 .title {
 	font-family: var(--primary-font);
