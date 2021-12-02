@@ -4,8 +4,8 @@
 	</a>
 	<ul id="navbar-links">
 		<c:set var="uri" value="<%=request.getAttribute(\"javax.servlet.forward.request_uri\")%>" />
-		<a href="<%=request.getContextPath()%>/encheres"><li${uri.endsWith('/') ? ' class="active" ' : ''}${uri.endsWith('/encheres') ? ' class="active"' : ''}>Enchères</li></a>
-		<a href="<%=request.getContextPath()%>/vendre"><li${uri.endsWith('/vendre') ? ' class="active"' : ''}>Vendre un article</li></a>
+		<a href="<%=request.getContextPath()%>/"><li${uri.endsWith('/') ? ' class="active" ' : ''}>Enchères</li></a>
+		<a href="<%=request.getContextPath()%>/sell"><li${uri.endsWith('/sell') ? ' class="active"' : ''}>Vendre un article</li></a>
 		<a href="<%=request.getContextPath()%>/user/profil"><li${uri.endsWith('/user/profil') ? ' class="active"' : ''}>Mon profil</li></a>
 		<a href="<%=request.getContextPath()%>/logout"><li>Déconnexion</li></a>
 	</ul>
