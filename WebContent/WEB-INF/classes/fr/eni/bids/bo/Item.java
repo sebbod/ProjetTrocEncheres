@@ -42,7 +42,7 @@ public class Item implements Serializable {
 		setDescription(description);
 		setDateStart(dateStart == null ? LocalDateTime.now() : dateStart);
 		setDateEnd(dateEnd);
-		setSeller(seller);
+		setUserIdSeller(seller);
 		setStatus();
 	}
 
@@ -68,7 +68,7 @@ public class Item implements Serializable {
 
 	public Item(int id, String name, String description, LocalDateTime dateStart, LocalDateTime dateEnd, int priceSeller, int priceBuyer, User seller, User buyer, Category category) {
 		this(id, name, description, dateStart, dateEnd, priceSeller, priceBuyer, seller, category);
-		setBuyer(buyer);
+		setUserIdBuyer(buyer);
 	}
 
 	public Item(int id, String name, String description, LocalDateTime dateStart, LocalDateTime dateEnd, int priceSeller, int priceBuyer, User seller, User buyer, Category category, boolean isCollected) {
@@ -80,7 +80,7 @@ public class Item implements Serializable {
 		this(name, description, dateStart, dateEnd, seller, category);
 		setPriceSeller(priceSeller);
 		setPriceBuyer(priceBuyer);
-		setBuyer(buyer);
+		setUserIdBuyer(buyer);
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class Item implements Serializable {
 	 * @param seller
 	 *            the seller to set
 	 */
-	public void setSeller(User seller) {
+	public void setUserIdSeller(User seller) {
 		this.seller = seller;
 	}
 
@@ -222,7 +222,7 @@ public class Item implements Serializable {
 	 * @param buyer
 	 *            the buyer to set
 	 */
-	public void setBuyer(User buyer) {
+	public void setUserIdBuyer(User buyer) {
 		this.buyer = buyer;
 	}
 

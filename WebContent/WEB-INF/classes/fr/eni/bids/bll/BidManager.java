@@ -155,7 +155,7 @@ public class BidManager extends GenericManager<Bid> {
 	 */
 	public void deleteAllWhenOver(Item item) throws BidsException {
 		if (item.getDateEnd().isBefore(LocalDateTime.now())) {
-			item.setBuyer(getHighestBid(item).getBuyer());
+			item.setUserIdBuyer(getHighestBid(item).getBuyer());
 			item.setStatus();
 			new ItemManager().update(item);
 			deleteAllBy(item, false);

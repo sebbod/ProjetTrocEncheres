@@ -21,8 +21,8 @@ public class Bid {
 	}
 
 	public Bid(User buyer, Item item, int amount) {
-		setBuyer(buyer);
-		setItem(item);
+		setUserIdBuyer(buyer);
+		setItemId(item);
 		setDateCreated(LocalDateTime.now());
 		setAmount(amount);
 	}
@@ -73,7 +73,7 @@ public class Bid {
 	 * @param user
 	 *            Buyer the user Buyer to set
 	 */
-	public void setBuyer(User buyer) {
+	public void setUserIdBuyer(User buyer) {
 		this.buyer = buyer;
 	}
 
@@ -95,7 +95,7 @@ public class Bid {
 	 * @param item
 	 *            the item to set
 	 */
-	public void setItem(Item item) {
+	public void setItemId(Item item) {
 		this.item = item;
 	}
 

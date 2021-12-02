@@ -18,7 +18,7 @@ public class PickUpAdress {
 	}
 
 	public PickUpAdress(Item item) {
-		setItem(item);
+		setItemId(item);
 		User seller = item.getSeller();
 		setStreet(seller.getStreet());
 		setZipCode(seller.getZipCode());
@@ -26,7 +26,7 @@ public class PickUpAdress {
 	}
 
 	public PickUpAdress(Item item, String street, String zipCode, String town) {
-		setItem(item);
+		setItemId(item);
 		setStreet(street);
 		setZipCode(zipCode);
 		setTown(town);
@@ -43,7 +43,7 @@ public class PickUpAdress {
 	 * @param item
 	 *            the item to set
 	 */
-	public void setItem(Item item) {
+	public void setItemId(Item item) {
 		this.item = item;
 	}
 

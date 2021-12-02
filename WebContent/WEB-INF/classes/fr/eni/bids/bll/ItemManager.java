@@ -87,7 +87,7 @@ public class ItemManager extends GenericManager<Item> {
 				Item item = bid.getItem();
 				if (item.getStatus().equals(Item.STATUS_CLOSED)) {
 					item.setPriceBuyer(bid.getAmount());
-					item.setBuyer(u);
+					item.setUserIdBuyer(u);
 					bidMngr.deleteAllWhenOver(item);
 				}
 				update(item);
