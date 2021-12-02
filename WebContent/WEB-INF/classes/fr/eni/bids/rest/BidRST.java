@@ -48,7 +48,7 @@ public class BidRST {
 			Item item = new ItemManager().getById((int) data.get("itemId"));
 			int connectedUserId = (int) request.getSession().getAttribute("connectedUserId");
 			User buyer = new UserManager().getById(connectedUserId);
-			Bid bid = new Bid(buyer, item, (int) data.get("amout"));
+			Bid bid = new Bid(buyer, item, (int) data.get("amount"));
 			return new BidManager().add(bid);
 		} catch (BidsException e) {
 			e.printStackTrace();
