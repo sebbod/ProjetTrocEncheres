@@ -25,6 +25,9 @@ public class Item implements Serializable {
 	private Category category;
 	private boolean isCollected;
 
+	// it's a property it's a feature for don't checkAttributes dateEnd on setItemsGained()
+	public boolean checkDateEnd = true;
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -240,7 +243,7 @@ public class Item implements Serializable {
 	/**
 	 * @return the category
 	 */
-	public Category getCateId() {
+	public Category getCategor() {
 		return category;
 	}
 
@@ -253,10 +256,17 @@ public class Item implements Serializable {
 	}
 
 	/**
+	 * @return the category id
+	 */
+	public int getCateId() {
+		return this.category != null ? this.category.getId() : 0;
+	}
+
+	/**
 	 * @return the status
 	 */
 	public String getStatus() {
-		//setStatus();
+		setStatus();
 		return status;
 	}
 

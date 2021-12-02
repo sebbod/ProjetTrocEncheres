@@ -85,7 +85,7 @@ public abstract class GenericManager<T> {
 	public T update(T object) throws BidsException {
 		try {
 			boolean alreadyExists = exist(object);
-			System.out.println("alreadyExists=" + alreadyExists);
+			//System.out.println("alreadyExists=" + alreadyExists);
 			if (!alreadyExists) {
 				throw new BidsException(ErrorCodesBLL.UPDATE_NOT_EXIST_ERROR.get(getActualClassName()));
 			}

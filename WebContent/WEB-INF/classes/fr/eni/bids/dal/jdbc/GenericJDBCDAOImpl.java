@@ -417,7 +417,8 @@ public abstract class GenericJDBCDAOImpl<T> implements DAO<T> {
 					statement.setTimestamp(parameterIndex, Timestamp.valueOf(localDateTime));
 					break;
 				default:
-					method = "getNo" + field.getKey().substring(0, 1).toUpperCase() + field.getKey().substring(1);
+					method = "get" + field.getKey().substring(0, 1).toUpperCase() + field.getKey().substring(1);
+					System.out.println("method=" + method);
 					int noIdentifier = (int) entityClass.getMethod(method).invoke(object);
 					if (noIdentifier != 0) {
 						statement.setInt(parameterIndex, (int) entityClass.getMethod(method).invoke(object));
