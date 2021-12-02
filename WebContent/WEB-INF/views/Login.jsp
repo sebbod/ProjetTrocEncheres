@@ -40,7 +40,7 @@
 			</div>
 		</div>
 	</form>
-	<a href="<%=request.getContextPath()%>/user/register">
+	<a id="register-a" href="<%=request.getContextPath()%>/user/register">
 		<div class="btn-outline">Créer un compte</div>
 	</a>
 	</div>

@@ -4,7 +4,8 @@
 	display: block;
 	width: auto;
 	height: 100px;
-	margin-left: 102px;
+	margin-left: auto;
+	margin-right: auto;
 	margin-bottom: 100px;
 	margin-top: 50px;
 }
@@ -45,4 +46,21 @@ input {
 
 label[for="remember"] {
 	margin-left: 5px;
+}
+
+#register-a {
+	width: 463px;
+}
+
+.error {
+	color: var(--danger-color);
+	font-family: var(--primary-font);
+	font-size: var(--fs-large);
+	font-weight: var(--fw-bold);
+	text-align: center;
+	padding-bottom: var(--fs-large);
+}
+
+.error:empty {
+	padding-bottom: 0px;
 }

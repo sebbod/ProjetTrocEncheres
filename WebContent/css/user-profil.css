@@ -61,6 +61,11 @@
 	text-align: left;
 	display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+}
+
+#formData.edit-mode h4 span,
+#formData.add-mode h4 span {
+	margin-left: 20px;
 }
