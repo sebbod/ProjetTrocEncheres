@@ -32,6 +32,7 @@ public class SecurityConfig {
 		List<String> userUrlPatterns = new ArrayList<String>();
 		userUrlPatterns.add("/logout");
 		userUrlPatterns.add("/user/profil");
+		userUrlPatterns.add("/sell");
 		//userUrlPatterns.add("/user/register");
 		mapConfig.put(ROLE_USER, userUrlPatterns);
 
@@ -39,6 +40,7 @@ public class SecurityConfig {
 		List<String> adminUrlPatterns = new ArrayList<String>();
 		adminUrlPatterns.add("/logout");
 		adminUrlPatterns.add("/user/profil");
+		adminUrlPatterns.add("/sell");
 		//adminUrlPatterns.add("/user/register");
 		mapConfig.put(ROLE_ADMIN, adminUrlPatterns);
 	}

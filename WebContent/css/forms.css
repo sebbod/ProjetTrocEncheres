@@ -39,3 +39,46 @@ input:focus {
 .checkbox-with-label > label {
 	font-size: var(--fs-normal);
 }
+
+.input-container {
+	text-align: left;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8.6px;
+}
+
+.input-container input {
+	width: 250px;	
+}
+
+.input-container label {
+	margin-right: 20px;
+}
+
+.input-group {
+	border: 1.8px solid var(--border-color);
+	border-radius: 8px;
+	margin-bottom: 18px;
+	margin-top: 18px;
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+.input-group .head {
+	font-family: var(--primary-font);
+	font-weight: var(--fw-semi-bold);
+	font-size: var(--fs-large);
+	color: var(--text-color);
+    background-color: white;
+	margin: 0;
+    padding-left: 6px;
+    padding-right: 6px;
+    width: fit-content;
+    position: relative;
+    top: calc(-6px - var(--fs-large));
+    left: -6px;
+}

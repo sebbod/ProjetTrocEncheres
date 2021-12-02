@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+/* Bid details style */
+#product-image-viewer {
+	display: block;
+	width: 258px;
+	height: 224px;
+	background-color: black;
+	border-radius: 12px;
+	margin-right: 40px;
+	margin-left: -298px;
+}
+
+#form-buttons {
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
