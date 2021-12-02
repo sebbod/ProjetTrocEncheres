@@ -89,7 +89,7 @@ public class ItemRST {
 
 			if (request.getSession(false) != null && request.getSession(false).getAttribute("connectedUserId") != null) {
 				int connectedUserId = (int) request.getSession().getAttribute("connectedUserId");
-				items = items.stream().filter(item -> item.getUserIdSeller().getId() != connectedUserId).collect(Collectors.toList());
+				items = items.stream().filter(item -> item.getSeller().getId() != connectedUserId).collect(Collectors.toList());
 			}
 
 			List<Item> wonItems = new ArrayList<>();

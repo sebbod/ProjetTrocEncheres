@@ -1,7 +1,6 @@
 package fr.eni.bids.bo;
 
 public class PickUpAdress {
-	private Integer itemId;
 	private String street;
 	private String town;
 	private String zipCode;
@@ -12,7 +11,7 @@ public class PickUpAdress {
 	 */
 	@Override
 	public String toString() {
-		return "PickUpAdress [itemId=" + itemId + ", street=" + street + ", town=" + town + ", zipCode=" + zipCode + ", item=" + item + "]";
+		return "PickUpAdress [itemId=" + getItemId() + ", street=" + street + ", town=" + town + ", zipCode=" + zipCode + ", item=" + item + "]";
 	}
 
 	public PickUpAdress() {
@@ -20,9 +19,7 @@ public class PickUpAdress {
 
 	public PickUpAdress(Item item) {
 		setItem(item);
-		setItemId(item.getId());
-
-		User seller = item.getUserIdSeller();
+		User seller = item.getSeller();
 		setStreet(seller.getStreet());
 		setZipCode(seller.getZipCode());
 		setTown(seller.getTown());
@@ -30,25 +27,9 @@ public class PickUpAdress {
 
 	public PickUpAdress(Item item, String street, String zipCode, String town) {
 		setItem(item);
-		setItemId(item.getId());
-
 		setStreet(street);
 		setZipCode(zipCode);
 		setTown(town);
-	}
-
-	/**
-	 * @param id
-	 * @param street
-	 * @param town
-	 * @param zipCode
-	 */
-	public PickUpAdress(Integer itemId, String street, String zipCode, String town) {
-		super();
-		this.itemId = itemId;
-		this.street = street;
-		this.zipCode = zipCode;
-		this.town = town;
 	}
 
 	/**
@@ -69,16 +50,8 @@ public class PickUpAdress {
 	/**
 	 * @return the itemId
 	 */
-	public Integer getItemId() {
-		return itemId;
-	}
-
-	/**
-	 * @param itemId
-	 *            the itemId to set
-	 */
-	public void setItemId(Integer itemId) {
-		this.itemId = itemId;
+	public int getItemId() {
+		return this.item != null ? this.item.getId() : 0;
 	}
 
 	/**

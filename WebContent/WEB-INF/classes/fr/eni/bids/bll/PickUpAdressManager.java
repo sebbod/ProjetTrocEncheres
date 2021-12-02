@@ -34,7 +34,7 @@ public class PickUpAdressManager extends GenericManager<PickUpAdress> {
 			throw new BidsException(ErrorCodesBLL.BO_NULL_ERROR.get("PickUpAdress"));
 		}
 		StringBuilder errors = new StringBuilder();
-		if (pickUpAdr.getItemId() == null) {
+		if (pickUpAdr.getItem() == null) {
 			errors.append("Champs obligatoire. L'adresse de retrait n'a pas d'article associé.").append("\n");
 		}
 		if (pickUpAdr.getStreet() == null || pickUpAdr.getStreet().isEmpty()) {

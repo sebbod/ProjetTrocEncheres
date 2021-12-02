@@ -9,6 +9,14 @@ public class Bid {
 	private User buyer;
 	private Item item;
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Bid [userIdBuyer=" + getUserIdBuyer() + ", itemId=" + getItemId() + ", dateCreated=" + dateCreated + ", amount=" + amount + ", buyer=" + buyer + ", item=" + item + "]";
+	}
+
 	public Bid() {
 	}
 

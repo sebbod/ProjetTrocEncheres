@@ -87,7 +87,7 @@ public class ItemManager extends GenericManager<Item> {
 				Item item = bid.getItem();
 				if (item.getStatus().equals(Item.STATUS_CLOSED)) {
 					item.setPriceBuyer(bid.getAmount());
-					item.setUserIdBuyer(u);
+					item.setBuyer(u);
 					bidMngr.deleteAllWhenOver(item);
 				}
 				update(item);
@@ -152,7 +152,7 @@ public class ItemManager extends GenericManager<Item> {
 	 * Filter a list of items by buyer.
 	 */
 	public List<Item> filterByBuyer(List<Item> items, int userId) {
-		return items.stream().filter(i -> i.getUserIdBuyer() != null && i.getUserIdBuyer().getId() == userId).collect(Collectors.toList());
+		return items.stream().filter(i -> i.getBuyer() != null && i.getBuyer().getId() == userId).collect(Collectors.toList());
 	}
 
 	/**
@@ -180,7 +180,7 @@ public class ItemManager extends GenericManager<Item> {
 	 * Filter the items by seller
 	 */
 	public List<Item> filterBySeller(List<Item> items, int userIdSeller) throws BidsException {
-		return items.stream().filter(item -> item.getUserIdSeller().getId() == userIdSeller).collect(Collectors.toList());
+		return items.stream().filter(item -> item.getSeller().getId() == userIdSeller).collect(Collectors.toList());
 	}
 
 	// LOGIC & CHECKS
@@ -222,7 +222,7 @@ public class ItemManager extends GenericManager<Item> {
 		if (dateFinBids.isBefore(LocalDateTime.now()) || dateFinBids.isBefore(item.getDateStart())) {
 			errors.append("Champs incorrecte. La date de fin d'enchère est invalide.").append("\n");
 		}
-		if (item.getUserIdSeller() == null) {
+		if (item.getSeller() == null) {
 			errors.append("Champs obligatoire. L'article n'a pas de vendeur.").append("\n");
 		}
 		if (item.getCateId() != null && new CategoryManager().getById(item.getId()) == null) {

@@ -19,14 +19,20 @@ public class Item implements Serializable {
 	private LocalDateTime dateEnd;
 	private int priceSeller;
 	private int priceBuyer;
-	//private int userIdSeller;
-	//private int userIdBuyer;
-	//private int cateId;
 	private String status;
-	private User userIdSeller;
-	private User userIdBuyer;
-	private Category cateId;
+	private User seller;
+	private User buyer;
+	private Category category;
 	private boolean isCollected;
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", name=" + name + ", description=" + description + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", priceSeller=" + priceSeller + ", priceBuyer=" + priceBuyer + ", status=" + status + ", seller="
+				+ seller + ", buyer=" + buyer + ", category=" + category + ", isCollected=" + isCollected + "]";
+	}
 
 	public Item() {
 	}
@@ -36,7 +42,7 @@ public class Item implements Serializable {
 		setDescription(description);
 		setDateStart(dateStart == null ? LocalDateTime.now() : dateStart);
 		setDateEnd(dateEnd);
-		setUserIdSeller(seller);
+		setSeller(seller);
 		setStatus();
 	}
 
@@ -62,7 +68,7 @@ public class Item implements Serializable {
 
 	public Item(int id, String name, String description, LocalDateTime dateStart, LocalDateTime dateEnd, int priceSeller, int priceBuyer, User seller, User buyer, Category category) {
 		this(id, name, description, dateStart, dateEnd, priceSeller, priceBuyer, seller, category);
-		setUserIdBuyer(buyer);
+		setBuyer(buyer);
 	}
 
 	public Item(int id, String name, String description, LocalDateTime dateStart, LocalDateTime dateEnd, int priceSeller, int priceBuyer, User seller, User buyer, Category category, boolean isCollected) {
@@ -74,7 +80,7 @@ public class Item implements Serializable {
 		this(name, description, dateStart, dateEnd, seller, category);
 		setPriceSeller(priceSeller);
 		setPriceBuyer(priceBuyer);
-		setUserIdBuyer(buyer);
+		setBuyer(buyer);
 	}
 
 	/**
@@ -184,48 +190,62 @@ public class Item implements Serializable {
 	}
 
 	/**
-	 * @return the userIdSeller
+	 * @return the seller
 	 */
-	public User getUserIdSeller() {
-		return userIdSeller;
+	public User getSeller() {
+		return seller;
 	}
 
 	/**
-	 * @param userIdSeller
-	 *            the userIdSeller to set
+	 * @param seller
+	 *            the seller to set
 	 */
-	public void setUserIdSeller(User seller) {
-		this.userIdSeller = seller;
+	public void setSeller(User seller) {
+		this.seller = seller;
 	}
 
 	/**
-	 * @return the userIdBuyer
+	 * @return the seller user id
 	 */
-	public User getUserIdBuyer() {
-		return userIdBuyer;
+	public int getUserIdSeller() {
+		return this.seller != null ? this.seller.getId() : 0;
 	}
 
 	/**
-	 * @param userIdBuyer
-	 *            the userIdBuyer to set
+	 * @return the buyer
 	 */
-	public void setUserIdBuyer(User buyer) {
-		this.userIdBuyer = buyer;
+	public User getBuyer() {
+		return buyer;
 	}
 
 	/**
-	 * @return the cateId
+	 * @param buyer
+	 *            the buyer to set
+	 */
+	public void setBuyer(User buyer) {
+		this.buyer = buyer;
+	}
+
+	/**
+	 * @return the buyer user id
+	 */
+	public int getUserIdBuyer() {
+		return this.buyer != null ? this.buyer.getId() : 0;
+	}
+
+	/**
+	 * @return the category
 	 */
 	public Category getCateId() {
-		return cateId;
+		return category;
 	}
 
 	/**
-	 * @param cateId
-	 *            the cateId to set
+	 * @param category
+	 *            the category to set
 	 */
 	public void setCateId(Category category) {
-		this.cateId = category;
+		this.category = category;
 	}
 
 	/**
