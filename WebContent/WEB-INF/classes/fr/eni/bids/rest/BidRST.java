@@ -25,10 +25,10 @@ public class BidRST {
 
 	@SuppressWarnings("serial")
 	@GET
-	@Path("/highest/{item: \\d+}")
-	public Object getHighestBid(@PathParam("articleVendu") int articleVendu) {
+	@Path("/highest/{itemId: \\d+}")
+	public Object getHighestBid(@PathParam("itemId") int itemId) {
 		try {
-			Bid bid = new BidManager().getHighestBid(articleVendu);
+			Bid bid = new BidManager().getHighestBid(itemId);
 			return bid != null ? bid : false;
 		} catch (BidsException e) {
 			e.printStackTrace();
