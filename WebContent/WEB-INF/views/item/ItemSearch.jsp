@@ -91,8 +91,7 @@
 			       
 			        const connectedUserId = "${sessionScope.connectedUserId}";
 		        	if(connectedUserId == ""){
-		        		document.querySelector("#filters").style.display = "none";
-		        		
+		        		document.querySelector("#filters").style.display = "none";	
 		        	}
 			        let searchInput = document.querySelector("#search")
 			        let userSearch = searchInput.value;			        
@@ -118,6 +117,10 @@
 		                saleIsOver: false
 		            };
 			        
+		        	if(connectedUserId == ""){
+		        		document.querySelector("#filters").style.display = "none";
+		        		checkboxes.saleIsOpen = true;
+		        	}
 			        let filter = document.querySelector('input[name="filter"]:checked').value;
 			        document.querySelectorAll("input[type=radio]").forEach(radio => {
 			            radio.onchange = $event => {

@@ -32,6 +32,7 @@ import fr.eni.bids.bo.User;
 public class ItemRST {
 	@Context
 	private HttpServletRequest request;
+	private int connectedUserId = 0;
 
 	@SuppressWarnings("serial")
 	@GET
@@ -79,31 +80,37 @@ public class ItemRST {
 	@Path("/search4buy")
 	public Object itemSearch(@QueryParam("userSearch") String userSearch, @QueryParam("category") String category, @QueryParam("saleIsOpen") boolean saleIsOpen, @QueryParam("isCurrentUser") boolean isCurrentUser,
 			@QueryParam("saleIsWon") boolean saleIsWon) {
+
 		try {
 			ItemManager itemMngr = new ItemManager();
 
 			if (category.isEmpty()) {
 				category = null;
 			}
+			// first filter
 			List<Item> items = itemMngr.getItemsLike(userSearch, category);
 
 			if (request.getSession(false) != null && request.getSession(false).getAttribute("connectedUserId") != null) {
-				int connectedUserId = (int) request.getSession().getAttribute("connectedUserId");
-				items = items.stream().filter(item -> item.getSeller().getId() != connectedUserId).collect(Collectors.toList());
+				// connected mode
+				this.connectedUserId = (int) request.getSession().getAttribute("connectedUserId");
+				items = items.stream().filter(item -> item.getSeller().getId() != this.connectedUserId).collect(Collectors.toList());
+			} else {
+				// disconnected mode => only "en cours" pending bid
+				items = itemMngr.filterByStatus(items, Item.STATUS_PENDING);
 			}
 
 			List<Item> wonItems = new ArrayList<>();
-			if (saleIsOpen || isCurrentUser || saleIsWon) {
-				int connectedUserId = (int) request.getSession().getAttribute("connectedUserId");
+			if ((saleIsOpen || isCurrentUser || saleIsWon) && this.connectedUserId > 0) {
+				// connected mode
 				if (saleIsWon) {
-					wonItems = itemMngr.filterByBuyer(items, connectedUserId);
+					wonItems = itemMngr.filterByBuyer(items, this.connectedUserId);
 					if (!saleIsOpen && !isCurrentUser) {
 						return wonItems;
 					}
 				}
 				items = itemMngr.filterByStatus(items, Item.STATUS_PENDING);
 				if (isCurrentUser) {
-					items = itemMngr.filterByBidsBuyer(items, connectedUserId);
+					items = itemMngr.filterByBidsBuyer(items, this.connectedUserId);
 				}
 			}
 			return Stream.of(items, wonItems).flatMap(Collection::stream).distinct().collect(Collectors.toList());

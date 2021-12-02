@@ -73,12 +73,17 @@ function createItem(item) {
     datEnd.textContent = `Fin de l'enchère : ${strDate}`;
     details.appendChild(datEnd);
     
-    let seller = document.createElement("li");
-    seller.textContent = "Vendeur : ";
-    let linkUser = document.createElement("a");
-    linkUser.href = "user/profil?id="+item.userIdSeller;
-    linkUser.textContent = item.seller.pseudo;
-    seller.appendChild(linkUser);
+    let seller = document.createElement("li");    
+    if(connectedUserId != ""){
+    	seller.textContent = "Vendeur : ";
+    	let linkUser = document.createElement("a");
+    	linkUser.href = "user/profil?id="+item.userIdSeller;
+    	linkUser.textContent = item.seller.pseudo;
+    	seller.appendChild(linkUser);
+    }
+    else{
+    	seller.textContent = "Vendeur : " + item.seller.pseudo;
+    }
     details.appendChild(seller);
     
     let status = document.createElement("li");    
