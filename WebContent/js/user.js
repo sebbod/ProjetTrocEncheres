@@ -6,7 +6,7 @@ function displayError(msg){
 		}
 	}else{
 		errorMsg.innerHTML = ""
-		if(add != ""){
+		if(add4register != ""){
 			window.location.href = loginPage;
 		}else{
 			displayProfile4View(msg);		

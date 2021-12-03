@@ -36,6 +36,7 @@ public class UserProfil extends HttpServlet {
 		} else {
 			// connected user
 			session.removeAttribute("profil4UserId");
+			session.removeAttribute("add");
 		}
 		RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/views/user/Profile.jsp");
 		rd.forward(request, response);

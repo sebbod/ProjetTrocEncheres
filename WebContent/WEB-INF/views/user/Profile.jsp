@@ -111,15 +111,15 @@
 						        
 			const connectedUserId = "${sessionScope.connectedUserId}";
 			const profil4UserId =  "${sessionScope.profil4UserId}";
+			const add4register = "${sessionScope.add}";
 			if(connectedUserId != "") {
 				if(profil4UserId != ""){					
 					getUser(profil4UserId);
 				}else{
 					getUser(connectedUserId);
 				}
-			} else {
-				const add = "${sessionScope.add}";
-				if(add != "") {
+			} else {				
+				if(add4register != "") {
 					displayProfile4Add();
 				}		        		
 			}
