@@ -225,7 +225,7 @@ public class ItemManager extends GenericManager<Item> {
 		if (item.getSeller() == null) {
 			errors.append("Champs obligatoire. L'article n'a pas de vendeur.").append("\n");
 		}
-		if (item.getCateId() != null && new CategoryManager().getById(item.getId()) == null) {
+		if (item.getCateId() != null && new CategoryManager().getById(item.getCateId().getId()) == null) {
 			errors.append("Champs incorrect. La catégorie renseignée n'existe pas.").append("\n");
 		}
 		if (item.getPriceSeller() < 0) {

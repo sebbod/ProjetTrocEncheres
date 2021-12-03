@@ -35,6 +35,7 @@ public class DAOFactory {
 	}
 
 	public static DAO<?> getBusinessObjectDAO(String classSimpleName) throws BidsException {
+		System.out.println("classSimpleName : " + classSimpleName);
 		switch (classSimpleName) {
 		case "Item":
 			return getItemDAO();

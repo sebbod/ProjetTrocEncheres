@@ -67,10 +67,20 @@ body {
 	justify-content: center;
 }
 
-.container-error{
+.container-error {
 	display: grid;
 	justify-content: center;
 	align-items: center;
+	color: var(--danger-color);
+	font-family: var(--primary-font);
+	font-size: var(--fs-large);
+	font-weight: var(--fw-bold);
+	text-align: center;
+	padding-bottom: var(--fs-large);
+}
+
+.container-error:empty {
+	padding-bottom: 0px;
 }
 
 #formData.search-mode {

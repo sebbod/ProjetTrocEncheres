@@ -57,6 +57,12 @@ input:focus {
 	margin-right: 20px;
 }
 
+.input-container p {
+	font-family: var(--primary-font);
+	font-weight: var(--fw-regular);
+	font-size: var(--fs-large);
+}
+
 .input-group {
 	border: 1.8px solid var(--border-color);
 	border-radius: 8px;

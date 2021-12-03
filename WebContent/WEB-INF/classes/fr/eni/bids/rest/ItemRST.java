@@ -55,12 +55,25 @@ public class ItemRST {
 	@Path("/new")
 	public Object create(Map<String, Object> data) {
 		try {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+			//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm");
 			int connectedUserId = (int) request.getSession().getAttribute("connectedUserId");
 			User seller = new UserManager().getById(connectedUserId);
-			Category category = data.get("category") == null || ((String) data.get("category")).isEmpty() ? null : new CategoryManager().getById((int) data.get("category"));
-			Item newItem = new Item((String) data.get("name"), (String) data.get("description"), LocalDateTime.parse((String) data.get("dateStart"), formatter), LocalDateTime.parse((String) data.get("dateEnd"), formatter),
-					(int) data.get("priceSeller"), seller, category);
+			System.out.println(data.toString());
+			String dataCategory = (String) data.get("category");
+			Category category = (dataCategory == null || dataCategory.isEmpty() ? null : new CategoryManager().getById(Integer.parseInt(dataCategory)));
+			Integer dataPriceSeller = Integer.parseInt((String) data.get("priceSeller"));
+			System.out.println(dataPriceSeller);
+			Item newItem = new Item(
+					(String) data.get("name"),
+					(String) data.get("description"),
+					LocalDateTime.parse((String) data.get("dateStart"), formatter),
+					LocalDateTime.parse((String) data.get("dateEnd"), formatter),
+					dataPriceSeller,
+					seller,
+					category
+			);
+			System.out.println("Before add : " + newItem.toString());
 			Item item = new ItemManager().add(newItem);
 			// The instance of pickUpAdr is automatically added. It is updated if the address data have been modified.
 			updatePickUpAdress(seller, item, data);

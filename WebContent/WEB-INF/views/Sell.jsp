@@ -6,10 +6,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Vendre un article</title>
-<%@ include file="fragment/DefaultHead.jspf"%>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bid-details.css">
+	<meta charset="UTF-8">
+	<title>Vendre un article</title>
+	<%@ include file="fragment/DefaultHead.jspf"%>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bid-details.css">
+	<!-- JS UTILS -->
+	<script src="<%=request.getContextPath()%>/js/ajax.js"></script>
+	<script src="<%=request.getContextPath()%>/js/utils.js"></script>
 </head>
 <body>
 	<%@include file="./fragment/Header.jspf" %>
@@ -19,16 +22,18 @@
 		<form id="sell-form">
 			<div class="input-container">
 				<label for="product-name">Article :</label>
-				<input id="product-name" name="product-name" type="text" maxlength="30" required>
+				<input id="product-name" name="product-name" placeholder="Nom" type="text" maxlength="30" required>
 			</div>
 			<div class="input-container">
 				<label for="product-description">Description :</label>
-				<textarea id="product-description" name="product-description" maxlength="300" required></textarea>
+				<textarea id="product-description" name="product-description" placeholder="Description" maxlength="300" required></textarea>
 			</div>
 			<div class="input-container">
 				<label for="product-category">Catégorie :</label>
-				<select>
-					
+				<select id="product-category" name="product-cateogry">
+				<c:forEach items="${categories}" var="category">
+					<option value="<c:out value="${category.id}" />"><c:out value="${category.libelle}" /></option>	
+				</c:forEach>
 				</select>
 			</div>
 			<div class="input-container">
@@ -37,12 +42,12 @@
 			</div>
 			<div class="input-container">
 				<label for="product-price">Mise à prix :</label>
-				<input id="product-price" name="product-price" type="number" min="1" required>
+				<input id="product-price" name="product-price" type="number" min="1" value="1" required>
 			</div>
 			<div class="input-container">
-				<label for="product-begin-date">Début de l'enchère :</label>
+				<label for="product-start-date">Début de l'enchère :</label>
 				<!-- Default +6 days -->
-				<input id="product-begin-date" name="product-begin-date" type="datetime-local" required>
+				<input id="product-start-date" name="product-start-date" type="datetime-local" required>
 			</div>
 			<div class="input-container">
 				<label for="product-end-date">Fin de l'enchère :</label>
@@ -53,24 +58,24 @@
 				<p class="head">Retrait</p>
 				<div class="input-container">
 					<label for="pickup-street">Rue :</label>
-					<input id="pickup-street" name="pickup-street" type="text" maxlength="30" required>
+					<input id="pickup-street" name="pickup-street" placeholder="Rue" type="text" maxlength="30" required>
 				</div>
 				<div class="input-container">
 					<label for="pickup-zip">Code postal :</label>
-					<input id="pickup-zip" name="pickup-zip" type="text" maxlength="5" required>
+					<input id="pickup-zip" name="pickup-zip" placeholder="Code postal" type="text" maxlength="5" required>
 				</div>
 				<div class="input-container">
 					<label for="pickup-town">Ville :</label>
-					<input id="pickup-town" name="pickup-town" type="text" maxlength="30" required>
+					<input id="pickup-town" name="pickup-town" placeholder="Ville" type="text" maxlength="30" required>
 				</div>
 			</div>
 			<div id="form-buttons">
-				<div class="btn-accent">Enregistrer</div>
-				<div class="btn-outline">Annuler</div>
-				<div class="btn-danger">Annuler la vente</div>
+				<div id="form-submit" class="btn-accent">Enregistrer</div>
+				<div id="form-cancel" class="btn-outline">Annuler</div>
 			</div>
 		</form>
 	</div>
 	<%@include file="./fragment/Footer.jspf" %>
+	<script src="<%=request.getContextPath()%>/js/sell.js"></script>
 </body>
 </html>
