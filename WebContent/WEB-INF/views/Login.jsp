@@ -14,7 +14,7 @@
 	<img id="logo" alt="Logo du site ENI ENCHERES" src="<%=request.getContextPath()%>/img/logo.png" srcset="<%=request.getContextPath()%>/img/logo.svg">
 	<div class="container">
 		<form method="post" action="">
-		<div class="error-container">
+		<div class="container-error">
 			<c:if test="${!empty error}">
 				<div class="error">${error}</div>
 			</c:if>
