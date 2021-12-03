@@ -51,12 +51,18 @@
 	width: 450px;
 	height:180px;	
 	margin:10px;
+	border-radius: 24px;
+    border: 3px solid var(--text-color);
 }
 
 .item-text{
 	display: block;	
 	width: 300px;
 	height: 200px;
+}
+
+.item img {
+	border-radius: 24px;
 }
   
   

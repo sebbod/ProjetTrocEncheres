@@ -10,6 +10,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/Style.css" type="text/css" />
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/itemSearch.css" type="text/css" />
 		<title>Liste des enchères</title>		
 		<%@ include file="../fragment/DefaultHead.jspf"%>
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/user-profil.css">
@@ -41,11 +42,11 @@
 				<div class="container-error" role="alert" id="errorMsg"></div>
 				<form id="formData" class="search-mode">
 					<label>Filtres :</label>
-					  <div >
+					  <div id="search-zone">
 					    <input type="search" placeholder="Recherche" aria-label="Search" id="search">
 					    <button type="submit" style="cursor: not-allowed" disabled>Recherche</button>
 					  </div>
-					  <div >
+					  <div id="category-zone">
 					    <label for="category">Catégorie</label>
 					    <select id="category">
 					      <option selected value ="">Toutes</option>

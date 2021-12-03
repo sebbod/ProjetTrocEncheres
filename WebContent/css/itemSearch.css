@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+/* Item search page style */
+#search-zone,
+#category-zone {
+	margin-bottom: 10px;
+}
+
+#filters {
+	margin-bottom: 20px;
+}
+
+h5 {
+	font-family: var(--primary-font);
+	font-weight: var(--fw-regular);
+	font-size: var(--fs-large);
+	color: var(--text-color)!important;
+}
+
+.item-text ul {
+	font-family: var(--primary-font);
+	font-weight: var(--fw-light);
+	font-size: var(--fs-small);
+}
