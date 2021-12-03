@@ -64,7 +64,7 @@ public class UserRST {
 	@Path("/modify")
 	public Object update(Map<String, String> data) {
 		try {
-			System.out.println("generateObject, data=" + data);
+			//System.out.println("generateObject, data=" + data);
 			String pseudo = (String) data.get("pseudo");
 			String pwd = (String) data.remove("pwd");
 			User user = new UserManager().getByPseudoAndPassword(pseudo, pwd);

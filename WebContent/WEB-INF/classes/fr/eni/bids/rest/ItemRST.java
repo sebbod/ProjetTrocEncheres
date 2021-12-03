@@ -64,15 +64,8 @@ public class ItemRST {
 			Category category = (dataCategory == null || dataCategory.isEmpty() ? null : new CategoryManager().getById(Integer.parseInt(dataCategory)));
 			Integer dataPriceSeller = Integer.parseInt((String) data.get("priceSeller"));
 			System.out.println(dataPriceSeller);
-			Item newItem = new Item(
-					(String) data.get("name"),
-					(String) data.get("description"),
-					LocalDateTime.parse((String) data.get("dateStart"), formatter),
-					LocalDateTime.parse((String) data.get("dateEnd"), formatter),
-					dataPriceSeller,
-					seller,
-					category
-			);
+			Item newItem = new Item((String) data.get("name"), (String) data.get("description"), LocalDateTime.parse((String) data.get("dateStart"), formatter), LocalDateTime.parse((String) data.get("dateEnd"), formatter), dataPriceSeller,
+					seller, category);
 			System.out.println("Before add : " + newItem.toString());
 			Item item = new ItemManager().add(newItem);
 			// The instance of pickUpAdr is automatically added. It is updated if the address data have been modified.
@@ -93,7 +86,7 @@ public class ItemRST {
 	@Path("/search4buy")
 	public Object itemSearch(@QueryParam("userSearch") String userSearch, @QueryParam("category") String category, @QueryParam("saleIsOpen") boolean saleIsOpen, @QueryParam("isCurrentUser") boolean isCurrentUser,
 			@QueryParam("saleIsWon") boolean saleIsWon) {
-
+		//System.out.println("search4buy userSearch=" + userSearch + ", category=" + category + ", saleIsOpen=" + saleIsOpen + ", isCurrentUser=" + isCurrentUser + ", saleIsWon=" + saleIsWon);
 		try {
 			ItemManager itemMngr = new ItemManager();
 
@@ -102,14 +95,16 @@ public class ItemRST {
 			}
 			// first filter
 			List<Item> items = itemMngr.getItemsLike(userSearch, category);
-			System.out.println("search4buy items=" + items.size());
+			//System.out.println("search4buy items=" + items.size());
 			if (request.getSession(false) != null && request.getSession(false).getAttribute("connectedUserId") != null) {
 				// connected mode
 				this.connectedUserId = (int) request.getSession().getAttribute("connectedUserId");
 				items = items.stream().filter(item -> item.getSeller().getId() != this.connectedUserId).collect(Collectors.toList());
+				//System.out.println("search4buy filterByConnectedModeNotMe=" + items.size());
 			} else {
 				// disconnected mode => only "en cours" pending bid
 				items = itemMngr.filterByStatus(items, Item.STATUS_PENDING);
+				//System.out.println("search4buy filterByStatus=" + items.size());
 			}
 
 			List<Item> wonItems = new ArrayList<>();
@@ -118,13 +113,16 @@ public class ItemRST {
 				// connected mode
 				if (saleIsWon) {
 					wonItems = itemMngr.filterByBuyer(items, this.connectedUserId);
+					//System.out.println("search4buy filterByBuyer=" + items.size());
 					if (!saleIsOpen && !isCurrentUser) {
 						return wonItems;
 					}
 				}
 				items = itemMngr.filterByStatus(items, Item.STATUS_PENDING);
+				//System.out.println("search4buy filterByStatus=" + items.size());
 				if (isCurrentUser) {
 					items = itemMngr.filterByBidsBuyer(items, this.connectedUserId);
+					//System.out.println("search4buy filterByBidsBuyer=" + items.size());
 				}
 			}
 			return Stream.of(items, wonItems).flatMap(Collection::stream).distinct().collect(Collectors.toList());

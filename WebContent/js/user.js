@@ -6,7 +6,11 @@ function displayError(msg){
 		}
 	}else{
 		errorMsg.innerHTML = ""
-		displayProfile4View(msg);
+		if(add != ""){
+			window.location.href = loginPage;
+		}else{
+			displayProfile4View(msg);		
+		}		
 	}	
 }
 
@@ -17,8 +21,7 @@ function actionAfterDelete(msg){
 			errorMsg.innerHTML = msgs[msgs.length-1].replaceAll("\n","<br>");
 		}
 	}else{
-		errorMsg.innerHTML = ""
-		window.location.href = loginPage;
+		errorMsg.innerHTML = ""		
 	}		
 }
 
@@ -39,8 +42,7 @@ function checkPwd(){
 }
 function insertUser() {
 	if(checkPwd()){
-		insertData(`user/signup`, displayError, getFormData());
-		document.location.href = "../";
+		insertData(`user/signup`, displayError, getFormData());		
 	}else{
 		errorMsg.innerHTML = "La confirmation du mot de passe n'est pas correct"
 	}

@@ -228,7 +228,7 @@ public class BidManager extends GenericManager<Bid> {
 	}
 
 	protected boolean exist(Bid bid) throws BidsException {
-		return getById(bid.getItemId(), bid.getUserIdBuyer()) != null;
+		return getById(bid.getUserIdBuyer(), bid.getItemId()) != null;
 	}
 
 	/**

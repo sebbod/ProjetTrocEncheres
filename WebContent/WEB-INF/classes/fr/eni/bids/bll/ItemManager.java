@@ -163,7 +163,14 @@ public class ItemManager extends GenericManager<Item> {
 	public List<Item> filterByBidsBuyer(List<Item> items, int userId) {
 		return items.stream().filter(i -> {
 			try {
-				return new BidManager().getById(i.getId(), userId) != null;
+				/*
+				Bid b = new BidManager().getById(userId, i.getId());
+				System.out.println("filterByBidsBuyer i.getId()=" + i.getId() + ", userId=" + userId);
+				if (b != null)
+					System.out.println("filterByBidsBuyer b=" + b.toString());
+				return b != null;
+				*/
+				return new BidManager().getById(userId, i.getId()) != null;
 			} catch (BidsException e) {
 				e.printStackTrace();
 			}
@@ -220,10 +227,10 @@ public class ItemManager extends GenericManager<Item> {
 		if (item.getDateEnd() == null) {
 			errors.append("Champs obligatoire. L'article n'a pas de date de fin d'enchère.").append("\n");
 		}
-		System.out.println("checkAttributes item.checkDateEnd=" + item.checkDateEnd);
+		//System.out.println("checkAttributes item.checkDateEnd=" + item.checkDateEnd);
 		if (item.checkDateEnd) {
 			LocalDateTime dateEnd = item.getDateEnd();
-			System.out.println("checkAttributes dateFinBids=" + dateEnd + ", item.getDateStart()=" + item.getDateStart());
+			//System.out.println("checkAttributes dateFinBids=" + dateEnd + ", item.getDateStart()=" + item.getDateStart());
 			if (dateEnd.isBefore(LocalDateTime.now()) || dateEnd.isBefore(item.getDateStart())) {
 				errors.append("Champs incorrecte. La date de fin d'enchère est invalide.").append("\n");
 			}

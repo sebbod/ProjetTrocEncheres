@@ -18,8 +18,7 @@
 		
 		<!-- JS PAGE -->
 		<script src="<%=request.getContextPath()%>/js/user.js"></script>
-	</head>
-	
+	</head>	
 <body>
 	<%@include file="../fragment/Header.jspf" %>
 	<%@include file="../fragment/Errors.jspf" %>

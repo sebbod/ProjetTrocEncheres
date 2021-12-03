@@ -133,8 +133,8 @@ function createOption(select, category){
 
 
 function refresh(){
-	getData("item/refresh", doNothing);
+	getData("item/refresh", autoSearch);
 }
-function doNothing(retVal){
-	
+function autoSearch(retVal){
+	search();
 }
