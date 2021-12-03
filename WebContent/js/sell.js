@@ -12,7 +12,6 @@ function displayError(message) {
 		}
 	} else {
 		errorContainer.innerHTML = "";
-		displayProfile4View(msg);
 	}
 }
 

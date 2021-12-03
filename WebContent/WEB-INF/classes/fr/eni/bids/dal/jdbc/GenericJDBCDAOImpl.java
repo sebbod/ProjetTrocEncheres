@@ -405,6 +405,8 @@ public abstract class GenericJDBCDAOImpl<T> implements DAO<T> {
 					continue;
 				}
 				String method = "get" + field.getKey().substring(0, 1).toUpperCase() + field.getKey().substring(1);
+				//System.out.println("method 1 =" + method);
+				//System.out.println("parameterIndex=" + parameterIndex);
 				switch (field.getValue()) {
 				case "String":
 				case "Integer":
@@ -418,7 +420,7 @@ public abstract class GenericJDBCDAOImpl<T> implements DAO<T> {
 					break;
 				default:
 					method = "get" + field.getKey().substring(0, 1).toUpperCase() + field.getKey().substring(1);
-					//System.out.println("method=" + method);
+					//System.out.println("method (default) =" + method);
 					int noIdentifier = (int) entityClass.getMethod(method).invoke(object);
 					if (noIdentifier != 0) {
 						statement.setInt(parameterIndex, (int) entityClass.getMethod(method).invoke(object));
@@ -432,7 +434,8 @@ public abstract class GenericJDBCDAOImpl<T> implements DAO<T> {
 			if (isUpdate) {
 				for (String identifier : this.identifiers) {
 					String method = "get" + identifier.substring(0, 1).toUpperCase() + identifier.substring(1);
-					//System.out.println("method=" + method);
+					//System.out.println("method (isUpdate) =" + method);
+					//System.out.println("parameterIndex=" + parameterIndex);
 					statement.setInt(parameterIndex, (int) entityClass.getMethod(method).invoke(object));
 					parameterIndex++;
 				}
