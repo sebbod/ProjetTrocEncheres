@@ -44,22 +44,38 @@ public class BidDetails extends HttpServlet {
 		
 		// Define view mode
 		if(article.getStatus().equals("Terminée")) {
-			// If bid is ended and connected used have win
-			if(article.getBuyer().getId() == AppUtils.getConnectedUser(request.getSession()).getId()) {
-				request.setAttribute("mode", "won");
-				System.out.println("MODE WON");
+			
+			// If buyer is not null, check if it's connected user
+			if(article.getBuyer() != null) {
 				
-			// If bid is endend and connected user is not the winner of that bid
+				// Check if user is connected
+				if(AppUtils.getConnectedUser(request.getSession()) != null) {
+
+					// If bid is ended and connected used have win
+					if(article.getBuyer().getId() == AppUtils.getConnectedUser(request.getSession()).getId()) {
+						request.setAttribute("mode", "won");
+					
+					// If bid is endend and connected user is not the winner of that bid
+					} else {
+						request.setAttribute("mode", "ended");
+						request.setAttribute("winner", article.getBuyer());
+					}
+					
+				// If not connected just show page in ended mode
+				} else {
+					request.setAttribute("mode", "ended");
+					request.setAttribute("winner", article.getBuyer());
+				}
+				
+			// If bid is endend and there is no buyer
 			} else {
-				request.setAttribute("mode", "ended");
-				System.out.println("MODE ENDED");
+				request.setAttribute("mode", "default");
 			}
+			
+		// If is not ended, default view mode
 		} else {
 			request.setAttribute("mode", "default");
-			System.out.println("MODE DEFAULT");
 		}
-		
-		System.out.println(article.toString());
 		
 		
 		request.setAttribute("article", article);

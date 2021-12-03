@@ -76,6 +76,7 @@ function createItem(item) {
     	let linkUser = document.createElement("a");
     	linkUser.href = "user/profil?id="+item.userIdSeller;
     	linkUser.textContent = item.seller.pseudo;
+		linkUser.className = "link";
     	seller.appendChild(linkUser);
     }
     else{

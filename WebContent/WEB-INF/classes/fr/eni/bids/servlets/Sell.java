@@ -1,7 +1,6 @@
 package fr.eni.bids.servlets;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -13,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.eni.bids.BidsException;
 import fr.eni.bids.bll.CategoryManager;
+import fr.eni.bids.bll.utils.AppUtils;
 import fr.eni.bids.bo.Category;
+import fr.eni.bids.bo.User;
 
 /**
  * Servlet implementation class Sell
@@ -44,6 +45,20 @@ public class Sell extends HttpServlet {
 		}
 		
 		request.setAttribute("categories", categories);
+		
+		// Get user address
+		String 	userStreet = null,
+				userZip = null,
+				userTown = null;
+		User user;
+		user = AppUtils.getConnectedUser(request.getSession());
+		userStreet = user.getStreet();
+		userZip = user.getZipCode();
+		userTown = user.getTown();
+		
+		request.setAttribute("userStreet", userStreet);
+		request.setAttribute("userZip", userZip);
+		request.setAttribute("userTown", userTown);
 		
 		RequestDispatcher rd = this.getServletContext().getRequestDispatcher("/WEB-INF/views/Sell.jsp");
 		rd.forward(request, response);

@@ -58,15 +58,15 @@
 				<p class="head">Retrait</p>
 				<div class="input-container">
 					<label for="pickup-street">Rue :</label>
-					<input id="pickup-street" name="pickup-street" placeholder="Rue" type="text" maxlength="30" required>
+					<input id="pickup-street" name="pickup-street" placeholder="Rue" type="text" maxlength="30" value="${userStreet}" required>
 				</div>
 				<div class="input-container">
 					<label for="pickup-zip">Code postal :</label>
-					<input id="pickup-zip" name="pickup-zip" placeholder="Code postal" type="text" maxlength="5" required>
+					<input id="pickup-zip" name="pickup-zip" placeholder="Code postal" type="text" maxlength="5" value="${userZip}" required>
 				</div>
 				<div class="input-container">
 					<label for="pickup-town">Ville :</label>
-					<input id="pickup-town" name="pickup-town" placeholder="Ville" type="text" maxlength="30" required>
+					<input id="pickup-town" name="pickup-town" placeholder="Ville" type="text" maxlength="30" value="${userTown}" required>
 				</div>
 			</div>
 			<div id="form-buttons">
