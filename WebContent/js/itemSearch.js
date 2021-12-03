@@ -130,3 +130,11 @@ function createOption(select, category){
     opt.innerHTML = category.libelle;
     select.appendChild(opt);
 }
+
+
+function refresh(){
+	getData("item/refresh", doNothing);
+}
+function doNothing(retVal){
+	
+}

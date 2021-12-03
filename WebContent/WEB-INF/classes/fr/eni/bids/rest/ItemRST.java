@@ -102,7 +102,7 @@ public class ItemRST {
 			}
 			// first filter
 			List<Item> items = itemMngr.getItemsLike(userSearch, category);
-
+			System.out.println("search4buy items=" + items.size());
 			if (request.getSession(false) != null && request.getSession(false).getAttribute("connectedUserId") != null) {
 				// connected mode
 				this.connectedUserId = (int) request.getSession().getAttribute("connectedUserId");
@@ -113,6 +113,7 @@ public class ItemRST {
 			}
 
 			List<Item> wonItems = new ArrayList<>();
+
 			if ((saleIsOpen || isCurrentUser || saleIsWon) && this.connectedUserId > 0) {
 				// connected mode
 				if (saleIsWon) {
@@ -149,6 +150,7 @@ public class ItemRST {
 				category = null;
 			}
 			List<Item> items = itemMngr.filterBySeller(itemMngr.getItemsLike(userSearch, category), connectedUserId);
+			System.out.println("search4sell items=" + items.size());
 			List<Item> openArticles = new ArrayList<>();
 			List<Item> createdArticles = new ArrayList<>();
 			List<Item> endedArticles = new ArrayList<>();

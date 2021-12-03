@@ -135,6 +135,7 @@
 			        let itemLst = [];
 
 			        loadCategories();
+			        refresh();
 			        </script>
 			        <script>
 	

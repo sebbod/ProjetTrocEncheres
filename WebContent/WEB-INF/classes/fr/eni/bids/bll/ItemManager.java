@@ -85,12 +85,14 @@ public class ItemManager extends GenericManager<Item> {
 			BidManager bidMngr = new BidManager();
 			for (Bid bid : bidMngr.getWinningBidsFrom(u)) {
 				Item item = bid.getItem();
+				item.checkDateEnd = false;
 				if (item.getStatus().equals(Item.STATUS_CLOSED)) {
 					item.setPriceBuyer(bid.getAmount());
 					item.setUserIdBuyer(u);
 					bidMngr.deleteAllWhenOver(item);
 				}
 				update(item);
+				item.checkDateEnd = true;
 			}
 		} catch (BidsException e) {
 			throw new BidsException(ErrorCodesBLL.ITEM_SET_ITEM_WON, e);
@@ -145,7 +147,7 @@ public class ItemManager extends GenericManager<Item> {
 	 * Filter a list of items by category.
 	 */
 	public List<Item> filterByCategorie(List<Item> items, String category) {
-		return items.stream().filter(item -> item.getCateId().getLibelle().equals(category)).collect(Collectors.toList());
+		return items.stream().filter(item -> item.getCategor().getLibelle().equals(category)).collect(Collectors.toList());
 	}
 
 	/**
@@ -218,14 +220,18 @@ public class ItemManager extends GenericManager<Item> {
 		if (item.getDateEnd() == null) {
 			errors.append("Champs obligatoire. L'article n'a pas de date de fin d'enchère.").append("\n");
 		}
-		LocalDateTime dateFinBids = item.getDateEnd();
-		if (dateFinBids.isBefore(LocalDateTime.now()) || dateFinBids.isBefore(item.getDateStart())) {
-			errors.append("Champs incorrecte. La date de fin d'enchère est invalide.").append("\n");
+		System.out.println("checkAttributes item.checkDateEnd=" + item.checkDateEnd);
+		if (item.checkDateEnd) {
+			LocalDateTime dateEnd = item.getDateEnd();
+			System.out.println("checkAttributes dateFinBids=" + dateEnd + ", item.getDateStart()=" + item.getDateStart());
+			if (dateEnd.isBefore(LocalDateTime.now()) || dateEnd.isBefore(item.getDateStart())) {
+				errors.append("Champs incorrecte. La date de fin d'enchère est invalide.").append("\n");
+			}
 		}
 		if (item.getSeller() == null) {
 			errors.append("Champs obligatoire. L'article n'a pas de vendeur.").append("\n");
 		}
-		if (item.getCateId() != null && new CategoryManager().getById(item.getCateId().getId()) == null) {
+		if (item.getCategor() != null && new CategoryManager().getById(item.getCategor().getId()) == null) {
 			errors.append("Champs incorrect. La catégorie renseignée n'existe pas.").append("\n");
 		}
 		if (item.getPriceSeller() < 0) {
