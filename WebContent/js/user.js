@@ -22,6 +22,7 @@ function actionAfterDelete(msg){
 		}
 	}else{
 		errorMsg.innerHTML = ""		
+		window.location.href = loginPage;
 	}		
 }
 
