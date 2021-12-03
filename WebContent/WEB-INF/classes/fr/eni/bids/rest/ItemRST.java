@@ -59,15 +59,16 @@ public class ItemRST {
 			//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-ddTHH:mm");
 			int connectedUserId = (int) request.getSession().getAttribute("connectedUserId");
 			User seller = new UserManager().getById(connectedUserId);
-			System.out.println(data.toString());
+			//System.out.println(data.toString());
 			String dataCategory = (String) data.get("category");
 			Category category = (dataCategory == null || dataCategory.isEmpty() ? null : new CategoryManager().getById(Integer.parseInt(dataCategory)));
 			Integer dataPriceSeller = Integer.parseInt((String) data.get("priceSeller"));
-			System.out.println(dataPriceSeller);
+			//System.out.println(dataPriceSeller);
 			Item newItem = new Item((String) data.get("name"), (String) data.get("description"), LocalDateTime.parse((String) data.get("dateStart"), formatter), LocalDateTime.parse((String) data.get("dateEnd"), formatter), dataPriceSeller,
 					seller, category);
 			System.out.println("Before add : " + newItem.toString());
 			Item item = new ItemManager().add(newItem);
+			System.out.println("After add : " + item.toString());
 			// The instance of pickUpAdr is automatically added. It is updated if the address data have been modified.
 			updatePickUpAdress(seller, item, data);
 			return item;
@@ -201,6 +202,13 @@ public class ItemRST {
 		if (modifyStreet || modifyZipCode || modifyTown) {
 			PickUpAdressManager pickUpAdressMngr = new PickUpAdressManager();
 			PickUpAdress pickUpAdr = pickUpAdressMngr.getById(item.getId());
+			System.out.println("updatePickUpAdress::pickUpAdr 1 =" + pickUpAdr);
+			if (pickUpAdr == null) {
+				pickUpAdr = new PickUpAdress(item, street, zipCode, town);
+				pickUpAdressMngr.add(pickUpAdr);
+				pickUpAdr = pickUpAdressMngr.getById(item.getId());
+			}
+			System.out.println("updatePickUpAdress::pickUpAdr 2 =" + pickUpAdr);
 			pickUpAdr.setStreet(street);
 			pickUpAdr.setZipCode(zipCode);
 			pickUpAdr.setTown(town);
