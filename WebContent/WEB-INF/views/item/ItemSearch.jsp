@@ -144,8 +144,6 @@
 			    </section>
 		    </div>
 	    </section>
-		<footer class="text-center mx-auto">		  
-		  <%@include file="../fragment/Footer.jspf" %>
-		</footer>	
+		 <%@include file="../fragment/Footer.jspf" %>
 </body>
 </html>

@@ -40,18 +40,15 @@ function createItem(item) {
 
     let image = document.createElement("img");
     image.src = "https://us.123rf.com/450wm/infadel/infadel1712/infadel171200119/91684826-a-black-linear-photo-camera-logo-like-no-image-available-.jpg?ver=6";
-    image.width = 150;
-    image.height = 150;
     card.appendChild(image);
     
     let text = document.createElement("div");
     text.className = "item-text";
     
     let title = document.createElement("h5");
-    let linkItem = document.createElement("a");
-    linkItem.href = "item/"+item.id;
-    linkItem.textContent = item.name;
-    title.appendChild(linkItem);
+	title.textContent = item.name;
+    //linkItem.textContent = item.name;
+    //title.appendChild(linkItem);
     text.appendChild(title);
     
     /*
@@ -92,7 +89,10 @@ function createItem(item) {
     
     text.appendChild(details);
     card.appendChild(text);
-    divItems.appendChild(card);
+    let linkItem = document.createElement("a");
+    linkItem.href = "item/"+item.id;
+	linkItem.appendChild(card);
+    divItems.appendChild(linkItem);
 }
     
 
